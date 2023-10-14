@@ -1,3 +1,5 @@
+package com.example.medibook.classes;
+
 public class Doctor extends User
 {
 
