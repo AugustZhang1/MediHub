@@ -4,14 +4,16 @@ public class Patient extends User
 {
     private String healthCardNumber;
 
-    public Patient(String firstname, String lastName, String emailAddress, String accountPassword, String phoneNumber, String address, String healthCardNumber)
+    public Patient(String firstName, String lastName, String emailAddress, String accountPassword, String phoneNumber, String address, String healthCardNumber)
     {
-        super(firstname, lastName, emailAddress, accountPassword, phoneNumber, address);
+        super(firstName, lastName, emailAddress, accountPassword, phoneNumber, address);
         this.healthCardNumber = healthCardNumber;
 
     }
 
-
+    public String getHealthCardNumber() {
+        return healthCardNumber;
+    }
 
 
 }
