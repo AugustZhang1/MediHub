@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static List<User> userList = new ArrayList<>();
 
-    private Button btnDoc, btnPatient;
+    private Button btnDoc, btnPatient, btnSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnDoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,DoctorRegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,DoctorRegisterActivity.class);
