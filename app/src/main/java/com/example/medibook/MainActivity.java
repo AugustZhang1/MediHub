@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,DoctorRegisterActivity.class);
+                Intent intent = new Intent(MainActivity.this,SignInActivity.class);
                 startActivity(intent);
             }
         });
@@ -59,5 +59,6 @@ public class MainActivity extends AppCompatActivity {
     private void createViews(){
         btnDoc = findViewById(R.id.asDoctor);
         btnPatient = findViewById(R.id.asPatient);
+        btnSignIn = findViewById(R.id.signInButton);
     }
 }

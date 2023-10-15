@@ -14,15 +14,13 @@ import com.example.medibook.classes.User;
 import com.example.medibook.classes.Patient;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class SignInActivity extends AppCompatActivity {
 
     private EditText editEmail, editPassword;
     private TextView txtEmail, txtPassword;
 
-    private Button signInUser,clickBack;
+    private Button signIn,clickBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +30,7 @@ public class SignInActivity extends AppCompatActivity {
         createViews();
 
 
-        signInUser.setOnClickListener(new View.OnClickListener() {
+        signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 initSignIn(); // check correct format before sign in
@@ -58,14 +56,11 @@ public class SignInActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.emailAddress);
         editPassword = findViewById(R.id.editTextTextPassword);
 
-
-
         txtEmail = findViewById(R.id.textWarnEmail);
         txtPassword = findViewById(R.id.textWarnPassword);
 
-
-        signInUser = findViewById(R.id.registerPatientButton);
-        clickBack = findViewById(R.id.registerPatientButtonClickBackward);
+        signIn = findViewById(R.id.SignInButton);
+        clickBack = findViewById(R.id.SignInButtonClickBackward);
 
 
     }
@@ -73,7 +68,6 @@ public class SignInActivity extends AppCompatActivity {
 
     public void initSignIn() {
         if(validateData() != null) {
-
 
             snackBar();
 
