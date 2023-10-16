@@ -9,10 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.medibook.classes.Administrator;
 import com.example.medibook.classes.Doctor;
 import com.example.medibook.classes.User;
 import com.example.medibook.classes.Patient;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SignInActivity extends AppCompatActivity {
@@ -22,10 +26,16 @@ public class SignInActivity extends AppCompatActivity {
 
     private Button signIn,clickBack;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+
+        Administrator admin = new Administrator(null,null,"admin@gmail.com","admin",null,null);
+        MainActivity.userList.add(admin);
 
         createViews();
 
@@ -116,6 +126,9 @@ public class SignInActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 if(validateData().getClass() == Doctor.class){
                                     Intent intent = new Intent(SignInActivity.this, DoctorInterface.class);
+                                    startActivity(intent);
+                                } else if (validateData().getClass() == Administrator.class) {
+                                    Intent intent = new Intent(SignInActivity.this, AdministratorInterface.class);
                                     startActivity(intent);
                                 }
                                 else {
