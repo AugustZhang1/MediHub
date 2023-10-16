@@ -145,7 +145,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="wrong Format"
+        android:text="Please enter your first name"
         android:textColor="#D13C3C"
 
         android:visibility="invisible"
@@ -158,7 +158,7 @@
         android:id="@+id/textWarnLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter your last name"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 
@@ -173,7 +173,7 @@
         android:id="@+id/textWarnEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter a valid email"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 
@@ -188,7 +188,7 @@
         android:id="@+id/textWarnPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter a password"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 
@@ -203,7 +203,7 @@
         android:id="@+id/textWarnPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter your phone number"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 
@@ -218,7 +218,7 @@
         android:id="@+id/textWarnAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter your address"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 
@@ -234,7 +234,7 @@
         android:id="@+id/textWarnEmployeeNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter your employee number"
 
 
         android:textColor="#D13C3C"
@@ -252,7 +252,7 @@
         android:id="@+id/textWarnSpecialties"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter your specialties"
 
         android:textColor="#D13C3C"
 
