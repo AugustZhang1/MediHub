@@ -1,2 +1,4 @@
 # project-group-25
-The project of group 25
+Administrator Login : 
+  Email : admin@gmail.com
+  Password : admin
