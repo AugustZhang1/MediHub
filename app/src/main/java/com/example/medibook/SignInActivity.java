@@ -120,33 +120,18 @@ public class SignInActivity extends AppCompatActivity {
 
 
         View rootLayout = findViewById(R.id.signInLayout);
-        Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT)
-                .setAction("Dismiss", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if(validateData().getClass() == Doctor.class){
-                                    Intent intent = new Intent(SignInActivity.this, DoctorInterface.class);
-                                    startActivity(intent);
-                                } else if (validateData().getClass() == Administrator.class) {
-                                    Intent intent = new Intent(SignInActivity.this, AdministratorInterface.class);
-                                    startActivity(intent);
-                                }
-                                else {
-
-                                    Intent intent = new Intent(SignInActivity.this, PatientInterface.class);
-                                    startActivity(intent);
-                                }
-
-                            }
-                        }
-                ).show();
-
-
-
-
-
-
-
+        Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
+        if(validateData().getClass() == Doctor.class){
+            Intent intent = new Intent(SignInActivity.this, DoctorInterface.class);
+            startActivity(intent);
+        } else if (validateData().getClass() == Administrator.class) {
+            Intent intent = new Intent(SignInActivity.this, AdministratorInterface.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(SignInActivity.this, PatientInterface.class);
+            startActivity(intent);
+        }
     }
 
 

@@ -148,20 +148,11 @@ public class DoctorRegisterActivity extends AppCompatActivity {
 
 
         View rootLayout = findViewById(R.id.patientLayout);
-        Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT)
-                .setAction("Dismiss", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent intent = new Intent(DoctorRegisterActivity.this, DoctorInterface.class);
-                                startActivity(intent);
-
-                            }
-                        }
-                ).show();
-
-
+        Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT).show();
+        Intent intent = new Intent(DoctorRegisterActivity.this, DoctorInterface.class);
+        startActivity(intent);
     }
+
 
     public void storeUser() {
         Doctor doctor = new Doctor(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), editHealthEmployeeNumber.getText().toString(),editSpecialties.getText().toString());

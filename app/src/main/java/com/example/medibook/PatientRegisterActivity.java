@@ -152,23 +152,9 @@ public class PatientRegisterActivity extends AppCompatActivity {
 
 
         View rootLayout = findViewById(R.id.patientLayout);
-        Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT)
-                .setAction("Dismiss", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent intent = new Intent(PatientRegisterActivity.this, PatientInterface.class);
-                                startActivity(intent);
-
-                            }
-                        }
-                ).show();
-
-
-
-
-
-
+        Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT).show();
+        Intent intent = new Intent(PatientRegisterActivity.this, PatientInterface.class);
+        startActivity(intent);
 
     }
 
