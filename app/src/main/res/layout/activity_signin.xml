@@ -12,11 +12,12 @@
         android:id="@+id/emailAddress"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="200dp"
         android:ems="10"
         android:hint="emailAddress"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +25,7 @@
         android:id="@+id/editTextTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:hint="password"
         android:inputType="textPassword"
@@ -38,10 +39,10 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="60dp"
         android:text="Sign In"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
@@ -64,7 +65,7 @@
         android:id="@+id/textWarnEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter your email"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 
@@ -78,7 +79,7 @@
         android:id="@+id/textWarnPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="wrong Format"
+        android:text="Please enter the password created for this email"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 
