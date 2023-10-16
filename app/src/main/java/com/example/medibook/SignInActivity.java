@@ -91,21 +91,29 @@ public class SignInActivity extends AppCompatActivity {
 
     public User validateData() {
 
+        txtEmail.setVisibility(View.GONE);
+        txtPassword.setVisibility(View.GONE);
 
+        if ((editEmail.getText().toString().equals("") )|| (!editEmail.getText().toString().contains("@"))) {
 
-        if ((editEmail.getText().toString().equals("") )|| (!editEmail.getText().toString().contains("@")) || (editPassword.getText().toString().equals(""))) {
-
+            txtEmail.setText("Please enter your email");
             txtEmail.setVisibility(View.VISIBLE);
+            if (editPassword.getText().toString().equals(""))
+                txtPassword.setVisibility(View.VISIBLE);
+            return null;
+        } else if (editPassword.getText().toString().equals("")) { //second password check to make the UI more smooth
             txtPassword.setVisibility(View.VISIBLE);
             return null;
-        }
-        else{
+        } else {
             for (User i: MainActivity.userList){
-                if ((i.getEmail().toString().equals(editEmail.getText().toString()))&&(i.getPassword().toString().equals(editPassword.getText().toString()))){
+                if ((i.getEmail().toString().equals(editEmail.getText().toString()))&&(i.getPassword().toString().equals(editPassword.getText().toString()))) {
                     return i;
                 }
             }
+
         }
+        txtEmail.setText("Email or Password is incorrect");
+        txtEmail.setVisibility(View.VISIBLE);
 
         return null;
     }

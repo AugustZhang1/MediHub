@@ -188,7 +188,7 @@
         android:id="@+id/textWarnPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please enter a password"
+        android:text="Please enter your phone number"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 

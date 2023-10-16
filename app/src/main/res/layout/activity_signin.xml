@@ -79,7 +79,7 @@
         android:id="@+id/textWarnPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please enter the password created for this email"
+        android:text="Please enter your password"
         android:textColor="#D13C3C"
         android:visibility="invisible"
 

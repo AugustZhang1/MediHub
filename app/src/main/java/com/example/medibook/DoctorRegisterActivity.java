@@ -94,45 +94,64 @@ public class DoctorRegisterActivity extends AppCompatActivity {
 
 
     public boolean validateData() {
-
+        boolean val = true;
         if (editFirstName.getText().toString().equals("")) {
             txtFirstName.setVisibility(View.VISIBLE);
-            return false;
+            val = false;
         }
+        else
+            txtFirstName.setVisibility(View.GONE);
 
         if (editLastName.getText().toString().equals("")) {
             txtLastName.setVisibility(View.VISIBLE);
-            return false;
+            val = false;
         }
+        else
+            txtLastName.setVisibility(View.GONE);
 
         if (editEmail.getText().toString().equals("") || !editEmail.getText().toString().contains("@")) {
             txtEmail.setVisibility(View.VISIBLE);
-            return false;
+            val = false;
         }
+        else
+            txtEmail.setVisibility(View.GONE);
+
         if (editPassword.getText().toString().equals("")) {
             txtPassword.setVisibility(View.VISIBLE);
-            return false;
+            val = false;
         }
+        else
+            txtPassword.setVisibility(View.GONE);
+
         if (editPhoneNumber.getText().toString().equals("")) {
             txtPhoneNumber.setVisibility(View.VISIBLE);
-            return false;
+            val = false;
         }
+        else
+            txtPhoneNumber.setVisibility(View.GONE);
+
         if (editAddress.getText().toString().equals("")) {
             txtAddress.setVisibility(View.VISIBLE);
-            return false;
+            val = false;
         }
+        else
+            txtAddress.setVisibility(View.GONE);
 
         if (editHealthEmployeeNumber.getText().toString().equals("")) {
             txtEmployeeNumber.setVisibility(View.VISIBLE);
-            return false;
-
+            val = false;
         }
+        else
+            txtEmployeeNumber.setVisibility(View.GONE);
+
         if (editSpecialties.getText().toString().equals("")) {
             txtSpecialties.setVisibility(View.VISIBLE);
-            return false;
-
+            val = false;
         }
-        return true;
+        else
+            txtSpecialties.setVisibility(View.GONE);
+
+        return val;
     }
 
 
