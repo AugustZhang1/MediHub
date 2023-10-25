@@ -7,14 +7,18 @@ public class User {
     private String accountPassword;
     private String phoneNumber;
     private String address;
+    private boolean adminStatus;
+    private boolean userAuth;
 
-    public User(String firstName, String lastName, String emailAddress, String accountPassword, String phoneNumber,String address){
+    public User(String firstName, String lastName, String emailAddress, String accountPassword, String phoneNumber,String address, boolean adminStatus, boolean userAuth){
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.accountPassword = accountPassword;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.adminStatus = adminStatus;
+        this.userAuth = userAuth;
     }
     public String getFirstName(){
         return firstName;
@@ -65,4 +69,19 @@ public class User {
         this.address = address;
     }
 
+    public boolean getUserAuth() {
+        return userAuth;
+    }
+
+    public void setUserAuth(boolean userAuth) {
+        this.userAuth = userAuth;
+    }
+
+    public boolean getAdminStatus() {
+        return adminStatus;
+    }
+
+    public void setAdminStatus(boolean adminStatus) {
+        this.adminStatus = adminStatus;
+    }
 }

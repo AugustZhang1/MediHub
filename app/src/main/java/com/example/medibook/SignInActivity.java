@@ -26,6 +26,8 @@ public class SignInActivity extends AppCompatActivity {
 
     private Button signIn,clickBack;
 
+    private Administrator admin;
+
 
 
 
@@ -34,7 +36,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        Administrator admin = new Administrator(null,null,"admin@gmail.com","admin",null,null, true, false);
+         admin = new Administrator(null,null,"admin@gmail.com","admin",null,null, true, false);
         MainActivity.userList.add(admin);
 
         createViews();
@@ -129,16 +131,39 @@ public class SignInActivity extends AppCompatActivity {
 
         View rootLayout = findViewById(R.id.signInLayout);
         Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
-        if(validateData().getClass() == Doctor.class){
+
+        User tmp = validateData();
+        if((tmp.getClass() == Doctor.class) && (tmp.getAdminStatus()) && (tmp.getUserAuth())){
             Intent intent = new Intent(SignInActivity.this, DoctorInterface.class);
             startActivity(intent);
-        } else if (validateData().getClass() == Administrator.class) {
+        }
+        else if ((tmp.getClass() == Doctor.class) && (tmp.getAdminStatus()) && (!tmp.getUserAuth())) {
+            Intent intent = new Intent(SignInActivity.this, UserPendingInterface.class);
+            startActivity(intent);
+
+        }
+        else if ((tmp.getClass() == Doctor.class) && (!tmp.getAdminStatus())) {
+            Intent intent = new Intent(SignInActivity.this, UserRejectedInterface.class);
+            startActivity(intent);
+
+        }
+        else if (tmp.getClass() == Administrator.class) {
             Intent intent = new Intent(SignInActivity.this, AdministratorInterface.class);
             startActivity(intent);
         }
-        else {
+        else if((tmp.getClass() == Patient.class) && (tmp.getAdminStatus()) && (tmp.getUserAuth())){
             Intent intent = new Intent(SignInActivity.this, PatientInterface.class);
             startActivity(intent);
+        }
+        else if ((tmp.getClass() == Patient.class) && (tmp.getAdminStatus()) && (!tmp.getUserAuth())) {
+            Intent intent = new Intent(SignInActivity.this, UserPendingInterface.class);
+            startActivity(intent);
+
+        }
+        else if ((tmp.getClass() == Patient.class) && (!tmp.getAdminStatus())) {
+            Intent intent = new Intent(SignInActivity.this, UserRejectedInterface.class);
+            startActivity(intent);
+
         }
     }
 
