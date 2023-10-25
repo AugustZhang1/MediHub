@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".PatientInterface">
 
+    <Button
+        android:id="@+id/rejectButton"
+        android:layout_width="179dp"
+        android:layout_height="64dp"
+        android:text="Rejected"
+        tools:layout_editor_absoluteX="116dp"
+        tools:layout_editor_absoluteY="390dp" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
@@ -13,8 +21,10 @@
         android:text="Welcome! You are logged in as a Administrator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.07" />
 
     <Button
         android:id="@+id/logOutAsAdministrator"
@@ -27,6 +37,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.948" />
+
+    <Button
+        android:id="@+id/inboxButton"
+        android:layout_width="179dp"
+        android:layout_height="64dp"
+        android:text="Inbox"
+        tools:layout_editor_absoluteX="116dp"
+        tools:layout_editor_absoluteY="138dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
