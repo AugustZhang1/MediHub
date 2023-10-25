@@ -34,7 +34,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        Administrator admin = new Administrator(null,null,"admin@gmail.com","admin",null,null);
+        Administrator admin = new Administrator(null,null,"admin@gmail.com","admin",null,null, true, false);
         MainActivity.userList.add(admin);
 
         createViews();
