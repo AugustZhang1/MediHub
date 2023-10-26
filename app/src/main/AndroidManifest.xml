@@ -37,6 +37,9 @@
             android:name=".UserRejectedInterface"
             android:exported="false" />
         <activity
+            android:name=".AdminConfirmReject"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
