@@ -1,5 +1,6 @@
 package com.example.medibook;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.medibook.classes.Administrator;
 import com.example.medibook.classes.User;
 import com.example.medibook.classes.Patient;
 import com.google.android.material.snackbar.Snackbar;
@@ -167,9 +167,16 @@ public class PatientRegisterActivity extends AppCompatActivity {
     public void storeUser(){
         Patient patient = new Patient(editFirstName.getText().toString(),editLastName.getText().toString(),editEmail.getText().toString(), editPassword.getText().toString(),editPhoneNumber.getText().toString(),editAddress.getText().toString(),editHealthCard.getText().toString());
         MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
-        FirebaseUser current = FirebaseAuth.getInstance().getCurrentUser();
-            if(current != null)
-                MainActivity.registrationRef.child(current.getUid()).setValue(patient);
+        MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser current = firebaseAuth.getCurrentUser();
+                if (current != null) {
+                    MainActivity.registrationRef.child(current.getUid()).setValue(patient);
+
+                }
+            }
+        });
 
 
 

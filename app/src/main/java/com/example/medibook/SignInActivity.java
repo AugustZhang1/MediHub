@@ -93,16 +93,16 @@ public class SignInActivity extends AppCompatActivity {
             View rootLayout = findViewById(R.id.signInLayout);
             Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
             FirebaseUser current = mAuth.getCurrentUser();
-            MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            MainActivity.userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         String specialties = dataSnapshot.child("specialties").getValue(String.class);
                         String health = dataSnapshot.child("healthCardNumber").getValue(String.class);
                         Intent intent;
-                        if (health != null) {
+                        if (specialties == null) {
                             intent = new Intent(SignInActivity.this, PatientInterface.class);
-                        } else if (specialties != null) {
+                        } else if (health == null) {
                             intent = new Intent(SignInActivity.this, DoctorInterface.class);
                         } else {
                             intent = new Intent(SignInActivity.this, AdministratorInterface.class);
