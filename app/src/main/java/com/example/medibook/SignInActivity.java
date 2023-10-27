@@ -14,6 +14,8 @@ import com.example.medibook.classes.Administrator;
 import com.example.medibook.classes.Doctor;
 import com.example.medibook.classes.User;
 import com.example.medibook.classes.Patient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -90,26 +92,28 @@ public class SignInActivity extends AppCompatActivity {
             txtPassword.setVisibility(View.GONE);
             View rootLayout = findViewById(R.id.signInLayout);
             Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
+            FirebaseUser current = mAuth.getCurrentUser();
 
-            MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            MainActivity.registrationRef.child("users").child(current.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    User user = dataSnapshot.getValue(User.class);
-                    if(user.getClass() == Doctor.class) {
-                        Intent intent = new Intent(SignInActivity.this, DoctorInterface.class);
-                        startActivity(intent);
-                    } else if (user.getClass() == Administrator.class) {
-                        Intent intent = new Intent(SignInActivity.this, AdministratorInterface.class);
-                        startActivity(intent);
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DataSnapshot dataSnapshot = task.getResult();
+                        if(dataSnapshot.exists()) {
+                            User user = dataSnapshot.getValue(User.class);
+                            if (user.getClass() == Doctor.class) {
+                                Intent intent = new Intent(SignInActivity.this, DoctorInterface.class);
+                                startActivity(intent);
+                            } else if (user.getClass() == Administrator.class) {
+                                Intent intent = new Intent(SignInActivity.this, AdministratorInterface.class);
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(SignInActivity.this, PatientInterface.class);
+                                startActivity(intent);
+                            }
+                        }
                     }
-                    else {
-                        Intent intent = new Intent(SignInActivity.this, PatientInterface.class);
-                        startActivity(intent);
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    return;
+
                 }
             });
 
