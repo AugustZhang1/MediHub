@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/userBox"
+        android:id="@+id/rejectUserBox"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginEnd="5dp"
@@ -14,51 +14,51 @@
         android:padding="12dp">
 
         <TextView
-            android:id="@+id/inboxUserFirstName"
+            android:id="@+id/rejectedUserFirstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp"
-            android:text="firstname"
-            android:textSize="20sp" />
-
+            android:text="firstname" />
         <TextView
-            android:id="@+id/inboxUserLastName"
+            android:id="@+id/rejectedUserLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/inboxUserFirstName"
+            android:layout_below="@+id/rejectedUserFirstName"
             android:layout_marginTop="8dp"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/inboxUserEmail"
+            android:id="@+id/rejectedUserEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/inboxUserLastName"
+            android:layout_below="@+id/rejectedUserLastName"
+            android:layout_marginTop="8dp"
+            android:text="TextView" />
+
+
+
+        <TextView
+            android:id="@+id/rejectedUserPhoneNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rejectedUserEmail"
             android:layout_marginTop="8dp"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/inboxUserPhoneNum"
+            android:id="@+id/rejectedUserAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/inboxUserEmail"
+            android:layout_below="@+id/rejectedUserPhoneNum"
             android:layout_marginTop="8dp"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/inboxUserAddress"
+            android:id="@+id/rejectedUserHealthCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/inboxUserPhoneNum"
-            android:layout_marginTop="8dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/inboxUserHealthCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/inboxUserAddress"
+            android:layout_below="@+id/rejectedUserAddress"
             android:layout_marginTop="8dp"
             android:text="TextView" />
 
