@@ -93,28 +93,31 @@ public class SignInActivity extends AppCompatActivity {
             View rootLayout = findViewById(R.id.signInLayout);
             Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
             FirebaseUser current = mAuth.getCurrentUser();
-
-            MainActivity.registrationRef.child("users").child(current.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DataSnapshot dataSnapshot = task.getResult();
-                        if(dataSnapshot.exists()) {
-                            User user = dataSnapshot.getValue(User.class);
-                            if (user.getClass() == Doctor.class) {
-                                Intent intent = new Intent(SignInActivity.this, DoctorInterface.class);
-                                startActivity(intent);
-                            } else if (user.getClass() == Administrator.class) {
-                                Intent intent = new Intent(SignInActivity.this, AdministratorInterface.class);
-                                startActivity(intent);
-                            } else {
-                                Intent intent = new Intent(SignInActivity.this, PatientInterface.class);
-                                startActivity(intent);
-                            }
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        String specialties = dataSnapshot.child("specialties").getValue(String.class);
+                        String health = dataSnapshot.child("healthCardNumber").getValue(String.class);
+                        Intent intent;
+                        if (health != null) {
+                            intent = new Intent(SignInActivity.this, PatientInterface.class);
+                        } else if (specialties != null) {
+                            intent = new Intent(SignInActivity.this, DoctorInterface.class);
+                        } else {
+                            intent = new Intent(SignInActivity.this, AdministratorInterface.class);
                         }
+                        startActivity(intent);
+                        }
+                    else {
+                        Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
                     }
-
                 }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+                }
+
             });
 
         }
@@ -137,15 +140,13 @@ public class SignInActivity extends AppCompatActivity {
         } else if (editPassword.getText().toString().equals("")) { //second password check to make the UI more smooth
             txtPassword.setVisibility(View.VISIBLE);
             return false;
-        } else {
-            mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
-            FirebaseUser current = mAuth.getCurrentUser();
-                if(current != null)
-                    return true;
         }
+        mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+        FirebaseUser current = mAuth.getCurrentUser();
+        if(current != null)
+            return true;
         txtEmail.setText("Email or Password is incorrect");
         txtEmail.setVisibility(View.VISIBLE);
-
         return false;
     }
 
