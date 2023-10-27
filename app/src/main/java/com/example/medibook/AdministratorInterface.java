@@ -24,6 +24,7 @@ public class AdministratorInterface extends AppCompatActivity {
         logOffBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.mAuth.signOut();
                 Intent intent = new Intent(AdministratorInterface.this,MainActivity.class);
                 startActivity(intent);
             }
