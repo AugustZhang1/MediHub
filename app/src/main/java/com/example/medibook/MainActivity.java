@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
     protected static DatabaseReference userRef = database.getReference("Users");
-    protected static DatabaseReference registrationRef = database.getReference("Users");
+    protected static DatabaseReference registrationRef = database.getReference("Registered");
     protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();;
     private Button btnDoc, btnPatient, btnSignIn;
 
