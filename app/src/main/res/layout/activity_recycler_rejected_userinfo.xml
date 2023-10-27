@@ -11,6 +11,7 @@
         android:layout_height="200dp"
         android:layout_marginEnd="5dp"
         android:orientation="vertical"
+        android:clickable="true"
         android:padding="12dp">
 
         <TextView
@@ -65,9 +66,8 @@
 
     </RelativeLayout>
 
-    <view
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:backgrounch= "#D5D4D$"/>
+<!--    <view-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1.5dp"/>-->
 
 </LinearLayout>

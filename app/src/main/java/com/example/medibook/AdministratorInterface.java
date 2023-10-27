@@ -1,5 +1,5 @@
 package com.example.medibook;
-
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -40,7 +40,8 @@ public class AdministratorInterface extends AppCompatActivity {
         rejectedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AdministratorInterface.this,MainActivity.class); //Change to the rejected file class
+                Log.d("ButtonClicked", "rejectedBtn clicked");
+                Intent intent = new Intent(AdministratorInterface.this,AdminRejectedList.class); //Change to the rejected file class
                 startActivity(intent);
             }
         });

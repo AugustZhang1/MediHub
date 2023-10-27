@@ -10,9 +10,11 @@
         android:id="@+id/rejectButton"
         android:layout_width="179dp"
         android:layout_height="64dp"
+        android:layout_marginBottom="208dp"
         android:text="Rejected"
-        tools:layout_editor_absoluteX="116dp"
-        tools:layout_editor_absoluteY="390dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
@@ -43,8 +45,11 @@
         android:layout_width="179dp"
         android:layout_height="64dp"
         android:text="Inbox"
-        tools:layout_editor_absoluteX="116dp"
-        tools:layout_editor_absoluteY="138dp" />
+        app:layout_constraintBottom_toTopOf="@+id/rejectButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.546" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

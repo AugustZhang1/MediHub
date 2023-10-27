@@ -40,6 +40,15 @@
             android:name=".AdminConfirmReject"
             android:exported="false" />
         <activity
+            android:name=".AdminRejectedList"
+            android:exported="false" />
+        <activity
+            android:name=".AdminRejectedListAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".AdminRejectedListViewHolder"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
