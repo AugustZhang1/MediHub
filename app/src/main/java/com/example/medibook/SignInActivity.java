@@ -14,6 +14,8 @@ import com.example.medibook.classes.Doctor;
 import com.example.medibook.classes.User;
 import com.example.medibook.classes.Patient;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,10 @@ public class SignInActivity extends AppCompatActivity {
 
     private EditText editEmail, editPassword;
     private TextView txtEmail, txtPassword;
-
     private Button signIn,clickBack;
+    private FirebaseAuth mAuth;
+
+
 
 
 
@@ -33,9 +37,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-
-        Administrator admin = new Administrator(null,null,"admin@gmail.com","admin",null,null);
-        MainActivity.userList.add(admin);
+        mAuth = FirebaseAuth.getInstance();
 
         createViews();
 
@@ -81,15 +83,13 @@ public class SignInActivity extends AppCompatActivity {
 
             snackBar();
 
-
-
         }
 
 
     }
 
 
-    public User validateData() {
+    public FirebaseUser validateData() {
 
         txtEmail.setVisibility(View.GONE);
         txtPassword.setVisibility(View.GONE);
@@ -105,11 +105,11 @@ public class SignInActivity extends AppCompatActivity {
             txtPassword.setVisibility(View.VISIBLE);
             return null;
         } else {
-            for (User i: MainActivity.userList){
-                if ((i.getEmail().toString().equals(editEmail.getText().toString()))&&(i.getPassword().toString().equals(editPassword.getText().toString()))) {
-                    return i;
-                }
-            }
+
+            mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+            FirebaseUser current = mAuth.getCurrentUser();
+                if (current != null)
+                    return current;
 
         }
         txtEmail.setText("Email or Password is incorrect");
@@ -125,14 +125,12 @@ public class SignInActivity extends AppCompatActivity {
         txtPassword.setVisibility(View.GONE);
 
 
-
-
         View rootLayout = findViewById(R.id.signInLayout);
         Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
-        if(validateData().getClass() == Doctor.class){
+        if(validateData().getClass().equals(Doctor.class)) {
             Intent intent = new Intent(SignInActivity.this, DoctorInterface.class);
             startActivity(intent);
-        } else if (validateData().getClass() == Administrator.class) {
+        } else if (validateData().getClass().equals(Doctor.class) && validateData().getClass().equals(Doctor.class)) {
             Intent intent = new Intent(SignInActivity.this, AdministratorInterface.class);
             startActivity(intent);
         }

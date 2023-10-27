@@ -10,6 +10,9 @@ import android.widget.Button;
 import com.example.medibook.classes.Administrator;
 import com.example.medibook.classes.User;
 import com.example.medibook.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 import java.util.ArrayList;
@@ -17,11 +20,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static List<User> userList = new ArrayList<>();
-
+    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    protected static DatabaseReference userRef = database.getReference("Users");
+    protected static DatabaseReference registrationRef = database.getReference("Users");
+    protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();;
     private Button btnDoc, btnPatient, btnSignIn;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

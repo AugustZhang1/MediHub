@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.medibook.classes.User;
 import com.example.medibook.classes.Patient;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class PatientRegisterActivity extends AppCompatActivity {
 
@@ -19,7 +21,6 @@ public class PatientRegisterActivity extends AppCompatActivity {
     public static User patient;
     private EditText editFirstName, editLastName, editEmail, editPassword, editPhoneNumber, editAddress, editHealthCard;
     private TextView txtFirstName, txtLastName, txtEmail, txtPassword, txtPhoneNumber, txtAddress, txtHealthCard;
-
     private Button registerPatient,clickBack;
 
     @Override
@@ -80,24 +81,9 @@ public class PatientRegisterActivity extends AppCompatActivity {
         if(validateData()) {
 
             storeUser();
-
-
             snackBar();
 
-
-
-
-
-
-
-
-
-
-
-
-
         }
-
 
     }
 
@@ -180,8 +166,11 @@ public class PatientRegisterActivity extends AppCompatActivity {
     public void storeUser(){
         Patient patient = new Patient(editFirstName.getText().toString(),editLastName.getText().toString(),editEmail.getText().toString(), editPassword.getText().toString(),editPhoneNumber.getText().toString(),editAddress.getText().toString(),editHealthCard.getText().toString());
 
+        MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+        FirebaseUser current = FirebaseAuth.getInstance().getCurrentUser();
+            if(current != null)
+                MainActivity.registrationRef.child(current.getUid()).setValue(patient);
 
-        MainActivity.userList.add(patient);//
 
 
 
