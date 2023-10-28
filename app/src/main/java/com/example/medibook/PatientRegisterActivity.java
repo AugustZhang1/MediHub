@@ -165,7 +165,7 @@ public class PatientRegisterActivity extends AppCompatActivity {
 
 
     public void storeUser(){
-        Patient patient = new Patient(editFirstName.getText().toString(),editLastName.getText().toString(),editEmail.getText().toString(), editPassword.getText().toString(),editPhoneNumber.getText().toString(),editAddress.getText().toString(),editHealthCard.getText().toString());
+        Patient patient = new Patient(editFirstName.getText().toString(),editLastName.getText().toString(),editEmail.getText().toString(), editPassword.getText().toString(),editPhoneNumber.getText().toString(),editAddress.getText().toString(),"pending",editHealthCard.getText().toString());
         MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override

@@ -176,7 +176,7 @@ public class DoctorRegisterActivity extends AppCompatActivity {
 
 
     public void storeUser() {
-        Doctor doctor = new Doctor(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), editHealthEmployeeNumber.getText().toString(),editSpecialties.getText().toString());
+        Doctor doctor = new Doctor(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), "pending", editHealthEmployeeNumber.getText().toString(),editSpecialties.getText().toString());
         MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
