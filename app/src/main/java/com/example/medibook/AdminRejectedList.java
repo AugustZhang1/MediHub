@@ -2,6 +2,7 @@ package com.example.medibook;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.example.medibook.AdminRejectedList;
+import com.example.medibook.classes.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminRejectedList extends AppCompatActivity{
 
@@ -23,8 +27,10 @@ public class AdminRejectedList extends AppCompatActivity{
 
         RecyclerView recyclerView = findViewById(R.id.recyclerRejectedUserInfo);
 
+        List<User> userList = new ArrayList<User>();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new AdminRejectedListAdapter(getApplicationContext(), MainActivity.userList));
+        recyclerView.setAdapter(new AdminRejectedListAdapter(getApplicationContext(),userList ));
 
 //        createViews();
 //
