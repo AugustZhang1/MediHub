@@ -34,7 +34,7 @@ public class AdministratorInterface extends AppCompatActivity {
         inboxBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AdministratorInterface.this,MainActivity.class); //Change to the inbox class
+                Intent intent = new Intent(AdministratorInterface.this,AdminInbox.class); //Change to the inbox class
                 startActivity(intent);
             }
         });

@@ -1,4 +1,5 @@
 package com.example.medibook;
+import android.util.Log;
 import android.widget.Button;
 import android.content.Context;
 
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.medibook.classes.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,10 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-class AdminInbox extends AppCompatActivity {
+public class AdminInbox extends AppCompatActivity {
 
         private static FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         protected static DatabaseReference registrationRef = database.getReference("Registered");
+
+        protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
         @Override
@@ -49,6 +54,7 @@ class AdminInbox extends AppCompatActivity {
                                         String address = snapshot1.child("address").getValue(String.class);
                                         String password = snapshot1.child("password").getValue(String.class);
                                         String status = snapshot1.child("status").getValue(String.class);
+
                                         userList.add(new User(firstName,lastName,email,password,phoneNumber,address,status));
 
 
