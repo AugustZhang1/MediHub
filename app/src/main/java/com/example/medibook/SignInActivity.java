@@ -96,19 +96,44 @@ public class SignInActivity extends AppCompatActivity {
             MainActivity.userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        String specialties = dataSnapshot.child("specialties").getValue(String.class);
-                        String health = dataSnapshot.child("healthCardNumber").getValue(String.class);
-                        Intent intent;
-                        if (specialties == null) {
-                            intent = new Intent(SignInActivity.this, PatientInterface.class);
-                        } else if (health == null) {
-                            intent = new Intent(SignInActivity.this, DoctorInterface.class);
-                        } else {
-                            intent = new Intent(SignInActivity.this, AdministratorInterface.class);
+                    if (dataSnapshot.exists() && current != null) {
+                        if (dataSnapshot.hasChild(current.getUid())) {
+
+                            String specialties = dataSnapshot.child(current.getUid()).child("specialties").getValue(String.class);
+                            String health = dataSnapshot.child(current.getUid()).child("healthCardNumber").getValue(String.class);
+                            Intent intent;
+                            if (specialties != null && health == null) {
+                                intent = new Intent(SignInActivity.this, DoctorInterface.class);
+                            } else if (specialties == null && health != null) {
+                                intent = new Intent(SignInActivity.this, PatientInterface.class);
+                            } else {
+                                intent = new Intent(SignInActivity.this, AdministratorInterface.class);
+                            }
+                            startActivity(intent);
                         }
-                        startActivity(intent);
+                        else { //stuck here
+                            MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot2) {
+                                    if (dataSnapshot2.exists()) {
+                                        String specialty = dataSnapshot2.child(current.getUid()).child("specialties").getValue(String.class);
+                                        Intent intent;
+                                        if (specialty != null ) {
+                                            intent = new Intent(SignInActivity.this, DoctorInterface.class);
+                                        } else {
+                                            intent = new Intent(SignInActivity.this, PatientInterface.class);
+                                        }
+                                        startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                         }
+                    }
                     else {
                         Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
                     }
