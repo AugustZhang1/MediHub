@@ -4,9 +4,9 @@ public class Administrator extends User
 {
 
 
-    public Administrator(String firstName,  String lastName, String emailAddress, String accountPassword, String phoneNumber, String address, boolean adminStatus, boolean userAuth)
+    public Administrator(String firstName,  String lastName, String emailAddress, String accountPassword, String phoneNumber, String address, String status )
     {
-        super(firstName, lastName, emailAddress, accountPassword, phoneNumber, address, adminStatus,userAuth);
+        super(firstName, lastName, emailAddress, accountPassword, phoneNumber, address,status);
 
     }
 

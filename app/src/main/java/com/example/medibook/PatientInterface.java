@@ -23,6 +23,7 @@ public class PatientInterface extends AppCompatActivity {
         logOffBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.mAuth.signOut();
                 Intent intent = new Intent(PatientInterface.this,MainActivity.class);
                 startActivity(intent);
             }
