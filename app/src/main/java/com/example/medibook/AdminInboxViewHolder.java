@@ -10,7 +10,7 @@ public class AdminInboxViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         firstNameView = itemView.findViewById(R.id.inboxUserFirstName);
         lastNameView = itemView.findViewById(R.id.inboxUserLastName);
-        emailView = itemView.findViewById(R.id.inboxUserAddress);
+        emailView = itemView.findViewById(R.id.inboxUserEmail);
         phoneNumberView = itemView.findViewById(R.id.inboxUserPhoneNum);
         addressView = itemView.findViewById(R.id.inboxUserAddress);
         healthCardView = itemView.findViewById(R.id.inboxUserHealthCard);

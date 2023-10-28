@@ -49,6 +49,15 @@
             android:name=".AdminRejectedListViewHolder"
             android:exported="false" />
         <activity
+            android:name=".AdminInboxViewHolder"
+            android:exported="false" />
+        <activity
+            android:name=".AdminInboxAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".AdminInbox"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
