@@ -1,9 +1,12 @@
 package com.example.medibook;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
 import android.util.Log;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,13 @@ public class AdminInboxAdapter extends RecyclerView.Adapter<AdminInboxViewHolder
         this.userList2 = userList2;
     }
 
+    private OnClickListener mListener;
+    private RelativeLayout lastClickedRelativeLayout;
+
+    public void setOnClickListener(OnClickListener listener) {
+        mListener = listener;
+    }
+
     @NonNull
     @Override
     public AdminInboxViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
@@ -25,12 +35,25 @@ public class AdminInboxAdapter extends RecyclerView.Adapter<AdminInboxViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdminInboxViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdminInboxViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.firstNameView.setText(userList2.get(position).getFirstName());
         holder.lastNameView.setText(userList2.get(position).getLastName());
         holder.emailView.setText(userList2.get(position).getEmail());
         holder.phoneNumberView.setText(userList2.get(position).getPhoneNumber());
         holder.addressView.setText(userList2.get(position).getAddress());
+        holder.statusView.setText(userList2.get(position).getStatus());
+        holder.relativeLayout.setTag(position);
+
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+//                    int position = (int) v.getTag();                      /doesn't work
+//                    lastClickedRelativeLayout = holder.relativeLayout;    /doesn't work
+                    mListener.onItemClick(position);
+                }
+            }
+        });
 
     }
 
@@ -39,6 +62,14 @@ public class AdminInboxAdapter extends RecyclerView.Adapter<AdminInboxViewHolder
     @Override
     public int getItemCount(){
         return userList2.size();
+    }
+
+    public RelativeLayout getLastClickedRelativeLayout() {
+        return lastClickedRelativeLayout;
+    }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
     }
 
 

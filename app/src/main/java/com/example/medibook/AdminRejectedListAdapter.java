@@ -1,7 +1,9 @@
 package com.example.medibook;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
 
@@ -22,6 +24,13 @@ public class AdminRejectedListAdapter extends RecyclerView.Adapter<AdminRejected
         this.context = context;
         this.userList1 = userList1;
     }
+
+
+    private OnClickListener mListener;
+
+    public void setOnClickListener(OnClickListener listener) {
+        mListener = listener;
+    }
     @NonNull
     @Override
     public AdminRejectedListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,12 +38,23 @@ public class AdminRejectedListAdapter extends RecyclerView.Adapter<AdminRejected
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdminRejectedListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdminRejectedListViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.firstNameView.setText(userList1.get(position).getFirstName());
         holder.LastnameView.setText(userList1.get(position).getLastName());
         holder.emailView.setText(userList1.get(position).getEmail());
         holder.phoneNumberView.setText(userList1.get(position).getPhoneNumber());
         holder.addressView.setText(userList1.get(position).getAddress());
+        holder.statusView.setText(userList1.get(position).getStatus());
+
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onItemClick(position);
+                }
+            }
+        });
+
 
     }
 
@@ -42,4 +62,10 @@ public class AdminRejectedListAdapter extends RecyclerView.Adapter<AdminRejected
     public int getItemCount() {
         return userList1.size();
     }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
+    }
+
+
 }

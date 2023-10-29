@@ -119,13 +119,13 @@ public class SignInActivity extends AppCompatActivity {
                             MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot2) {
-                                    if (dataSnapshot2.exists()) {
-                                        String specialty = dataSnapshot2.child(current.getUid()).child("specialties").getValue(String.class);
+                                    if ((dataSnapshot2.exists()) && (dataSnapshot2.hasChild(current.getUid()))) {
+                                        String status = dataSnapshot2.child(current.getUid()).child("status").getValue(String.class);
                                         Intent intent;
-                                        if (specialty != null ) {
-                                            intent = new Intent(SignInActivity.this, DoctorInterface.class);
+                                        if (status != null ) {
+                                            intent = new Intent(SignInActivity.this, UserPendingInterface.class);
                                         } else {
-                                            intent = new Intent(SignInActivity.this, PatientInterface.class);
+                                            intent = new Intent(SignInActivity.this, UserRejectedInterface.class);
                                         }
                                         startActivity(intent);
                                     }
@@ -133,6 +133,7 @@ public class SignInActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
+                                    Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
 
                                 }
                             });

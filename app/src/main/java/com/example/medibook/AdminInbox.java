@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.example.medibook.classes.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminInbox extends AppCompatActivity {
+        private Button clickBack;
+        private User clickedUser;
+
+        private String fN,Ln,email,address,pN,status;
 
         private static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -33,20 +38,38 @@ public class AdminInbox extends AppCompatActivity {
 
 
         @Override
-        protected void onCreate(Bundle savedInstanceState){
+        protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_admin_inbox);
 
                 RecyclerView recyclerView = findViewById(R.id.recyclerUserInfo);
-                List<User> userList = new ArrayList<User>();
+
+                fetchData(userList -> {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+                        AdminInboxAdapter adapter = new AdminInboxAdapter(getApplicationContext(), userList);
+                        adapter.setOnClickListener(new AdminInboxAdapter.OnClickListener() {
+                                @Override
+                                public void onItemClick(int position) {
+                                        Intent intent = new Intent(AdminInbox.this,AdminConfirmReject.class); //Change to the inbox class
+                                        startActivity(intent);
+                                }
+                        });
+                        recyclerView.setAdapter(adapter);
+//            /doesn't work            fN = adapter.getLastClickedRelativeLayout().findViewById(R.id.rejectedUserFirstName).getTransitionName();
+//            /doesn't work            Log.d("name", "name" + fN);
+                });
+
+        }
+
+        private void fetchData(OnDataFetchedCallback callback) {
+                List<User> userList = new ArrayList<>();
 
                 registrationRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-
-
-
                                         String firstName = snapshot1.child("firstName").getValue(String.class);
                                         String lastName = snapshot1.child("lastName").getValue(String.class);
                                         String email = snapshot1.child("email").getValue(String.class);
@@ -55,22 +78,23 @@ public class AdminInbox extends AppCompatActivity {
                                         String password = snapshot1.child("password").getValue(String.class);
                                         String status = snapshot1.child("status").getValue(String.class);
 
-                                        userList.add(new User(firstName,lastName,email,password,phoneNumber,address,status));
-
-
+                                        userList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
                                 }
+
+                                // Now that data is available, call the callback function
+                                callback.onDataFetched(userList);
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                                // Handle any errors here
                         }
                 });
+        }
 
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                recyclerView.setAdapter(new AdminInboxAdapter(getApplicationContext(), userList));
-
-
+        // Define a callback interface
+        public interface OnDataFetchedCallback {
+                void onDataFetched(List<User> userList);
         }
         
 

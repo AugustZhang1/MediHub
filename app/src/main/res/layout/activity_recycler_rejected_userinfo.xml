@@ -56,12 +56,18 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/rejectedUserHealthCard"
+            android:id="@+id/rejectedUserStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rejectedUserAddress"
             android:layout_marginTop="8dp"
             android:text="TextView" />
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/rejectedUserStatus"
+            android:background="?android:attr/listDivider" />
 
 
     </RelativeLayout>
