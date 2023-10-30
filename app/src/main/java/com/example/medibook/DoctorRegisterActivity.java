@@ -170,7 +170,7 @@ public class DoctorRegisterActivity extends AppCompatActivity {
 
         View rootLayout = findViewById(R.id.patientLayout);
         Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT).show();
-        Intent intent = new Intent(DoctorRegisterActivity.this, DoctorInterface.class);
+        Intent intent = new Intent(DoctorRegisterActivity.this, UserPendingInterface.class);
         startActivity(intent);
     }
 

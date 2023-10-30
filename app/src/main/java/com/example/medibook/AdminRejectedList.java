@@ -45,6 +45,8 @@ public class AdminRejectedList extends AppCompatActivity {
             adapter.setOnClickListener(new AdminRejectedListAdapter.OnClickListener() {
                 @Override
                 public void onItemClick(int position) {
+
+
                     Intent intent = new Intent(AdminRejectedList.this,AdminConfirmReject.class); //Change to the inbox class
                     startActivity(intent);
                 }
@@ -56,7 +58,7 @@ public class AdminRejectedList extends AppCompatActivity {
     }
 
     private void fetchData(OnDataFetchedCallback callback) {
-        List<User> userList = new ArrayList<>();
+        List<User> rejectedList = new ArrayList<>();
 
         registrationRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,11 +72,13 @@ public class AdminRejectedList extends AppCompatActivity {
                     String password = snapshot1.child("password").getValue(String.class);
                     String status = snapshot1.child("status").getValue(String.class);
 
-                    userList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                    if(status.equals("rejected")) {
+                        rejectedList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                    }
                 }
 
                 // Now that data is available, call the callback function
-                callback.onDataFetched(userList);
+                callback.onDataFetched(rejectedList);
             }
 
             @Override
@@ -86,7 +90,7 @@ public class AdminRejectedList extends AppCompatActivity {
 
     // Define a callback interface
     public interface OnDataFetchedCallback {
-        void onDataFetched(List<User> userList);
+        void onDataFetched(List<User> rejectedList);
     }
 }
 

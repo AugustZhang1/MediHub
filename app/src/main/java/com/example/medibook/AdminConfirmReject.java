@@ -24,6 +24,7 @@ public class AdminConfirmReject extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
+
                 Intent a = new Intent(AdminConfirmReject.this,AdministratorInterface.class);
                 startActivity(a);
 
@@ -35,6 +36,7 @@ public class AdminConfirmReject extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
+
                 Intent a = new Intent(AdminConfirmReject.this,AdministratorInterface.class);
                 startActivity(a);
             }

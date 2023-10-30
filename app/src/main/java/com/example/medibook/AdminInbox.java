@@ -64,7 +64,7 @@ public class AdminInbox extends AppCompatActivity {
         }
 
         private void fetchData(OnDataFetchedCallback callback) {
-                List<User> userList = new ArrayList<>();
+                List<User> pendingList = new ArrayList<>();
 
                 registrationRef.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -78,11 +78,13 @@ public class AdminInbox extends AppCompatActivity {
                                         String password = snapshot1.child("password").getValue(String.class);
                                         String status = snapshot1.child("status").getValue(String.class);
 
-                                        userList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                                        if(status.equals("pending")) {
+                                                pendingList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                                        }
                                 }
 
                                 // Now that data is available, call the callback function
-                                callback.onDataFetched(userList);
+                                callback.onDataFetched(pendingList);
                         }
 
                         @Override
@@ -94,7 +96,7 @@ public class AdminInbox extends AppCompatActivity {
 
         // Define a callback interface
         public interface OnDataFetchedCallback {
-                void onDataFetched(List<User> userList);
+                void onDataFetched(List<User> pendingList);
         }
         
 
