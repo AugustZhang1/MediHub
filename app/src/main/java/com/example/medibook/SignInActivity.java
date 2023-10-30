@@ -39,12 +39,17 @@ public class SignInActivity extends AppCompatActivity {
     private Administrator admin;
 
 
+    private View rootLayout;
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+        rootLayout = findViewById(R.id.signInLayout);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -94,65 +99,90 @@ public class SignInActivity extends AppCompatActivity {
 
             txtEmail.setVisibility(View.GONE);
             txtPassword.setVisibility(View.GONE);
-            View rootLayout = findViewById(R.id.signInLayout);
+
             Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
-            FirebaseUser current = mAuth.getCurrentUser();
-            MainActivity.userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists() && current != null) {
-                        if (dataSnapshot.hasChild(current.getUid())) {
 
-                            String specialties = dataSnapshot.child(current.getUid()).child("specialties").getValue(String.class);
-                            String health = dataSnapshot.child(current.getUid()).child("healthCardNumber").getValue(String.class);
-                            Intent intent;
-                            if (specialties != null && health == null) {
-                                intent = new Intent(SignInActivity.this, DoctorInterface.class);
-                            } else if (specialties == null && health != null) {
-                                intent = new Intent(SignInActivity.this, PatientInterface.class);
-                            } else {
-                                intent = new Intent(SignInActivity.this, AdministratorInterface.class);
+
+            fetchData(infolist -> {
+
+                        Intent intent = null;
+                        if (infolist.get(0) != null && infolist.get(1) == null) {
+                            intent = new Intent(SignInActivity.this, DoctorInterface.class);
+                        } else if (infolist.get(0) == null && infolist.get(1) != null) {
+                            intent = new Intent(SignInActivity.this, PatientInterface.class);
+                        } else if (infolist.get(2) != null) {
+                            if (infolist.get(2).equals("pending") ) {
+                                intent = new Intent(SignInActivity.this, UserPendingInterface.class);
                             }
-                            startActivity(intent);
-                        }
-                        else { //stuck here
-                            MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot2) {
-                                    if ((dataSnapshot2.exists()) && (dataSnapshot2.hasChild(current.getUid()))) {
-                                        String status = dataSnapshot2.child(current.getUid()).child("status").getValue(String.class);
-                                        Intent intent = null;
-                                        if (status.equals("pending") ) {
-                                            intent = new Intent(SignInActivity.this, UserPendingInterface.class);
-                                        } 
-                                        else if(status.equals("rejected")) {
-                                            intent = new Intent(SignInActivity.this, UserRejectedInterface.class);
-                                        }
-                                        startActivity(intent);
-                                    }
-                                }
+                            else if(infolist.get(2).equals("rejected")) {
+                                intent = new Intent(SignInActivity.this, UserRejectedInterface.class);
+                            }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
 
-                                }
-                            });
                         }
-                    }
-                    else {
-                        Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
-                }
+
+                        else {
+                            intent = new Intent(SignInActivity.this, AdministratorInterface.class);
+                        }
+                        startActivity(intent);
+
+
 
             });
 
         }
 
+    }
+    private void fetchData(OnDataFetchedCallback callback) {
+        FirebaseUser current = mAuth.getCurrentUser();
+        List<String> infolist= new ArrayList<>();
+        // Use fetchData method to populate the userList
+        MainActivity.userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists() && current != null) {
+                    if (dataSnapshot.hasChild(current.getUid())) {
+
+                         String specialties = dataSnapshot.child(current.getUid()).child("specialties").getValue(String.class);
+                         String health = dataSnapshot.child(current.getUid()).child("healthCardNumber").getValue(String.class);
+                         infolist.add(specialties);
+                         infolist.add(health);
+                         infolist.add(null);
+                    }
+                }
+                else { //stuck here
+                        MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot2) {
+                                if ((dataSnapshot2.exists()) && (dataSnapshot2.hasChild(current.getUid()))) {
+                                    String status = dataSnapshot2.child(current.getUid()).child("status").getValue(String.class);
+                                    infolist.add(null);
+                                    infolist.add(null);
+                                    infolist.add(status);
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+
+                            }
+                        });
+                }
+
+                callback.onDataFetched(infolist);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public interface OnDataFetchedCallback {
+        void onDataFetched(List<String> infolist);
     }
 
 
