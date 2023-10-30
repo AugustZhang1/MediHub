@@ -28,7 +28,8 @@ public class AdminInbox extends AppCompatActivity {
         private Button clickBack;
 
 
-        private String inboxEmail,inboxPassword;
+        private static String inboxEmail,inboxPassword;
+        private static User tempUser;
 
         private static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -52,9 +53,9 @@ public class AdminInbox extends AppCompatActivity {
                         adapter.setOnClickListener(new AdminInboxAdapter.OnClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
-                                        User clickedUser = userList.get(position);
-                                        inboxEmail = clickedUser.getEmail();
-                                        inboxPassword = clickedUser.getPassword();
+                                        tempUser = userList.get(position);
+                                        inboxEmail = tempUser.getEmail();
+                                        inboxPassword = tempUser.getPassword();
 
                                         Log.d("email", "email" + inboxEmail);
                                         Log.d("p", "p" + inboxPassword);
@@ -100,12 +101,16 @@ public class AdminInbox extends AppCompatActivity {
                 });
         }
 
-        public String getInboxEmail(){
+        public static String getInboxEmail() {
                 return inboxEmail;
         }
 
-        public String getInboxPassword(){
+        public static String getInboxPassword() {
                 return inboxPassword;
+        }
+
+        public static User getTempUser() {
+                return tempUser;
         }
 
         // Define a callback interface

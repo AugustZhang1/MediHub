@@ -172,7 +172,7 @@ public class SignInActivity extends AppCompatActivity {
             txtPassword.setVisibility(View.VISIBLE);
             return false;
         }
-        mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+        MainActivity.mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         FirebaseUser current = mAuth.getCurrentUser();
         if(current != null)
             return true;
