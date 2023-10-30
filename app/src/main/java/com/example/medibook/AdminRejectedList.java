@@ -27,6 +27,7 @@ import java.util.List;
 public class AdminRejectedList extends AppCompatActivity {
 
     private Button clickBack;
+    private String rejectedEmail,rejectedPassword;
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
     protected static DatabaseReference registrationRef = database.getReference("Registered");
     protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -45,6 +46,12 @@ public class AdminRejectedList extends AppCompatActivity {
             adapter.setOnClickListener(new AdminRejectedListAdapter.OnClickListener() {
                 @Override
                 public void onItemClick(int position) {
+                    User clickedUser = userList.get(position);
+                    rejectedEmail = clickedUser.getEmail();
+                    rejectedPassword = clickedUser.getPassword();
+
+                    Log.d("email", "email " + rejectedEmail);
+                    Log.d("p", "p " + rejectedPassword);
 
 
                     Intent intent = new Intent(AdminRejectedList.this,AdminConfirmReject.class); //Change to the inbox class
@@ -86,6 +93,13 @@ public class AdminRejectedList extends AppCompatActivity {
                 // Handle any errors here
             }
         });
+    }
+    public String getRejectedEmail(){
+        return rejectedEmail;
+    }
+
+    public String getRejectedPassword(){
+        return rejectedPassword;
     }
 
     // Define a callback interface

@@ -21,7 +21,7 @@ public class AdminInboxAdapter extends RecyclerView.Adapter<AdminInboxViewHolder
     }
 
     private OnClickListener mListener;
-    private RelativeLayout lastClickedRelativeLayout;
+    private View lastClickedView;
 
     public void setOnClickListener(OnClickListener listener) {
         mListener = listener;
@@ -48,9 +48,9 @@ public class AdminInboxAdapter extends RecyclerView.Adapter<AdminInboxViewHolder
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-//                    int position = (int) v.getTag();                      /doesn't work
-//                    lastClickedRelativeLayout = holder.relativeLayout;    /doesn't work
-                    mListener.onItemClick(position);
+                   int clickedPosition = (int) v.getTag();
+                   mListener.onItemClick(clickedPosition);
+                   lastClickedView = v;
                 }
             }
         });
@@ -64,8 +64,8 @@ public class AdminInboxAdapter extends RecyclerView.Adapter<AdminInboxViewHolder
         return userList2.size();
     }
 
-    public RelativeLayout getLastClickedRelativeLayout() {
-        return lastClickedRelativeLayout;
+    public View getLastClickedView() {
+        return lastClickedView;
     }
 
     public interface OnClickListener {

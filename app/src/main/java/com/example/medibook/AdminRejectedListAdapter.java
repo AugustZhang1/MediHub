@@ -28,6 +28,8 @@ public class AdminRejectedListAdapter extends RecyclerView.Adapter<AdminRejected
 
     private OnClickListener mListener;
 
+    private View lastClickedView;
+
     public void setOnClickListener(OnClickListener listener) {
         mListener = listener;
     }
@@ -45,12 +47,15 @@ public class AdminRejectedListAdapter extends RecyclerView.Adapter<AdminRejected
         holder.phoneNumberView.setText(userList1.get(position).getPhoneNumber());
         holder.addressView.setText(userList1.get(position).getAddress());
         holder.statusView.setText(userList1.get(position).getStatus());
+        holder.relativeLayout.setTag(position);
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onItemClick(position);
+                    int clickedPosition = (int) v.getTag();
+                    mListener.onItemClick(clickedPosition);
+                    lastClickedView = v;
                 }
             }
         });
@@ -61,6 +66,10 @@ public class AdminRejectedListAdapter extends RecyclerView.Adapter<AdminRejected
     @Override
     public int getItemCount() {
         return userList1.size();
+    }
+
+    public View getLastClickedView() {
+        return lastClickedView;
     }
 
     public interface OnClickListener {

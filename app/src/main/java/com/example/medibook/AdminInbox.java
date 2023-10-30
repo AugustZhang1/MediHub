@@ -26,9 +26,9 @@ import java.util.List;
 
 public class AdminInbox extends AppCompatActivity {
         private Button clickBack;
-        private User clickedUser;
 
-        private String fN,Ln,email,address,pN,status;
+
+        private String inboxEmail,inboxPassword;
 
         private static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -52,13 +52,19 @@ public class AdminInbox extends AppCompatActivity {
                         adapter.setOnClickListener(new AdminInboxAdapter.OnClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
+                                        User clickedUser = userList.get(position);
+                                        inboxEmail = clickedUser.getEmail();
+                                        inboxPassword = clickedUser.getPassword();
+
+                                        Log.d("email", "email" + inboxEmail);
+                                        Log.d("p", "p" + inboxPassword);
+
                                         Intent intent = new Intent(AdminInbox.this,AdminConfirmReject.class); //Change to the inbox class
                                         startActivity(intent);
                                 }
                         });
                         recyclerView.setAdapter(adapter);
-//            /doesn't work            fN = adapter.getLastClickedRelativeLayout().findViewById(R.id.rejectedUserFirstName).getTransitionName();
-//            /doesn't work            Log.d("name", "name" + fN);
+
                 });
 
         }
@@ -92,6 +98,14 @@ public class AdminInbox extends AppCompatActivity {
                                 // Handle any errors here
                         }
                 });
+        }
+
+        public String getInboxEmail(){
+                return inboxEmail;
+        }
+
+        public String getInboxPassword(){
+                return inboxPassword;
         }
 
         // Define a callback interface

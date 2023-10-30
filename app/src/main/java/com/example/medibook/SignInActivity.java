@@ -121,10 +121,11 @@ public class SignInActivity extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot dataSnapshot2) {
                                     if ((dataSnapshot2.exists()) && (dataSnapshot2.hasChild(current.getUid()))) {
                                         String status = dataSnapshot2.child(current.getUid()).child("status").getValue(String.class);
-                                        Intent intent;
-                                        if (status != null ) {
+                                        Intent intent = null;
+                                        if (status.equals("pending") ) {
                                             intent = new Intent(SignInActivity.this, UserPendingInterface.class);
-                                        } else {
+                                        } 
+                                        else if(status.equals("rejected")) {
                                             intent = new Intent(SignInActivity.this, UserRejectedInterface.class);
                                         }
                                         startActivity(intent);
