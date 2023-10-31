@@ -80,7 +80,8 @@ public class AdminRejectedList extends AppCompatActivity {
                     String status = snapshot1.child("status").getValue(String.class);
 
                     if(status.equals("rejected")) {
-                        rejectedList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                        if(password != null)
+                            rejectedList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
                     }
                 }
 
