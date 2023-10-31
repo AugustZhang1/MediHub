@@ -7,24 +7,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.material.snackbar.Snackbar;
+public class UserPendingInterface extends AppCompatActivity{
 
-public class PatientInterface extends AppCompatActivity {
-    private Button logOffBtn;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_interface);
+        setContentView(R.layout.activity_user_pending_interface);
+
 
 
         createViews();
 
-        logOffBtn.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.mAuth.signOut();
-                Intent intent = new Intent(PatientInterface.this,MainActivity.class);
+                Intent intent = new Intent(UserPendingInterface.this,MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -35,9 +35,8 @@ public class PatientInterface extends AppCompatActivity {
 
 
 
-    public void createViews(
-    ){
-        logOffBtn = findViewById(R.id.logOutAsPatient);
+    public void createViews(){
+        backButton = findViewById(R.id.pendingBackButton);
 
 
     }

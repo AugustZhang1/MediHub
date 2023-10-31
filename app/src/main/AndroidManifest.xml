@@ -31,6 +31,33 @@
             android:name=".AdministratorInterface"
             android:exported="false" />
         <activity
+            android:name=".UserPendingInterface"
+            android:exported="false" />
+        <activity
+            android:name=".UserRejectedInterface"
+            android:exported="false" />
+        <activity
+            android:name=".AdminConfirmReject"
+            android:exported="false" />
+        <activity
+            android:name=".AdminRejectedList"
+            android:exported="false" />
+        <activity
+            android:name=".AdminRejectedListAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".AdminRejectedListViewHolder"
+            android:exported="false" />
+        <activity
+            android:name=".AdminInboxViewHolder"
+            android:exported="false" />
+        <activity
+            android:name=".AdminInboxAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".AdminInbox"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

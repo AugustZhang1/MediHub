@@ -7,14 +7,16 @@ public class User {
     private String accountPassword;
     private String phoneNumber;
     private String address;
+    private String status;
 
-    public User(String firstName, String lastName, String emailAddress, String accountPassword, String phoneNumber,String address){
+    public User(String firstName, String lastName, String emailAddress, String accountPassword, String phoneNumber,String address,String status){
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.accountPassword = accountPassword;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.status = status;
     }
     public String getFirstName(){
         return firstName;
@@ -65,4 +67,13 @@ public class User {
         this.address = address;
     }
 
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+
+    }
 }

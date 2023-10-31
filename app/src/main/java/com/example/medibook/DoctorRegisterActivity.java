@@ -1,5 +1,6 @@
 package com.example.medibook;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,12 +12,13 @@ import android.widget.TextView;
 import com.example.medibook.classes.Doctor;
 import com.example.medibook.classes.User;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class DoctorRegisterActivity extends AppCompatActivity {
     public static User Doctor;
     private EditText editFirstName, editLastName, editEmail, editPassword, editPhoneNumber, editAddress, editHealthEmployeeNumber, editSpecialties;
     private TextView txtFirstName, txtLastName, txtEmail, txtPassword, txtPhoneNumber, txtAddress, txtEmployeeNumber, txtSpecialties;
-
     private Button registerDoctor,clickBack;
 
     @Override
@@ -168,15 +170,25 @@ public class DoctorRegisterActivity extends AppCompatActivity {
 
         View rootLayout = findViewById(R.id.patientLayout);
         Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT).show();
-        Intent intent = new Intent(DoctorRegisterActivity.this, DoctorInterface.class);
+        Intent intent = new Intent(DoctorRegisterActivity.this, UserPendingInterface.class);
         startActivity(intent);
     }
 
 
     public void storeUser() {
-        Doctor doctor = new Doctor(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), editHealthEmployeeNumber.getText().toString(),editSpecialties.getText().toString());
+
+        Doctor doctor = new Doctor(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), "pending", editHealthEmployeeNumber.getText().toString(),editSpecialties.getText().toString());
+        MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+        MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser current = firebaseAuth.getCurrentUser();
+                if (current != null) {
+                    MainActivity.registrationRef.child(current.getUid()).setValue(doctor);
 
 
-        MainActivity.userList.add(doctor);
+                }
+            }
+        });
     }
 }
