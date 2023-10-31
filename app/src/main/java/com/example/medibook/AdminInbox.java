@@ -28,7 +28,8 @@ public class AdminInbox extends AppCompatActivity {
         private Button clickBack;
 
 
-        private static String inboxEmail,inboxPassword;
+        private static String inboxEmail;
+        private static String inboxPassword;
         private static User tempUser;
 
         private static FirebaseDatabase database = FirebaseDatabase.getInstance();

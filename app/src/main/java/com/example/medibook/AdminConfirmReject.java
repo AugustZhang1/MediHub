@@ -1,8 +1,5 @@
 package com.example.medibook;
 
-import static com.example.medibook.AdminInbox.getInboxEmail;
-import static com.example.medibook.AdminInbox.getTempUser;
-
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -18,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class AdminConfirmReject extends AppCompatActivity {
 
     private Button acceptBtn, rejectBtn, backBtn;
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private final FirebaseAuth mAuthenticator = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -31,7 +28,7 @@ public class AdminConfirmReject extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-                mAuth.signInWithEmailAndPassword(AdminInbox.getInboxEmail(),AdminInbox.getInboxPassword());
+                mAuthenticator.signInWithEmailAndPassword(AdminInbox.getInboxEmail(),AdminInbox.getInboxPassword());
                 MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                     @Override
                     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -40,9 +37,8 @@ public class AdminConfirmReject extends AppCompatActivity {
                             MainActivity.userRef.child(current.getUid()).setValue(AdminInbox.getTempUser());
                             MainActivity.userRef.child(current.getUid()).child("status").setValue("Confirmed");
                             MainActivity.registrationRef.child(current.getUid()).removeValue();
-
                         }
-                        mAuth.signOut();
+                        mAuthenticator.signOut();
                     }
                 });
                 Intent a = new Intent(AdminConfirmReject.this,AdministratorInterface.class);
@@ -56,16 +52,15 @@ public class AdminConfirmReject extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-                mAuth.signInWithEmailAndPassword(AdminInbox.getInboxEmail(),AdminInbox.getInboxPassword());
+                mAuthenticator.signInWithEmailAndPassword(AdminInbox.getInboxEmail(),AdminInbox.getInboxPassword());
                 MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                     @Override
                     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                         FirebaseUser current = firebaseAuth.getCurrentUser();
                         if (current != null) {
                             MainActivity.registrationRef.child(current.getUid()).child("status").setValue("rejected");
-
                         }
-                        mAuth.signOut();
+                        mAuthenticator.signOut();
                     }
                 });
                 Intent a = new Intent(AdminConfirmReject.this,AdministratorInterface.class);

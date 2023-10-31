@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth.signOut();
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
 

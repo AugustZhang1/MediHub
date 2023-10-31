@@ -23,6 +23,7 @@ public class UserPendingInterface extends AppCompatActivity{
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.mAuth.signOut();
                 Intent intent = new Intent(UserPendingInterface.this,MainActivity.class);
                 startActivity(intent);
             }

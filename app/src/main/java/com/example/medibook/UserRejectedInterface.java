@@ -23,6 +23,7 @@ public class UserRejectedInterface extends AppCompatActivity{
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.mAuth.signOut();
                 Intent intent = new Intent(UserRejectedInterface.this,MainActivity.class);
                 startActivity(intent);
             }

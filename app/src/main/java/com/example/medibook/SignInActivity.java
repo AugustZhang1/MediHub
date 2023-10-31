@@ -45,6 +45,18 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+        /* Admin Instantiation
+        User admin = new User(null,null,"admin@gmail.com","adminadmin",null,null,null);
+        MainActivity.mAuth.createUserWithEmailAndPassword("admin@gmail.com","adminadmin");
+        MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser current = firebaseAuth.getCurrentUser();
+                if (current != null) {
+                    MainActivity.userRef.child(current.getUid()).setValue(admin);
+                }
+            }
+        }); */
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -172,7 +184,7 @@ public class SignInActivity extends AppCompatActivity {
             txtPassword.setVisibility(View.VISIBLE);
             return false;
         }
-        mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+        MainActivity.mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         FirebaseUser current = mAuth.getCurrentUser();
         if(current != null)
             return true;
