@@ -59,6 +59,7 @@ public class AdminConfirmReject extends AppCompatActivity {
                         FirebaseUser current = firebaseAuth.getCurrentUser();
                         if (current != null) {
                             MainActivity.registrationRef.child(current.getUid()).child("status").setValue("rejected");
+                            return;
                         }
                         mAuthenticator.signOut();
                     }
