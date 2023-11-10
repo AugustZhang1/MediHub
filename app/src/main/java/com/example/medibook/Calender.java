@@ -18,9 +18,9 @@ public class Calender extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_shifts_layout);
+        setContentView(R.layout.activity_doctor_shift_layout);
 
-        calendarView = findViewById();
+        calendarView = findViewById(R.id.calendarView2);
         calendar = Calendar.getInstance();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

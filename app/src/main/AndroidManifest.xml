@@ -58,6 +58,15 @@
             android:name=".AdminInbox"
             android:exported="false" />
         <activity
+            android:name=".Calender"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorShiftsList"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorShift"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
