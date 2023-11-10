@@ -11,6 +11,8 @@ public class DoctorInterface extends AppCompatActivity {
 
     private Button logOffBtn;
 
+    private Button viewShiftsBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,15 @@ public class DoctorInterface extends AppCompatActivity {
             startActivity(intent);
         }
     });
+        viewShiftsBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v){
+                MainActivity.mAuth.signOut();
+                Intent intent = new Intent(DoctorInterface.this, DoctorShiftsList.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -38,6 +49,7 @@ public class DoctorInterface extends AppCompatActivity {
     public void createViews(
     ){
         logOffBtn = findViewById(R.id.logOutAsDoctor);
+        viewShiftsBtn = findViewById(R.id.viewShiftsBtn);
 
 
     }
