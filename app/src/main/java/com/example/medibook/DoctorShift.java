@@ -1,41 +1,37 @@
 package com.example.medibook;
 
 public class DoctorShift {
-    private String year;
-    private String month;
-    private String dayOfMonth;
+    private String date;
+    private String startTime;
+    private String endTime;
 
-    public DoctorShift() {
-
-    }
-    public DoctorShift(String year,String month,String dayOfMonth) {
-        this.year = year;
-        this.month = month;
-        this.dayOfMonth = dayOfMonth;
+    public DoctorShift(String date, String startTime, String endTime) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
-
-    public String getYear() {
-        return year;
+    public String getDate() {
+        return date;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getMonth() {
-        return month;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public String getDayOfMonth() {
-        return dayOfMonth;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setDayOfMonth(String dayOfMonth) {
-        this.dayOfMonth = dayOfMonth;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

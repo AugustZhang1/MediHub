@@ -13,29 +13,38 @@ public class DoctorInterface extends AppCompatActivity {
 
     private Button viewShiftsBtn;
 
+    private Button removeShiftsButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_interface);
-
-
-
-    createViews();
+        createViews();
 
         logOffBtn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            MainActivity.mAuth.signOut();
-            Intent intent = new Intent(DoctorInterface.this,MainActivity.class);
-            startActivity(intent);
-        }
-    });
+            @Override
+            public void onClick(View v) {
+                MainActivity.mAuth.signOut();
+                Intent intent = new Intent(DoctorInterface.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
         viewShiftsBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v){
                 MainActivity.mAuth.signOut();
-                Intent intent = new Intent(DoctorInterface.this, DoctorShiftsList.class);
+                Intent intent = new Intent(DoctorInterface.this, DoctorShiftsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        removeShiftsButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v){
+                MainActivity.mAuth.signOut();
+                Intent intent = new Intent(DoctorInterface.this, DoctorRemoveShifts.class);
                 startActivity(intent);
             }
         });
@@ -50,6 +59,8 @@ public class DoctorInterface extends AppCompatActivity {
     ){
         logOffBtn = findViewById(R.id.logOutAsDoctor);
         viewShiftsBtn = findViewById(R.id.viewShiftsBtn);
+
+        removeShiftsButton = findViewById(R.id.removeShiftsButton);
 
 
     }

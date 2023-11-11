@@ -21,13 +21,15 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     Button buttonAddShifts;
     ListView listViewShifts;
 
+    DoctorShiftsList productsAdapter;
+
     List<DoctorShift> doctorShiftList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_shift_day);
 
-        DoctorShiftsList productsAdapter = new DoctorShiftsList(DoctorShiftsActivity.this, doctorShiftList);
+        productsAdapter = new DoctorShiftsList(DoctorShiftsActivity.this, doctorShiftList);
         listViewShifts.setAdapter(productsAdapter);
 
 
@@ -57,8 +59,49 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     }
 
     private void addShift() {
-        DoctorShift shift = new DoctorShift(editTextDate.getText().toString(), editTextStartTime.getText().toString(), editTextEndTime.getText().toString());
+        String date = editTextDate.getText().toString();
+        String startTime = editTextStartTime.getText().toString();
+        String endTime = editTextEndTime.getText().toString();
+
+        // Check for conflicts before adding the shift
+        if (isShiftConflict(date, startTime, endTime)) {
+            // Display a message indicating the conflict
+            Toast.makeText(this, "Shift conflicts with existing shifts", Toast.LENGTH_SHORT).show();
+        } else {
+            // If no conflict, add the shift to the list
+            DoctorShift shift = new DoctorShift(date, startTime, endTime);
+            doctorShiftList.add(shift);
+
+            // Notify the adapter that the data set has changed
+            productsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    // Check for shift conflicts
+    private boolean isShiftConflict(String newDate, String newStartTime, String newEndTime) {
+        for (DoctorShift existingShift : doctorShiftList) { // goes through every single date inputted so far
+            String existingDate = existingShift.getDate();
+            String existingStartTime = existingShift.getStartTime();
+            String existingEndTime = existingShift.getEndTime();
+
+            // Check for conflicts based on your business logic
+            if (existingDate.equals(newDate) && doTimeRangesOverlap(existingStartTime, existingEndTime, newStartTime, newEndTime)) {
+                return true;  // conflict found
+            }
+        }
+        return false;  // No conflict found, input shift
+    }
+
+    // Check if two time ranges overlap
+    private boolean doTimeRangesOverlap(String start1, String end1, String start2, String end2) {
+
+        return !((end1.compareTo(start2) <= 0) || (start1.compareTo(end2) >= 0)); // if end time is smaller than start time or equal then false because of conflict
     }
 
 
+
+
 }
+
+
+
