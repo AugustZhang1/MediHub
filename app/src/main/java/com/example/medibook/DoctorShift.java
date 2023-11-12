@@ -5,13 +5,16 @@ public class DoctorShift {
     private String month;
     private String dayOfMonth;
 
+    private String doctorID;
+
     public DoctorShift() {
 
     }
-    public DoctorShift(String year,String month,String dayOfMonth) {
+    public DoctorShift(String year,String month,String dayOfMonth,String doctorID) {
         this.year = year;
         this.month = month;
         this.dayOfMonth = dayOfMonth;
+        this.doctorID = doctorID;
     }
 
 

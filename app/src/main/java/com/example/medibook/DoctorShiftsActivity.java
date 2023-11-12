@@ -1,5 +1,7 @@
 package com.example.medibook;
 
+import static com.example.medibook.MainActivity.mAuth;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,17 +12,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DoctorShiftsActivity extends AppCompatActivity {
     EditText editTextDate;
     EditText editTextStartTime;
-
     EditText editTextEndTime;
     Button buttonAddShifts;
     ListView listViewShifts;
-
     List<DoctorShift> doctorShiftList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,11 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     }
 
     private void addShift() {
-        DoctorShift shift = new DoctorShift(editTextDate.getText().toString(), editTextStartTime.getText().toString(), editTextEndTime.getText().toString());
+        FirebaseUser current = mAuth.getCurrentUser();
+        if (current != null) {
+            DoctorShift shift = new DoctorShift(editTextDate.getText().toString(),editTextStartTime.getText().toString(),editTextEndTime.getText().toString(),current.getUid());
+            MainActivity.shiftRef.child( editTextDate.getText().toString() ).setValue(shift);
+        }
     }
 
 
