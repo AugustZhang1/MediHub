@@ -38,6 +38,8 @@ public class DoctorShift {
         return dayOfMonth;
     }
 
+    public String getDoctorID() { return doctorID; }
+
     public void setDayOfMonth(String dayOfMonth) {
         this.dayOfMonth = dayOfMonth;
     }

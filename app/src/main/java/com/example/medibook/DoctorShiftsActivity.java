@@ -62,7 +62,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         FirebaseUser current = mAuth.getCurrentUser();
         if (current != null) {
             DoctorShift shift = new DoctorShift(editTextDate.getText().toString(),editTextStartTime.getText().toString(),editTextEndTime.getText().toString(),current.getUid());
-            MainActivity.shiftRef.child( editTextDate.getText().toString() ).setValue(shift);
+            MainActivity.shiftRef.child( MainActivity.shiftRef.push().getKey() ).setValue(shift);
         }
     }
 
