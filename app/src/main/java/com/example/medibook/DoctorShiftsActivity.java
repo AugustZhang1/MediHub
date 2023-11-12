@@ -21,7 +21,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     Button buttonAddShifts;
     ListView listViewShifts;
 
-    DoctorShiftsList productsAdapter;
+        DoctorShiftsList productsAdapter;
 
     List<DoctorShift> doctorShiftList;
     @Override
@@ -29,8 +29,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_shift_day);
 
-        productsAdapter = new DoctorShiftsList(DoctorShiftsActivity.this, doctorShiftList);
-        listViewShifts.setAdapter(productsAdapter);
+
 
 
         createViews();
@@ -56,6 +55,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         listViewShifts = findViewById(R.id.listViewProducts);
 
         doctorShiftList = new ArrayList<>();
+        productsAdapter = new DoctorShiftsList(DoctorShiftsActivity.this, doctorShiftList);
+        listViewShifts.setAdapter(productsAdapter);
     }
 
     private void addShift() {
@@ -79,13 +80,9 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
     // Check for shift conflicts
     private boolean isShiftConflict(String newDate, String newStartTime, String newEndTime) {
+        DoctorShift newShift = new DoctorShift(newDate, newStartTime, newEndTime);
         for (DoctorShift existingShift : doctorShiftList) { // goes through every single date inputted so far
-            String existingDate = existingShift.getDate();
-            String existingStartTime = existingShift.getStartTime();
-            String existingEndTime = existingShift.getEndTime();
-
-            // Check for conflicts based on your business logic
-            if (existingDate.equals(newDate) && doTimeRangesOverlap(existingStartTime, existingEndTime, newStartTime, newEndTime)) {
+            if (existingShift.equals(newShift) && doTimeRangesOverlap(existingShift.getStartTime(), existingShift.getEndTime(), newStartTime, newEndTime) && Integer.getInteger(newEndTime)-Integer.getInteger(newStartTime) < 30) {
                 return true;  // conflict found
             }
         }
