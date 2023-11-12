@@ -27,7 +27,7 @@ public class AppointmentInbox extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_appointmentInbox);
+        setContentView(R.layout.activity_doctor_appointmentinbox);
 
         recyclerView = findViewById(R.id.recyclerAppointmentList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -50,7 +50,7 @@ public class AppointmentInbox extends AppCompatActivity {
 
 
     private void fetchAppointments() {
-        appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
+        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -77,7 +77,7 @@ public class AppointmentInbox extends AppCompatActivity {
         DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange( DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String status = snapshot.child("status").getValue(String.class);
                     if (!"Rejected".equals(status) && !"Cancelled".equals(status)) {// Check if the current status is neither 'Rejected' nor 'Cancelled'
@@ -87,7 +87,7 @@ public class AppointmentInbox extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
                 // Handle error
             }
         });

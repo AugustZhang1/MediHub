@@ -1,5 +1,7 @@
 package com.example.medibook;
 
+import static com.example.medibook.MainActivity.mAuth;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,18 +12,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DoctorShiftsActivity extends AppCompatActivity {
     EditText editTextDate;
     EditText editTextStartTime;
-
     EditText editTextEndTime;
     Button buttonAddShifts;
     ListView listViewShifts;
 
+
         DoctorShiftsList productsAdapter;
+
 
     List<DoctorShift> doctorShiftList;
     @Override
@@ -60,6 +65,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     }
 
     private void addShift() {
+
         String date = editTextDate.getText().toString();
         String startTime = editTextStartTime.getText().toString();
         String endTime = editTextEndTime.getText().toString();
@@ -70,11 +76,13 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             Toast.makeText(this, "Shift conflicts with existing shifts", Toast.LENGTH_SHORT).show();
         } else {
             // If no conflict, add the shift to the list
-            DoctorShift shift = new DoctorShift(date, startTime, endTime);
-            doctorShiftList.add(shift);
 
-            // Notify the adapter that the data set has changed
             productsAdapter.notifyDataSetChanged();
+            FirebaseUser current = mAuth.getCurrentUser();
+            if (current != null) {
+                DoctorShift shift = new DoctorShift(editTextDate.getText().toString(),editTextStartTime.getText().toString(),editTextEndTime.getText().toString(),current.getUid());
+                MainActivity.shiftRef.child( MainActivity.shiftRef.push().getKey() ).setValue(shift);
+            }
         }
     }
 
@@ -93,6 +101,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     private boolean doTimeRangesOverlap(String start1, String end1, String start2, String end2) {
 
         return !((end1.compareTo(start2) <= 0) || (start1.compareTo(end2) >= 0)); // if end time is smaller than start time or equal then false because of conflict
+
+
     }
 
 
