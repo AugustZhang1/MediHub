@@ -25,8 +25,7 @@ public class AppointmentInboxAdapter extends RecyclerView.Adapter<AppointmentInb
     @NonNull
     @Override
     public AppointmentInboxViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_recycler_appointmentinfo, parent, false);
-        return new AppointmentInboxViewHolder(view);
+        return new AppointmentInboxViewHolder(LayoutInflater.from(context).inflate(R.layout.activity_recycler_appointmentinfo,parent,false));
     }
 
     @Override
@@ -37,18 +36,23 @@ public class AppointmentInboxAdapter extends RecyclerView.Adapter<AppointmentInb
         holder.startTimeView.setText(appointment.getStartTime());
         holder.endTimeView.setText(appointment.getEndTime());
         holder.patientUidView.setText(appointment.getPatientUid());
+        if ("new".equals(appointment.getStatus())) {
+            holder.statusView.setText("Not Accepted Yet"); //if status is new it will show not accepted yet
+        } else {
+            holder.statusView.setText(appointment.getStatus());
+        }
 
         holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAppointmentStatus(appointment.getDoctorShiftId(), "Accepted");
+                updateAppointmentStatus(appointment.getPatientUid(), "Accepted");
             }
         });
 
         holder.rejectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAppointmentStatus(appointment.getDoctorShiftId(), "Rejected");
+                updateAppointmentStatus(appointment.getPatientUid(), "Rejected");
             }
         });
     }
@@ -58,8 +62,8 @@ public class AppointmentInboxAdapter extends RecyclerView.Adapter<AppointmentInb
         return appointments.size();
     }
 
-    private void updateAppointmentStatus(String shiftId, String newStatus) {
-        DatabaseReference appointmentRef = FirebaseDatabase.getInstance().getReference("appointments").child(shiftId);
+    private void updateAppointmentStatus(String patientUid, String newStatus) {
+        DatabaseReference appointmentRef = FirebaseDatabase.getInstance().getReference("appointments").child(patientUid);
         appointmentRef.child("status").setValue(newStatus);
 
     }
