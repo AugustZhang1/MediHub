@@ -42,11 +42,11 @@ public class AppointmentAcceptedList extends AppCompatActivity {
 
 
     private void fetchAppointments() {
-        appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
+        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                appointmentList.clear();
+                acceptAppointmentList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Appointment appointment = snapshot.getValue(Appointment.class);
                     String status = snapshot.child("status").getValue(String.class);

@@ -1,6 +1,8 @@
 package com.example.medibook;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +29,7 @@ public class AppointmentInbox extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_appointmentInbox);
+        setContentView(R.layout.activity_doctor_appointmentinbox);
 
         recyclerView = findViewById(R.id.recyclerAppointmentList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -50,7 +52,7 @@ public class AppointmentInbox extends AppCompatActivity {
 
 
     private void fetchAppointments() {
-        appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
+        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -76,6 +78,7 @@ public class AppointmentInbox extends AppCompatActivity {
     private void acceptAllAppointments() {
         DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @NonNull
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -85,7 +88,7 @@ public class AppointmentInbox extends AppCompatActivity {
                     }
                 }
             }
-
+            @NonNull
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
