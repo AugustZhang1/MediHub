@@ -26,6 +26,9 @@ public class DoctorShift {
         this.doctorID = doctorID;
 
     }
+    public DoctorShift(){
+
+    }
 
     public String getDate() {
         return date;
@@ -52,13 +55,16 @@ public class DoctorShift {
         this.endTime = endTime;
     }
 
-        public String getDoctorID () {
-            return doctorID;
-        }
+    public String getDoctorID () {
+        return doctorID;
+    }
 
-        public void setDayOfMonth (String dayOfMonth){
-            this.dayOfMonth = dayOfMonth;
+    public void setDayOfMonth (String dayOfMonth){
+        this.dayOfMonth = dayOfMonth;
 
-        }
+    }
 
+    public void setId(String id) {
+        this.doctorID = id;
+    }
 }

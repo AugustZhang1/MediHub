@@ -1,6 +1,7 @@
 package com.example.medibook;
 
 import static com.example.medibook.MainActivity.mAuth;
+import static com.example.medibook.MainActivity.shiftRef;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,10 +11,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,18 +35,42 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
     List<DoctorShift> doctorShiftList;
 
-    private FirebaseAuth mAuth;
+    // Use the same mAuth instance from MainActivity
+    private FirebaseDatabase database = MainActivity.registrationRef.getDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_shift_day);
-        mAuth = FirebaseAuth.getInstance();
+
+        shiftRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                doctorShiftList.clear();
+
+                if (snapshot.exists()) {
+                    for (DataSnapshot productSnapshot : snapshot.getChildren()) {
+                        DoctorShift shift = productSnapshot.getValue(DoctorShift.class);
+                        shift.setId(productSnapshot.getKey());
+                        doctorShiftList.add(shift);
+                    }
+                }
+                productsAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle any errors here
+            }
+        });
+
         createViews();
 
         buttonAddShifts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                doctorShiftList.add(new DoctorShift("2023-11-13", "09:00", "17:00"));
+                productsAdapter.notifyDataSetChanged();
                 addShift();
             }
         });
@@ -60,22 +90,14 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
     private void addShift() {
         Log.d("DoctorShiftsActivity", "addShift() called");
-        mAuth.signInWithEmailAndPassword(AdminInbox.getInboxEmail(),AdminInbox.getInboxPassword());
+
         String date = editTextDate.getText().toString();
         String startTime = editTextStartTime.getText().toString();
         String endTime = editTextEndTime.getText().toString();
 
         Log.d("DoctorShiftsActivity", "Date: " + date + ", Start Time: " + startTime + ", End Time: " + endTime);
 
-        // Check if the user is authenticated
-        FirebaseUser current = mAuth.getCurrentUser();
-        if (current == null) {
-            // Handle the case where the user is not authenticated
-            Log.d("DoctorShiftsActivity", "User not authenticated");
-            Toast.makeText(this, "User not authenticated. Please sign in.", Toast.LENGTH_SHORT).show();
-            // Redirect to the sign-in page or take appropriate action
-            return;
-        }
+
 
         if (isShiftConflict(date, startTime, endTime)) {
             Log.d("DoctorShiftsActivity", "Shift conflicts with existing shifts");
@@ -83,14 +105,15 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         } else {
             Log.d("DoctorShiftsActivity", "Adding shift to the list");
 
-            DoctorShift shift = new DoctorShift(date, startTime, endTime, current.getUid());
+            DoctorShift shift = new DoctorShift(date, startTime, endTime);
+            MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
+            int sizeBefore = doctorShiftList.size();
             doctorShiftList.add(shift);
             productsAdapter.notifyDataSetChanged();
-            MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
+            int sizeAfter = doctorShiftList.size();
+            Log.d("DoctorShiftsActivity", "Size before: " + sizeBefore + ", Size after: " + sizeAfter);
         }
     }
-
-
 
     private boolean isShiftConflict(String newDate, String newStartTime, String newEndTime) {
         DoctorShift newShift = new DoctorShift(newDate, newStartTime, newEndTime);
