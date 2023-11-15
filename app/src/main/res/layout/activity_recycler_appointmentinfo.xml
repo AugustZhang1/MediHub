@@ -53,7 +53,7 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="22dp"
             android:text="Accept" />
 
@@ -84,11 +84,20 @@
             android:background="?android:attr/listDivider"
             android:backgroundTint="@color/black" />
 
+        <Button
+            android:id="@+id/info"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/appointmentAcceptBtn"
+            android:layout_alignEnd="@+id/appointmentAcceptBtn"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:text="Info"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
 
     </RelativeLayout>
-
-
-
 
 
 </LinearLayout>

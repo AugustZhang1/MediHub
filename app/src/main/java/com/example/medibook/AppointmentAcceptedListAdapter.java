@@ -48,6 +48,13 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
             }
         });
 
+        holder.infoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
     @Override

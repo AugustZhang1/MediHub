@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class AppointmentAcceptedListViewHolder extends RecyclerView.ViewHolder {
     RelativeLayout relativeLayout;
     TextView shiftIdView, startTimeView, endTimeView, patientUidView, statusView;
-    Button cancelBtn;
+    Button cancelBtn, infoBtn;
 
     public AppointmentAcceptedListViewHolder(View itemView) {
         super(itemView);
@@ -22,6 +22,7 @@ public class AppointmentAcceptedListViewHolder extends RecyclerView.ViewHolder {
         shiftIdView = itemView.findViewById(R.id.acceptedShiftId);
         statusView = itemView.findViewById(R.id.acceptedStatus);
 
+        infoBtn = itemView.findViewById(R.id.acceptInfo);
         cancelBtn = itemView.findViewById(R.id.appointmentCancelBtn);
 
     }
