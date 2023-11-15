@@ -33,14 +33,13 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     EditText editTextStartTime;
     EditText editTextEndTime;
     Button buttonAddShifts;
+    Button buttonDeleteShift;
     ListView listViewShifts;
 
     DoctorShiftsList productsAdapter;
   
     List<DoctorShift> doctorShiftList;
 
-    // Use the same mAuth instance from MainActivity
-    private FirebaseDatabase database = MainActivity.registrationRef.getDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +77,27 @@ public class DoctorShiftsActivity extends AppCompatActivity {
                 addShift();
             }
         });
+
+        /*buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MainActivity.shiftRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @NonNull
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String id = dataSnapshot.getKey();
+                        MainActivity.shiftRef.child(id).setValue(null);
+                    }
+                    @NonNull
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle error
+                    }
+                });
+            }
+        });*/
+
     }
 
     private void createViews() {
@@ -86,6 +106,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         editTextStartTime = findViewById(R.id.editStartTime);
         buttonAddShifts = findViewById(R.id.addButton);
         listViewShifts = findViewById(R.id.listViewProducts);
+        buttonDeleteShift = findViewById(R.id.buttonDeleteShift);
 
         doctorShiftList = new ArrayList<>();
         productsAdapter = new DoctorShiftsList(DoctorShiftsActivity.this, doctorShiftList);

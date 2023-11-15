@@ -43,8 +43,7 @@ public class AppointmentAcceptedList extends AppCompatActivity {
 
     private void fetchAppointments(OnDataFetchedCallback callback) {
         acceptAppointmentList = new ArrayList<>();
-        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
-        appointmentsRef.addValueEventListener(new ValueEventListener() {
+        MainActivity.appointmentRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 acceptAppointmentList.clear();

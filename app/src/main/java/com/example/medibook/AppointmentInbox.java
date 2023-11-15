@@ -64,8 +64,7 @@ public class AppointmentInbox extends AppCompatActivity {
 
     private void fetchAppointments(OnDataFetchedCallback callback) {
         appointmentList = new ArrayList<>();
-        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
-        appointmentsRef.addValueEventListener(new ValueEventListener() {
+        MainActivity.appointmentRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 appointmentList.clear();
@@ -75,7 +74,6 @@ public class AppointmentInbox extends AppCompatActivity {
                     if ("new".equals(status)) { //only add when status is new
                         appointmentList.add(appointment);
                     }
-
 
                 }
                 callback.onDataFetched(appointmentList);
@@ -88,8 +86,7 @@ public class AppointmentInbox extends AppCompatActivity {
         });
     }
     private void acceptAllAppointments() {
-        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
-        appointmentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        MainActivity.appointmentRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @NonNull
             @Override

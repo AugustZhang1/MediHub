@@ -59,8 +59,6 @@ public class SignInActivity extends AppCompatActivity {
         }); */
 
         mAuth = FirebaseAuth.getInstance();
-
-
         createViews();
 
 
