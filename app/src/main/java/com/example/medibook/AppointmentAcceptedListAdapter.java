@@ -57,8 +57,8 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
     }
 
     private void updateAppointmentStatus(String patientUid, String newStatus) {
-        DatabaseReference appointmentRef = FirebaseDatabase.getInstance().getReference("appointments").child(patientUid);
-        appointmentRef.child("status").setValue(newStatus);
+
+        MainActivity.appointmentRef.child(patientUid).child("status").setValue(newStatus);
 
     }
 }

@@ -23,7 +23,5 @@ public class AppointmentInboxViewHolder extends RecyclerView.ViewHolder {
         acceptBtn = itemView.findViewById(R.id.appointmentAcceptBtn);
         rejectBtn = itemView.findViewById(R.id.appointmentRejectBtn);
 
-
-
     }
 }

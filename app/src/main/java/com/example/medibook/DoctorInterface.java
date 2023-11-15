@@ -35,7 +35,6 @@ public class DoctorInterface extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-                MainActivity.mAuth.signOut();
                 Intent intent = new Intent(DoctorInterface.this, DoctorShiftsActivity.class);
                 startActivity(intent);
             }
@@ -45,7 +44,6 @@ public class DoctorInterface extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-                MainActivity.mAuth.signOut();
                 Intent intent = new Intent(DoctorInterface.this, AppointmentInbox.class);
                 startActivity(intent);
             }
@@ -55,13 +53,10 @@ public class DoctorInterface extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-                MainActivity.mAuth.signOut();
                 Intent intent = new Intent(DoctorInterface.this, AppointmentAcceptedList.class);
                 startActivity(intent);
             }
         });
-
-
 
 }
 
@@ -71,11 +66,8 @@ public class DoctorInterface extends AppCompatActivity {
     ){
         logOffBtn = findViewById(R.id.logOutAsDoctor);
         viewShiftsBtn = findViewById(R.id.viewShiftsBtn);
-
         appointmentListBtn = findViewById(R.id.appointmentListButton);
-
         appointmentAcceptedListBtn = findViewById(R.id.appointmentAcceptedListButton);
-
 
     }
 

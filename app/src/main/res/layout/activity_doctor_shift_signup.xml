@@ -28,18 +28,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/buttonUpdateShift"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Update" />
-
-        <Button
-            android:id="@+id/buttonDeleteProduct"
+            android:id="@+id/buttonDeleteShift"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

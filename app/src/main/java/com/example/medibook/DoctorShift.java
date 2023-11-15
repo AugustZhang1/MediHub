@@ -7,9 +7,7 @@ public class DoctorShift {
     private String doctorID;
 
     public String year;
-
     public String month;
-
     public String dayOfMonth;
 
 
@@ -60,7 +58,6 @@ public class DoctorShift {
 
     public void setDayOfMonth(String dayOfMonth) {
         this.dayOfMonth = dayOfMonth;
-
     }
 
     public void setId(String id) {

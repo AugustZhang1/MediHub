@@ -106,7 +106,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
         if (isShiftConflict(date, startTime, endTime)) {
             Log.d("DoctorShiftsActivity", "Shift conflicts with existing shifts");
-            Toast.makeText(this, "Shift conflicts with existing shifts", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Shift conflicts with existing shifts", Toast.LENGTH_LONG).show();
         } else {
             Log.d("DoctorShiftsActivity", "Adding shift to the list");
 
