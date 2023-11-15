@@ -10,17 +10,19 @@ public class Appointment {
     private String startTime;
     private String endTime;
     private String status; //"New", "Accepted", "Rejected", "Cancelled"
+    private String uid;
 
     public Appointment() {
 
     }
 
-    public Appointment(String patientUid, String doctorShiftId, String startTime, String endTime, String status) {
+    public Appointment(String patientUid, String doctorShiftId, String startTime, String endTime, String status, String uid) {
         this.patientUid = patientUid;
         this.doctorShiftId = doctorShiftId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
+        this.uid = uid;
     }
 
     // Getters and Setters
@@ -63,5 +65,7 @@ public class Appointment {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getUid() { return uid; }
 
 }

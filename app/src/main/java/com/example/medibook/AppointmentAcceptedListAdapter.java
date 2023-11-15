@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -45,7 +48,7 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
         holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAppointmentStatus(appointment.getPatientUid(), "Canceled");
+                updateAppointmentStatus(appointment.getUid(), "Canceled");
             }
         });
 
@@ -56,9 +59,9 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
         return appointments.size();
     }
 
-    private void updateAppointmentStatus(String patientUid, String newStatus) {
+    private void updateAppointmentStatus(String id, String newStatus) {
 
-        MainActivity.appointmentRef.child(patientUid).child("status").setValue(newStatus);
+        MainActivity.appointmentRef.child(id).child("status").setValue(newStatus);
 
     }
 }

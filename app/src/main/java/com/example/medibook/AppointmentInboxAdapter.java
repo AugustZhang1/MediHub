@@ -1,6 +1,7 @@
 package com.example.medibook;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -45,14 +49,14 @@ public class AppointmentInboxAdapter extends RecyclerView.Adapter<AppointmentInb
         holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAppointmentStatus(appointment.getPatientUid(), "Accepted");
+                updateAppointmentStatus(appointment.getUid(), "Accepted");
             }
         });
 
         holder.rejectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAppointmentStatus(appointment.getPatientUid(), "Rejected");
+                updateAppointmentStatus(appointment.getUid(), "Rejected");
             }
         });
     }
@@ -62,9 +66,9 @@ public class AppointmentInboxAdapter extends RecyclerView.Adapter<AppointmentInb
         return appointments.size();
     }
 
-    private void updateAppointmentStatus(String patientUid, String newStatus) {
+    private void updateAppointmentStatus(String id, String newStatus) {
 
-        MainActivity.appointmentRef.child(patientUid).child("status").setValue(newStatus);
+        MainActivity.appointmentRef.child(id).child("status").setValue(newStatus);
 
     }
 
