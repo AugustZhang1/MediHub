@@ -7,19 +7,17 @@ import java.util.Locale;
 public class Appointment {
     private String doctorShiftId;
     private String patientUid;
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
     private String status; //"New", "Accepted", "Rejected", "Cancelled"
-    private static final String DATE_FORMAT = "dd/mm/yyyy 'at' hh:mm:ss";
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
 
     public Appointment() {
 
     }
 
-    public Appointment(String appointmentId, String patientId, Date startTime, Date endTime, String status) {
-        this.doctorShiftId = appointmentId;
+    public Appointment(String patientUid, String doctorShiftId, String startTime, String endTime, String status) {
         this.patientUid = patientUid;
+        this.doctorShiftId = doctorShiftId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
@@ -38,27 +36,23 @@ public class Appointment {
         return patientUid;
     }
 
-    public void setPatientUid(String patientId) {
+    public void setPatientUid(String patientUid) {
         this.patientUid = patientUid;
-    }
-    private String formatDateTime(Date date){
-        if (date == null){return "Not set";}
-        return dateFormat.format(date);
     }
 
     public String getStartTime() {
-        return formatDateTime(this.startTime);
+        return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
     public String getEndTime() {
-        return formatDateTime(this.endTime);
+        return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 

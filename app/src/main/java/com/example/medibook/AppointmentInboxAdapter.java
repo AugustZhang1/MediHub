@@ -36,7 +36,7 @@ public class AppointmentInboxAdapter extends RecyclerView.Adapter<AppointmentInb
         holder.startTimeView.setText(appointment.getStartTime());
         holder.endTimeView.setText(appointment.getEndTime());
         holder.patientUidView.setText(appointment.getPatientUid());
-        if ("new".equals(appointment.getStatus())) {
+        if ("New".equals(appointment.getStatus())) {
             holder.statusView.setText("Not Accepted Yet"); //if status is new it will show not accepted yet
         } else {
             holder.statusView.setText(appointment.getStatus());
@@ -63,10 +63,10 @@ public class AppointmentInboxAdapter extends RecyclerView.Adapter<AppointmentInb
     }
 
     private void updateAppointmentStatus(String patientUid, String newStatus) {
-        DatabaseReference appointmentRef = FirebaseDatabase.getInstance().getReference("appointments").child(patientUid);
-        appointmentRef.child("status").setValue(newStatus);
+
+        DatabaseReference appointmentRef = FirebaseDatabase.getInstance().getReference("appointments").child(patientUid).child("status");
+        appointmentRef.setValue(newStatus);
 
     }
+
 }
-
-

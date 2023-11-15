@@ -50,7 +50,6 @@ public class DoctorShift {
         return endTime;
     }
 
-
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
@@ -59,7 +58,7 @@ public class DoctorShift {
         return doctorID;
     }
 
-    public void setDayOfMonth (String dayOfMonth){
+    public void setDayOfMonth(String dayOfMonth) {
         this.dayOfMonth = dayOfMonth;
 
     }

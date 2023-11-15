@@ -1,7 +1,10 @@
 package com.example.medibook;
 
 import static com.example.medibook.MainActivity.mAuth;
+
 import static com.example.medibook.MainActivity.shiftRef;
+
+import android.content.Intent;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +36,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     ListView listViewShifts;
 
     DoctorShiftsList productsAdapter;
-
+  
     List<DoctorShift> doctorShiftList;
 
     // Use the same mAuth instance from MainActivity
@@ -89,6 +93,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     }
 
     private void addShift() {
+
         Log.d("DoctorShiftsActivity", "addShift() called");
 
         String date = editTextDate.getText().toString();

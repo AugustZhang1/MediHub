@@ -1,6 +1,8 @@
 package com.example.medibook;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,8 +78,11 @@ public class AppointmentInbox extends AppCompatActivity {
     private void acceptAllAppointments() {
         DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @NonNull
             @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+              
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String status = snapshot.child("status").getValue(String.class);
                     if (!"Rejected".equals(status) && !"Cancelled".equals(status)) {// Check if the current status is neither 'Rejected' nor 'Cancelled'
@@ -85,9 +90,9 @@ public class AppointmentInbox extends AppCompatActivity {
                     }
                 }
             }
-
+            @NonNull
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
             }
         });
