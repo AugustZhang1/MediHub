@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -126,14 +127,19 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     }
 
     private void deleteShift(String id) {
-            Toast.makeText(this,"Item deleted", Toast.LENGTH_LONG).show();
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
             final View dialogView = inflater.inflate(R.layout.activity_doctor_shift_signup, null);
             dialogBuilder.setView(dialogView);
 
-            final AlertDialog b = dialogBuilder.create();
-            b.show();
+        final TextView viewStart = (TextView) dialogView.findViewById(R.id.editStartTime);
+        final TextView viewEnd  = (TextView) dialogView.findViewById(R.id.editEndTime);
+        final TextView  viewDate = (TextView) dialogView.findViewById(R.id.editDate);
+        final Button buttonDelete = (Button) dialogView.findViewById(R.id.buttonDeleteShift);
+
+        dialogBuilder.setTitle("Shift View");
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
 
             buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
                 @Override
