@@ -11,7 +11,6 @@ public class Appointment {
     private String endTime;
     private String status; //"New", "Accepted", "Rejected", "Cancelled"
 
-
     public Appointment() {
 
     }
@@ -40,8 +39,6 @@ public class Appointment {
     public void setPatientUid(String patientUid) {
         this.patientUid = patientUid;
     }
-
-
 
     public String getStartTime() {
         return startTime;

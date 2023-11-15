@@ -67,6 +67,9 @@
             android:name=".DoctorShift"
             android:exported="false" />
         <activity
+            android:name=".DoctorShiftsActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

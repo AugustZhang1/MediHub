@@ -78,9 +78,11 @@ public class AppointmentInbox extends AppCompatActivity {
     private void acceptAllAppointments() {
         DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @NonNull
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+              
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String status = snapshot.child("status").getValue(String.class);
                     if (!"Rejected".equals(status) && !"Cancelled".equals(status)) {// Check if the current status is neither 'Rejected' nor 'Cancelled'

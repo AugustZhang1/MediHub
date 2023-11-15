@@ -52,7 +52,9 @@
         android:id="@+id/listViewProducts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView">
-    </ListView>
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="2dp"
+        android:visibility="visible"
+        tools:visibility="visible"></ListView>
 
 </RelativeLayout>
