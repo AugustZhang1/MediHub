@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -77,26 +78,23 @@ public class DoctorShiftsActivity extends AppCompatActivity {
                 addShift();
             }
         });
-
-        /*buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
+        listViewShifts.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DoctorShift shift = doctorShiftList.get(i);
+                buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                MainActivity.shiftRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @NonNull
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String id = dataSnapshot.getKey();
-                        MainActivity.shiftRef.child(id).setValue(null);
-                    }
-                    @NonNull
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle error
+                        deleteProduct(shift.getUid());
                     }
                 });
+
+                return true;
             }
-        });*/
+        });
+
+
 
     }
 
@@ -132,13 +130,20 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             Log.d("DoctorShiftsActivity", "Adding shift to the list");
 
             DoctorShift shift = new DoctorShift(date, startTime, endTime);
-            MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
+            String s = MainActivity.shiftRef.push().getKey();
+            MainActivity.shiftRef.child(s).setValue(shift);
+            shift.setUid(s);
             int sizeBefore = doctorShiftList.size();
             doctorShiftList.add(shift);
             productsAdapter.notifyDataSetChanged();
             int sizeAfter = doctorShiftList.size();
             Log.d("DoctorShiftsActivity", "Size before: " + sizeBefore + ", Size after: " + sizeAfter);
         }
+    }
+
+    private void deleteProduct(String id) {
+        shiftRef.child(id).removeValue();
+        Toast.makeText(this,"Item deleted", Toast.LENGTH_LONG).show();
     }
 
     private boolean isShiftConflict(String newDate, String newStartTime, String newEndTime) {
