@@ -23,7 +23,7 @@ public class DoctorRemoveShifts extends AppCompatActivity {
 
 
     public void createViews(){
-        removeShiftsButton = findViewById(R.id.removeShiftsButton);
+        removeShiftsButton = findViewById(R.id.buttonDeleteProduct);
 
 
     }

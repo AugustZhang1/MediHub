@@ -43,14 +43,25 @@
         app:layout_constraintVertical_bias="0.359" />
 
     <Button
-        android:id="@+id/removeShiftsButton"
+        android:id="@+id/appointmentListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remove Shifts"
+        android:text="Appointment inbox"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewShiftsBtn"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <Button
+        android:id="@+id/appointmentAcceptedListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Appointment List"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appointmentListButton"
         app:layout_constraintVertical_bias="0.173" />
 
 

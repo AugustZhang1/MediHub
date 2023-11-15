@@ -1,5 +1,6 @@
 package com.example.medibook;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.medibook.classes.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,26 +35,35 @@ public class AppointmentInbox extends AppCompatActivity {
         setContentView(R.layout.activity_doctor_appointmentinbox);
 
         recyclerView = findViewById(R.id.recyclerAppointmentList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         acceptAllBtn = findViewById(R.id.appointmentAcceptAllBtn);
 
-        appointmentList = new ArrayList<>();
-        adapter = new AppointmentInboxAdapter(appointmentList, this);
-        recyclerView.setAdapter(adapter);
 
-        fetchAppointments();
+        fetchAppointments(userList -> {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new AppointmentInboxAdapter(appointmentList, this);
+            recyclerView.setAdapter(adapter);
+
+        });
+
+
+
+
 
         acceptAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 acceptAllAppointments();
+                Intent intent = new Intent(AppointmentInbox.this, DoctorInterface.class);
+                startActivity(intent);
             }
         });
     }
 
 
-    private void fetchAppointments() {
+    private void fetchAppointments(OnDataFetchedCallback callback) {
+        appointmentList = new ArrayList<>();
         DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -60,13 +72,13 @@ public class AppointmentInbox extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Appointment appointment = snapshot.getValue(Appointment.class);
                     String status = snapshot.child("status").getValue(String.class);
-                    if ("New".equals(status)) { //only add when status is new
+                    if ("new".equals(status)) { //only add when status is new
                         appointmentList.add(appointment);
                     }
 
 
                 }
-                adapter.notifyDataSetChanged();
+                callback.onDataFetched(appointmentList);
 
             }
 
@@ -96,6 +108,11 @@ public class AppointmentInbox extends AppCompatActivity {
                 // Handle error
             }
         });
+    }
+
+    // Define a callback interface
+    public interface OnDataFetchedCallback {
+        void onDataFetched(List<Appointment> appointmentList);
     }
 
 

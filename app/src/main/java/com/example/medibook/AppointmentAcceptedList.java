@@ -27,21 +27,22 @@ public class AppointmentAcceptedList extends AppCompatActivity {
         setContentView(R.layout.activity_appointment_accepted_list);
 
         recyclerView = findViewById(R.id.acceptedAppointmentList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+        fetchAppointments(userList -> {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        acceptAppointmentList = new ArrayList<>();
-        adapter = new AppointmentAcceptedListAdapter(acceptAppointmentList, this);
-        recyclerView.setAdapter(adapter);
+            adapter = new AppointmentAcceptedListAdapter(acceptAppointmentList, this);
+            recyclerView.setAdapter(adapter);
 
-        fetchAppointments();
+        });
 
 
     }
 
 
-    private void fetchAppointments() {
+    private void fetchAppointments(OnDataFetchedCallback callback) {
+        acceptAppointmentList = new ArrayList<>();
         DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
         appointmentsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -56,7 +57,7 @@ public class AppointmentAcceptedList extends AppCompatActivity {
 
 
                 }
-                adapter.notifyDataSetChanged();
+                callback.onDataFetched(acceptAppointmentList);
 
             }
 
@@ -64,6 +65,10 @@ public class AppointmentAcceptedList extends AppCompatActivity {
                 // Handle errors.
             }
         });
+    }
+
+    public interface OnDataFetchedCallback {
+        void onDataFetched(List<Appointment> acceptAppointmentList);
     }
 
 

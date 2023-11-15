@@ -70,6 +70,12 @@
             android:name=".DoctorShiftsActivity"
             android:exported="false" />
         <activity
+            android:name=".AppointmentInbox"
+            android:exported="false" />
+        <activity
+            android:name=".AppointmentAcceptedList"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
