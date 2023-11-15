@@ -10,6 +10,7 @@
         android:layout_height="30dp"
         android:layout_above="@+id/last_nameView"
         android:layout_marginBottom="20dp"
+        android:text="name"
         android:textSize="16sp" />
 
     <TextView
@@ -19,6 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="20dp"
+        android:text="health card"
         android:textSize="16sp" />
 
     <TextView
@@ -27,6 +29,7 @@
         android:layout_height="30dp"
         android:layout_above="@id/healthView"
         android:layout_marginBottom="20dp"
+        android:text="phone"
         android:textSize="16sp" />
 
     <TextView
@@ -35,6 +38,7 @@
         android:layout_height="30dp"
         android:layout_above="@+id/phoneView"
         android:layout_marginBottom="20dp"
+        android:text="address"
         android:textSize="16sp" />
 
     <TextView
@@ -43,6 +47,7 @@
         android:layout_height="30dp"
         android:layout_above="@+id/addressView"
         android:layout_marginBottom="20dp"
+        android:text="email"
         android:textSize="16sp" />
 
     <TextView
@@ -51,6 +56,7 @@
         android:layout_height="30dp"
         android:layout_above="@+id/emailView"
         android:layout_marginBottom="20dp"
+        android:text="last name"
         android:textSize="16sp" />
 
 </RelativeLayout>

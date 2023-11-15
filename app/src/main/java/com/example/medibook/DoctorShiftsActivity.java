@@ -1,13 +1,10 @@
 package com.example.medibook;
 
-import static com.example.medibook.MainActivity.mAuth;
-
 import static com.example.medibook.MainActivity.shiftRef;
-
-import android.content.Intent;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,13 +13,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -78,23 +73,13 @@ public class DoctorShiftsActivity extends AppCompatActivity {
                 addShift();
             }
         });
-        listViewShifts.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listViewShifts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 DoctorShift shift = doctorShiftList.get(i);
-                buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        deleteProduct(shift.getUid());
-                    }
-                });
-
-                return true;
+                deleteShift(shift.getUid());
             }
         });
-
-
 
     }
 
@@ -129,10 +114,9 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         } else {
             Log.d("DoctorShiftsActivity", "Adding shift to the list");
 
-            DoctorShift shift = new DoctorShift(date, startTime, endTime);
-            String s = MainActivity.shiftRef.push().getKey();
-            MainActivity.shiftRef.child(s).setValue(shift);
-            shift.setUid(s);
+            String id = MainActivity.shiftRef.push().getKey();
+            DoctorShift shift = new DoctorShift(date, startTime, endTime, id);
+            MainActivity.shiftRef.child(id).setValue(shift);
             int sizeBefore = doctorShiftList.size();
             doctorShiftList.add(shift);
             productsAdapter.notifyDataSetChanged();
@@ -141,10 +125,26 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteProduct(String id) {
-        shiftRef.child(id).removeValue();
-        Toast.makeText(this,"Item deleted", Toast.LENGTH_LONG).show();
+    private void deleteShift(String id) {
+            Toast.makeText(this,"Item deleted", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.activity_doctor_shift_signup, null);
+            dialogBuilder.setView(dialogView);
+
+            final AlertDialog b = dialogBuilder.create();
+            b.show();
+
+            buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity.shiftRef.child(id).removeValue();
+                    }
+            });
+
+
     }
+
 
     private boolean isShiftConflict(String newDate, String newStartTime, String newEndTime) {
         DoctorShift newShift = new DoctorShift(newDate, newStartTime, newEndTime);
