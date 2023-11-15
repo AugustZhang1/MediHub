@@ -31,7 +31,6 @@ public class AppointmentAcceptedList extends AppCompatActivity {
 
         fetchAppointments(userList -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
             adapter = new AppointmentAcceptedListAdapter(acceptAppointmentList, this);
             recyclerView.setAdapter(adapter);
 

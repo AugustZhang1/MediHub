@@ -39,11 +39,7 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
         holder.startTimeView.setText(appointment.getStartTime());
         holder.endTimeView.setText(appointment.getEndTime());
         holder.patientUidView.setText(appointment.getPatientUid());
-        if ("new".equals(appointment.getStatus())) {
-            holder.statusView.setText("Not Accepted Yet"); //if status is new it will show not accepted yet
-        } else {
-            holder.statusView.setText(appointment.getStatus());
-        }
+        holder.statusView.setText(appointment.getStatus());
 
         holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override

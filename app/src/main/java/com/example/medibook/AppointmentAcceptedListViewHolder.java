@@ -15,11 +15,13 @@ public class AppointmentAcceptedListViewHolder extends RecyclerView.ViewHolder {
     public AppointmentAcceptedListViewHolder(View itemView) {
         super(itemView);
         relativeLayout = itemView.findViewById(R.id.acceptedAppointment);
-        shiftIdView = itemView.findViewById(R.id.acceptedShiftId);
+
+        patientUidView = itemView.findViewById(R.id.acceptedPatientUid);
         startTimeView = itemView.findViewById(R.id.acceptedStartTime);
         endTimeView = itemView.findViewById(R.id.acceptedEndTime);
-        patientUidView = itemView.findViewById(R.id.acceptedPatientUid);
+        shiftIdView = itemView.findViewById(R.id.acceptedShiftId);
         statusView = itemView.findViewById(R.id.acceptedStatus);
+
         cancelBtn = itemView.findViewById(R.id.appointmentCancelBtn);
 
     }

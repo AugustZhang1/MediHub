@@ -40,7 +40,7 @@ public class AppointmentInboxAdapter extends RecyclerView.Adapter<AppointmentInb
         holder.startTimeView.setText(appointment.getStartTime());
         holder.endTimeView.setText(appointment.getEndTime());
         holder.patientUidView.setText(appointment.getPatientUid());
-        if ("New".equals(appointment.getStatus())) {
+        if ("new".equals(appointment.getStatus())) {
             holder.statusView.setText("Not Accepted Yet"); //if status is new it will show not accepted yet
         } else {
             holder.statusView.setText(appointment.getStatus());
