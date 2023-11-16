@@ -80,16 +80,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appointmentAcceptedListButton" />
 
-    <EditText
+    <TextView
         android:id="@+id/editTextText"
-        android:layout_width="221dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="104dp"
+        android:layout_width="211dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="136dp"
         android:ems="10"
         android:inputType="text"
         android:text="Auto-Accept Appointments"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.021"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appointmentAcceptedListButton" />
 

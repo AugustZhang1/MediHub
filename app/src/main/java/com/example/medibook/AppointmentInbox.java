@@ -70,6 +70,8 @@ public class AppointmentInbox extends AppCompatActivity {
                 appointmentList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Appointment appointment = snapshot.getValue(Appointment.class);
+                    if(DoctorInterface.autoAccept == true)
+                        snapshot.getRef().child("status").setValue("Accepted");
                     String status = snapshot.child("status").getValue(String.class);
                     if ("new".equals(status)) { //only add when status is new
                         appointmentList.add(appointment);
