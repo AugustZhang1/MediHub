@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 public class DoctorInterface extends AppCompatActivity {
 
@@ -16,6 +18,10 @@ public class DoctorInterface extends AppCompatActivity {
     private Button appointmentListBtn;
 
     private Button appointmentAcceptedListBtn;
+
+    private ToggleButton autoAcceptButton;
+
+    public static boolean autoAccept = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,20 @@ public class DoctorInterface extends AppCompatActivity {
             }
         });
 
+        autoAcceptButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    autoAcceptButton.setText("On");
+                    autoAccept = true;
+                }
+                else{
+                    autoAcceptButton.setText("Off");
+                    autoAccept = false;
+                }
+            }
+        });
+
 }
 
 
@@ -68,6 +88,7 @@ public class DoctorInterface extends AppCompatActivity {
         viewShiftsBtn = findViewById(R.id.viewShiftsBtn);
         appointmentListBtn = findViewById(R.id.appointmentListButton);
         appointmentAcceptedListBtn = findViewById(R.id.appointmentAcceptedListButton);
+        autoAcceptButton = findViewById(R.id.autoAcceptButton);
 
     }
 
