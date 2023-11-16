@@ -1,29 +1,40 @@
 package com.example.medibook;
 
+import static com.example.medibook.MainActivity.mAuth;
 import static com.example.medibook.MainActivity.shiftRef;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView;
+import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.time.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.TimeZone;
 
 public class DoctorShiftsActivity extends AppCompatActivity {
     EditText editTextDate;
@@ -98,12 +109,33 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     }
 
     private void addShift() {
-
         Log.d("DoctorShiftsActivity", "addShift() called");
 
         String date = editTextDate.getText().toString();
         String startTime = editTextStartTime.getText().toString();
         String endTime = editTextEndTime.getText().toString();
+
+        if (date.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Check time format
+        if (!validTimeFormat(startTime) || !validTimeFormat(endTime)) {
+            Toast.makeText(this, "Invalid time format. Please use HH:mm in 24 hour clock", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check if the time difference is at least 30 minutes
+        if (!validTime30Min(startTime, endTime)) {
+            Toast.makeText(this, "Times must end in :00 or :30", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // finds out if day is in the past, invalid. Valid otherwise
+        if (!dateValid(date) || !timeValid(startTime,endTime)){
+            Toast.makeText(this, "Date or time must be in the present or future. ", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Log.d("DoctorShiftsActivity", "Date: " + date + ", Start Time: " + startTime + ", End Time: " + endTime);
 
@@ -111,19 +143,20 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
         if (isShiftConflict(date, startTime, endTime)) {
             Log.d("DoctorShiftsActivity", "Shift conflicts with existing shifts");
-            Toast.makeText(this, "Shift conflicts with existing shifts", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Shift conflicts with existing shifts", Toast.LENGTH_SHORT).show();
         } else {
             Log.d("DoctorShiftsActivity", "Adding shift to the list");
 
-            String id = MainActivity.shiftRef.push().getKey();
-            DoctorShift shift = new DoctorShift(date, startTime, endTime, id);
-            MainActivity.shiftRef.child(id).setValue(shift);
-            int sizeBefore = doctorShiftList.size();
+            DoctorShift shift = new DoctorShift(date, startTime, endTime);
+            MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
+
             doctorShiftList.add(shift);
             productsAdapter.notifyDataSetChanged();
-            int sizeAfter = doctorShiftList.size();
-            Log.d("DoctorShiftsActivity", "Size before: " + sizeBefore + ", Size after: " + sizeAfter);
+
+
         }
+
+
     }
 
     private void deleteShift(String id) {
@@ -141,6 +174,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
+
+
             buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -152,17 +187,81 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     }
 
 
+
+    private boolean dateValid(String date) {
+        if (date.length() != 8) {
+            Toast.makeText(this, "Invalid date format. Please use daymonthyear", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        int day = Integer.parseInt(date.substring(0, 2));
+        int month = Integer.parseInt(date.substring(2, 4)) - 1;
+        int year = Integer.parseInt(date.substring(4, 8));
+
+        Calendar currentDate = Calendar.getInstance(TimeZone.getTimeZone("America/Toronto")); // Adjust to your specific time zone
+        currentDate.set(Calendar.HOUR_OF_DAY, 0);
+        currentDate.set(Calendar.MINUTE, 0);
+        currentDate.set(Calendar.SECOND, 0);
+        currentDate.set(Calendar.MILLISECOND, 0);
+
+        Calendar enteredDate = new GregorianCalendar(TimeZone.getTimeZone("America/Toronto")); // Adjust to your specific time zone
+        enteredDate.set(Calendar.YEAR, year);
+        enteredDate.set(Calendar.MONTH, month);
+        enteredDate.set(Calendar.DAY_OF_MONTH, day);
+        enteredDate.set(Calendar.HOUR_OF_DAY, 0);
+        enteredDate.set(Calendar.MINUTE, 0);
+        enteredDate.set(Calendar.SECOND, 0);
+        enteredDate.set(Calendar.MILLISECOND, 0);
+
+        if (enteredDate.after(currentDate) || enteredDate.equals(currentDate)) {
+            return true;
+        } else {
+            Toast.makeText(this, "Please enter a future date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    private boolean timeValid(String start, String end) {
+        Date currentDate = new Date();
+
+
+        String date = editTextDate.getText().toString();
+        String startDateTime = date + " " + start;
+        String endDateTime = date + " " + end;
+
+        SimpleDateFormat e = new SimpleDateFormat("ddMMyyyy HH:mm");
+
+        try {
+            Date startDate = e.parse(startDateTime);
+            Date endDate = e.parse(endDateTime);
+
+            // Check if the start and end times are in the past
+            if (startDate.before(currentDate) || endDate.before(currentDate)) {
+                Toast.makeText(this, "Please enter a time in the present or future", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } catch (ParseException x) {
+            x.printStackTrace();
+            // Handle the parsing exception
+            Toast.makeText(this, "Error parsing date or time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     private boolean isShiftConflict(String newDate, String newStartTime, String newEndTime) {
         DoctorShift newShift = new DoctorShift(newDate, newStartTime, newEndTime);
         for (DoctorShift existingShift : doctorShiftList) {
-            if (existingShift.equals(newShift) && doTimeRangesOverlap(existingShift.getStartTime(), existingShift.getEndTime(), newStartTime, newEndTime) && Integer.parseInt(newEndTime) - Integer.parseInt(newStartTime) < 30) {
+            if (existingShift.getDate().equals(newShift.getDate()) && overlap(existingShift.getStartTime(), existingShift.getEndTime(), newShift.getStartTime(), newShift.getEndTime())) {
                 return true;  // conflict found
             }
         }
         return false;  // No conflict found, input shift
     }
 
-    private boolean doTimeRangesOverlap(String start1, String end1, String start2, String end2) {
+
+    private boolean overlap(String start1, String end1, String start2, String end2) {
         Log.d("DoctorShiftsActivity", "Comparing time ranges: " + start1 + " - " + end1 + " with " + start2 + " - " + end2);
 
         boolean overlap = !((end1.compareTo(start2) <= 0) || (start1.compareTo(end2) >= 0));
@@ -171,4 +270,39 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
         return overlap;
     }
+    private boolean validTime30Min(String startTime, String endTime) {
+        try {
+            String[] startComponents = startTime.split(":");
+            String[] endComponents = endTime.split(":");
+
+            int startMinutes = Integer.parseInt(startComponents[1]);
+            int endMinutes = Integer.parseInt(endComponents[1]);
+
+            // Check if the minutes are either 0 or 30
+            return (startMinutes == 0 || startMinutes == 30) && (endMinutes == 0 || endMinutes == 30);
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            Log.e("DoctorShiftsActivity", "Error parsing time: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+    private boolean validTimeFormat(String time) {
+        if (time.contains(":")) { // entered time needs to have a colon
+            String[] timeComponents = time.split(":");
+            if (timeComponents.length == 2) {
+                int hours = Integer.parseInt(timeComponents[0]);
+                int minutes = Integer.parseInt(timeComponents[1]);
+
+                // Check if hours and minutes are in the valid range
+                if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }
+
