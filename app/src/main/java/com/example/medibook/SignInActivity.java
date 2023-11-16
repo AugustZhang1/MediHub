@@ -60,7 +60,10 @@ public class SignInActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-
+        /* making an appointment object
+        String id = MainActivity.appointmentRef.push().getKey();
+        Appointment apo = new Appointment("31234","4464","08:30","09:00","new",id);
+        MainActivity.appointmentRef.child(id).setValue(apo);*/
         createViews();
 
 

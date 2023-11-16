@@ -58,6 +58,24 @@
             android:name=".AdminInbox"
             android:exported="false" />
         <activity
+            android:name=".Calender"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorShiftsList"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorShift"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorShiftsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AppointmentInbox"
+            android:exported="false" />
+        <activity
+            android:name=".AppointmentAcceptedList"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
