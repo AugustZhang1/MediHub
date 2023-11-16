@@ -80,8 +80,6 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         buttonAddShifts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doctorShiftList.add(new DoctorShift("2023-11-13", "09:00", "17:00"));
-                productsAdapter.notifyDataSetChanged();
                 addShift();
             }
         });
@@ -147,7 +145,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         } else {
             Log.d("DoctorShiftsActivity", "Adding shift to the list");
 
-            DoctorShift shift = new DoctorShift(date, startTime, endTime);
+            FirebaseUser current = MainActivity.mAuth.getCurrentUser();
+            DoctorShift shift = new DoctorShift(date, startTime, endTime,current.getUid());
             MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
 
             doctorShiftList.add(shift);
