@@ -1,9 +1,11 @@
 package com.example.medibook;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +53,7 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
         holder.infoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showInfo(appointment.getPatientUid());
             }
         });
 
@@ -67,5 +69,48 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
         MainActivity.appointmentRef.child(id).child("status").setValue(newStatus);
 
     }
+
+    private void showInfo(String id) {
+        Dialog dialog = new Dialog(context);
+
+        dialog.setContentView(R.layout.popup_window);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        TextView nameView = dialog.findViewById(R.id.first_nameView);
+        TextView lastView = dialog.findViewById(R.id.last_nameView);
+        TextView emailView = dialog.findViewById(R.id.emailView);
+        TextView addressView = dialog.findViewById(R.id.addressView);
+        TextView phoneView = dialog.findViewById(R.id.phoneView);
+        TextView healthView = dialog.findViewById(R.id.healthView);
+
+        MainActivity.userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String name = dataSnapshot.child(id).child("firstName").getValue(String.class);
+                String last = dataSnapshot.child(id).child("lastName").getValue(String.class);
+                String email = dataSnapshot.child(id).child("email").getValue(String.class);
+                String phone = dataSnapshot.child(id).child("phoneNumber").getValue(String.class);
+                String address = dataSnapshot.child(id).child("address").getValue(String.class);
+                String health = dataSnapshot.child(id).child("healthCardNumber").getValue(String.class);
+                if (nameView != null) {
+                    nameView.setText("First Name: "+name);
+                    lastView.setText("Last Name:"+last);
+                    emailView.setText("Email: "+email);
+                    addressView.setText("Address:"+address);
+                    phoneView.setText("Phone number :"+phone);
+                    healthView.setText("Healthcard number: "+health);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error if needed
+            }
+        });
+
+        dialog.show();
+    }
+
 }
 
