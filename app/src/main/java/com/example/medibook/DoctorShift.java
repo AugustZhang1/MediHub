@@ -9,7 +9,7 @@ public class DoctorShift {
     public String year;
     public String month;
     public String dayOfMonth;
-
+    public String specialty;
     private String uid;
 
 
@@ -19,10 +19,11 @@ public class DoctorShift {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    public DoctorShift(String date, String startTime, String endTime, String uid) {
+    public DoctorShift(String date, String startTime, String endTime, String specialty, String uid) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.specialty = specialty;
         this.uid = uid;
     }
 
