@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -165,7 +166,7 @@ public class PatientRegisterActivity extends AppCompatActivity {
 
 
     public void storeUser(){
-
+        Log.d("SignInActivity","store user");
         Patient patient = new Patient(editFirstName.getText().toString(),editLastName.getText().toString(),editEmail.getText().toString(), editPassword.getText().toString(),editPhoneNumber.getText().toString(),editAddress.getText().toString(),"pending",editHealthCard.getText().toString());
         MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {

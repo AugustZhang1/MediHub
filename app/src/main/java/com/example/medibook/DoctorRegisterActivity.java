@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.medibook.classes.Doctor;
 import com.example.medibook.classes.User;
 import com.google.android.material.snackbar.Snackbar;
@@ -118,7 +120,7 @@ public class DoctorRegisterActivity extends AppCompatActivity {
         else
             txtEmail.setVisibility(View.GONE);
 
-        if (editPassword.getText().toString().equals("")) {
+        if (editPassword.getText().toString().equals("") || editPassword.getText().toString().length() < 8) {
             txtPassword.setVisibility(View.VISIBLE);
             val = false;
         }
@@ -146,13 +148,16 @@ public class DoctorRegisterActivity extends AppCompatActivity {
         else
             txtEmployeeNumber.setVisibility(View.GONE);
 
-        if (editSpecialties.getText().toString().equals("")) {
-            txtSpecialties.setVisibility(View.VISIBLE);
-            val = false;
-        }
-        else
+        if (editSpecialties.getText().toString().equals("family medicine") || editSpecialties.getText().toString().equals("internal medicine") || editSpecialties.getText().toString().equals("pediatrics") || editSpecialties.getText().toString().equals("obstetrics") || editSpecialties.getText().toString().equals("gynecology")) {
             txtSpecialties.setVisibility(View.GONE);
 
+        }
+        else {
+            txtSpecialties.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "Your specialty must be one of - family medicine, internal medicine, pediatrics", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "obstetrics or gynecology",Toast.LENGTH_LONG).show();
+            val = false;
+        }
         return val;
     }
 

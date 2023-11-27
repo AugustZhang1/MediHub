@@ -11,6 +11,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class PatientInterface extends AppCompatActivity {
     private Button logOffBtn;
+    private Button bookBtn;
+
+    private Button viewUpcomingBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,26 @@ public class PatientInterface extends AppCompatActivity {
             }
         });
 
+        bookBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(PatientInterface.this, PatientBookingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        viewUpcomingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PatientInterface.this,PatientUpcoming.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+
 
 
     }
@@ -38,6 +61,8 @@ public class PatientInterface extends AppCompatActivity {
     public void createViews(
     ){
         logOffBtn = findViewById(R.id.logOutAsPatient);
+        bookBtn = findViewById(R.id.buttonPatientBook);
+        viewUpcomingBtn = findViewById(R.id.buttonPatientUpcoming);
 
 
     }
