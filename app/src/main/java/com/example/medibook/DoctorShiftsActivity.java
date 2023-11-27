@@ -2,7 +2,9 @@ package com.example.medibook;
 
 import static com.example.medibook.MainActivity.mAuth;
 import static com.example.medibook.MainActivity.shiftRef;
+import static com.example.medibook.MainActivity.userRef;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +51,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
   
     List<DoctorShift> doctorShiftList;
 
+    String specialty;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
                 // Handle any errors here
             }
         });
+
+
 
         createViews();
 
@@ -146,7 +153,23 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             Log.d("DoctorShiftsActivity", "Adding shift to the list");
 
             FirebaseUser current = MainActivity.mAuth.getCurrentUser();
-            DoctorShift shift = new DoctorShift(date, startTime, endTime,current.getUid());
+
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot2) {
+                    if ((dataSnapshot2.exists()) && (dataSnapshot2.hasChild(current.getUid()))) {
+                         specialty = dataSnapshot2.child(current.getUid()).child("specialties").getValue(String.class);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+            DoctorShift shift = new DoctorShift(date, startTime, endTime, specialty,current.getUid());
             MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
 
             doctorShiftList.add(shift);
