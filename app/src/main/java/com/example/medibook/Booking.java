@@ -1,25 +1,23 @@
 package com.example.medibook;
 
-public class DoctorShift {
+public class Booking {
     private String date;
     private String startTime;
     private String endTime;
     private String doctorID;
 
-    public String year;
-    public String month;
     public String dayOfMonth;
     public String specialty;
     private String uid;
 
 
 
-    public DoctorShift(String date, String startTime, String endTime) {
+    public Booking(String date, String startTime, String endTime) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    public DoctorShift(String date, String startTime, String endTime, String specialty, String uid) {
+    public Booking(String date, String startTime, String endTime, String specialty, String uid) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -28,7 +26,7 @@ public class DoctorShift {
     }
 
 
-    public DoctorShift(){
+    public Booking(){
 
     }
 
