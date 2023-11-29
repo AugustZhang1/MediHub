@@ -1,13 +1,26 @@
 package com.example.medibook;
 
+import static com.example.medibook.MainActivity.shiftRef;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PatientBookingActivity extends AppCompatActivity {
 
@@ -16,6 +29,14 @@ public class PatientBookingActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
 
     ArrayAdapter<String> adapterItems;
+
+    List<Booking> bookingList;
+
+    BookingList bookingsAdapter;
+
+
+    Button buttonSelectBookings;
+    ListView listViewBookings;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +53,49 @@ public class PatientBookingActivity extends AppCompatActivity {
                 String item = parent.getItemAtPosition(position).toString();
                 Toast.makeText(PatientBookingActivity.this,"Specialty"+item, Toast.LENGTH_SHORT).show();
                 displayInformation(item);
+                createViews();
             }
         });
+    }
+
+    private void createViews() {
+
+        buttonSelectBookings = findViewById(R.id.buttonSelectBooking);
+        listViewBookings = findViewById(R.id.listViewProducts);
+
+
+        bookingList = new ArrayList<>();
+        bookingsAdapter = new BookingList(PatientBookingActivity.this, bookingList);
+        listViewBookings.setAdapter(bookingsAdapter);
     }
 
 //    doctor need specialty store in the shifts in firebase, need mauth to find the registered doctor then get the specialty----
 
     private void displayInformation(String selectedItem) {
+
+        shiftRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                bookingList.clear();
+
+                if (snapshot.exists()) {
+                    for (DataSnapshot productSnapshot : snapshot.getChildren()) {
+                        Booking shift = productSnapshot.getValue(Booking.class);
+                        String s = productSnapshot.child("specialties").getValue(String.class);
+                        if (s.equals(selectedItem)){
+                            bookingList.add(shift);
+                        }
+
+                    }
+                }
+                bookingsAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle any errors here
+            }
+        });
         // Use a switch statement or if-else conditions to handle different cases
         switch (selectedItem) {
             case "family medicine":
