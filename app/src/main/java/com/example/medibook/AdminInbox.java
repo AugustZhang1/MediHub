@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.example.medibook.classes.Doctor;
+import com.example.medibook.classes.Patient;
 import com.example.medibook.classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -85,9 +87,30 @@ public class AdminInbox extends AppCompatActivity {
                                         String address = snapshot1.child("address").getValue(String.class);
                                         String password = snapshot1.child("password").getValue(String.class);
                                         String status = snapshot1.child("status").getValue(String.class);
+                                        String healthCardNUmberOrSP;
+                                        int check;
+                                        String employeeNumber = null;
+                                        if (snapshot1.child("employeeNumber").getValue(String.class) != null){
+                                                employeeNumber = snapshot1.child("employeeNumber").getValue(String.class);
+                                        }
+
+                                        if (snapshot1.child("healthCardNumber").getValue(String.class) != null){
+                                                 healthCardNUmberOrSP = snapshot1.child("healthCardNumber").getValue(String.class);
+                                                 check = 0;
+                                        }
+                                        else{
+                                                healthCardNUmberOrSP = snapshot1.child("specialties").getValue(String.class);
+                                                check = 1;
+                                        }
 
                                         if(status.equals("pending")) {
-                                                pendingList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                                                if (check == 0){
+                                                        pendingList.add(new Patient(firstName, lastName, email, password, phoneNumber, address, status, healthCardNUmberOrSP));
+                                                }
+                                                else if (check == 1){
+                                                        pendingList.add(new Doctor(firstName, lastName, email, password, phoneNumber, address, status, employeeNumber,healthCardNUmberOrSP));
+                                                }
+
                                         }
                                 }
 
