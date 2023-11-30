@@ -181,31 +181,41 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
     }
 
-    private void deleteShift(String id) {
+    private void deleteShift(String date, String startTime, String endTime) {
+        String shiftToDelete = findShiftById(date, startTime, endTime);
+        if (shiftToDelete != null) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
             final View dialogView = inflater.inflate(R.layout.activity_doctor_shift_signup, null);
             dialogBuilder.setView(dialogView);
 
-        final TextView viewStart = (TextView) dialogView.findViewById(R.id.editStartTime);
-        final TextView viewEnd  = (TextView) dialogView.findViewById(R.id.editEndTime);
-        final TextView  viewDate = (TextView) dialogView.findViewById(R.id.editDate);
-        final Button buttonDelete = (Button) dialogView.findViewById(R.id.buttonDeleteShift);
+            final TextView viewStart = (TextView) dialogView.findViewById(R.id.editStartTime);
+            final TextView viewEnd = (TextView) dialogView.findViewById(R.id.editEndTime);
+            final TextView viewDate = (TextView) dialogView.findViewById(R.id.editDate);
+            final Button buttonDelete = (Button) dialogView.findViewById(R.id.buttonDeleteShift);
 
-        dialogBuilder.setTitle("Shift View");
-        final AlertDialog b = dialogBuilder.create();
-        b.show();
-
+            dialogBuilder.setTitle("Shift View");
+            final AlertDialog b = dialogBuilder.create();
+            b.show();
+        }
 
 
             buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MainActivity.shiftRef.child(id).removeValue();
+
+                    MainActivity.shiftRef.child(shiftToDelete).removeValue();
                     }
             });
 
 
+    }
+    public String findShiftById(String date, String startTime, String endTime){
+        for (DoctorShift e : doctorShiftList){
+            if (e.getDate().equals(date) && e.getStartTime().equals(startTime) && e.getEndTime().equals(endTime)){
+                return e.getUid();
+            }
+        }
     }
 
 
