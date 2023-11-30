@@ -86,6 +86,7 @@ public class AdminInbox extends AppCompatActivity {
                                         String password = snapshot1.child("password").getValue(String.class);
                                         String status = snapshot1.child("status").getValue(String.class);
 
+
                                         if(status.equals("pending")) {
                                                 pendingList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
                                         }

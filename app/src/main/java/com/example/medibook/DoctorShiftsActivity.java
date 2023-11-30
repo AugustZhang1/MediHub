@@ -181,8 +181,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
     }
 
-    private void deleteShift(String date, String startTime, String endTime) {
-        String shiftToDelete = findShiftById(date, startTime, endTime);
+    private void deleteShift(String uid) {
+        String shiftToDelete = findShiftById(uid);
         if (shiftToDelete != null) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
@@ -203,19 +203,20 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Log.d("DeleteShift", "Deleting shift with ID: " + shiftToDelete);
                     MainActivity.shiftRef.child(shiftToDelete).removeValue();
                     }
             });
 
 
     }
-    public String findShiftById(String date, String startTime, String endTime){
+    public String findShiftById(String uid){
         for (DoctorShift e : doctorShiftList){
-            if (e.getDate().equals(date) && e.getStartTime().equals(startTime) && e.getEndTime().equals(endTime)){
+            if (e.getUid().equals(uid)){
                 return e.getUid();
             }
         }
+        return null;
     }
 
 
