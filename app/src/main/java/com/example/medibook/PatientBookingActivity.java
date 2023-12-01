@@ -73,7 +73,7 @@ public class PatientBookingActivity extends AppCompatActivity {
 
     private void displayInformation(String selectedItem) {
 
-        shiftRef.addValueEventListener(new ValueEventListener() {
+        MainActivity.shiftRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 bookingList.clear();
@@ -81,7 +81,7 @@ public class PatientBookingActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
                         Booking shift = productSnapshot.getValue(Booking.class);
-                        String s = productSnapshot.child("specialties").getValue(String.class);
+                        String s = productSnapshot.child("specialty").getValue(String.class);
                         if (s.equals(selectedItem)){
                             bookingList.add(shift);
                         }

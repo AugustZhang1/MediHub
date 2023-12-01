@@ -86,7 +86,7 @@ public class DoctorRegisterActivity extends AppCompatActivity {
         if (validateData()) {
 
             storeUser();
-
+            MainActivity.mAuth.signOut();
 
             snackBar();
 

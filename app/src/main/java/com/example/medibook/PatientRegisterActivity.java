@@ -83,6 +83,7 @@ public class PatientRegisterActivity extends AppCompatActivity {
         if(validateData()) {
 
             storeUser();
+            MainActivity.mAuth.signOut();
             snackBar();
 
         }

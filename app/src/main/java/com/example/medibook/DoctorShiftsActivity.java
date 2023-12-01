@@ -98,6 +98,15 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             }
         });
 
+//        buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d("DoctorShiftsActivity", "Deleting shift");
+//
+//                deleteShift();
+//            }
+//        });
+
     }
 
     private void createViews() {
@@ -158,7 +167,13 @@ public class DoctorShiftsActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot2) {
                     if ((dataSnapshot2.exists()) && (dataSnapshot2.hasChild(current.getUid()))) {
-                         specialty = dataSnapshot2.child(current.getUid()).child("specialties").getValue(String.class);
+
+                        specialty = dataSnapshot2.child(current.getUid()).child("specialties").getValue(String.class);
+
+                        Log.d("DoctorShiftsActivity","speciality: " + specialty);
+                        DoctorShift shift = new DoctorShift(date, startTime, endTime, specialty,current.getUid());
+                        MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
+                        doctorShiftList.add(shift);
                     }
                 }
 
@@ -169,10 +184,6 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             });
 
 
-            DoctorShift shift = new DoctorShift(date, startTime, endTime, specialty,current.getUid());
-            MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
-
-            doctorShiftList.add(shift);
             productsAdapter.notifyDataSetChanged();
 
 
@@ -197,17 +208,10 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             dialogBuilder.setTitle("Shift View");
             final AlertDialog b = dialogBuilder.create();
             b.show();
+
+
+
         }
-
-
-            buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.d("DeleteShift", "Deleting shift with ID: " + shiftToDelete);
-                    MainActivity.shiftRef.child(shiftToDelete).removeValue();
-                    }
-            });
-
 
     }
     public String findShiftById(String uid){
