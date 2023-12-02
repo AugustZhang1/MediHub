@@ -80,11 +80,14 @@ public class PatientBookingActivity extends AppCompatActivity {
 
                 if (snapshot.exists()) {
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
-                        Booking shift = productSnapshot.getValue(Booking.class);
-                        String s = productSnapshot.child("specialty").getValue(String.class);
-                        if (s.equals(selectedItem)){
-                            bookingList.add(shift);
+                        if (productSnapshot.child("status").getValue(String.class).equals("new")){
+                            Booking shift = productSnapshot.getValue(Booking.class);
+                            String s = productSnapshot.child("specialty").getValue(String.class);
+                            if (s.equals(selectedItem)){
+                                bookingList.add(shift);
+                            }
                         }
+
 
                     }
                 }
