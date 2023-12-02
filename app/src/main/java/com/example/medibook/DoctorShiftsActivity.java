@@ -217,7 +217,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
                         specialty = dataSnapshot2.child(current.getUid()).child("specialties").getValue(String.class);
 
                         Log.d("DoctorShiftsActivity","speciality: " + specialty);
-                        DoctorShift shift = new DoctorShift(date, startTime, endTime, specialty,current.getUid());
+                        DoctorShift shift = new DoctorShift(date, startTime, endTime, specialty,current.getUid(), "new");
                         MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
                         doctorShiftList.add(shift);
                     }
