@@ -7,6 +7,8 @@
 
     tools:context=".activities.MainActivity">
 
+
+
     <EditText
         android:id="@+id/editDate"
         android:layout_width="match_parent"

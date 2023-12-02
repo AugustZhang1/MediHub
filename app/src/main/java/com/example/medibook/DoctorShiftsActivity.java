@@ -47,9 +47,9 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     Button buttonDeleteShift;
     ListView listViewShifts;
 
-    DoctorShiftsList productsAdapter;
-  
-    List<DoctorShift> doctorShiftList;
+    static DoctorShiftsList productsAdapter;
+
+    static List<DoctorShift> doctorShiftList;
 
     String specialty;
 
@@ -58,6 +58,10 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_shift_day);
+
+
+
+
 
         shiftRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -94,18 +98,22 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 DoctorShift shift = doctorShiftList.get(i);
-                deleteShift(shift.getUid());
+                buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("DoctorShiftsActivity", "Deleting shift");
+
+                        deleteShift();
+                    }
+                });
+
             }
+
+
+
         });
 
-//        buttonDeleteShift.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("DoctorShiftsActivity", "Deleting shift");
-//
-//                deleteShift();
-//            }
-//        });
+
 
     }
 
@@ -115,11 +123,32 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         editTextStartTime = findViewById(R.id.editStartTime);
         buttonAddShifts = findViewById(R.id.addButton);
         listViewShifts = findViewById(R.id.listViewProducts);
+
+
+
+
         buttonDeleteShift = findViewById(R.id.buttonDeleteShift);
+        if (buttonDeleteShift == null) {
+            Log.e("DoctorShiftsActivity", "buttonDeleteShift is null");
+        } else {
+            Log.d("DoctorShiftsActivity", "buttonDeleteShift is not null");
+        }
+
+        if (buttonDeleteShift == null) {
+            Log.e("DoctorShiftsActivity", "buttonDeleteShift is null");
+        }
 
         doctorShiftList = new ArrayList<>();
         productsAdapter = new DoctorShiftsList(DoctorShiftsActivity.this, doctorShiftList);
+
+
         listViewShifts.setAdapter(productsAdapter);
+    }
+    public static List<DoctorShift> getArrayList(){
+        return doctorShiftList;
+    }
+    public static DoctorShiftsList getProductsAdapter(){
+        return productsAdapter;
     }
 
     private void addShift() {
@@ -192,32 +221,27 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
     }
 
-    private void deleteShift(String uid) {
-        String shiftToDelete = findShiftById(uid);
-        if (shiftToDelete != null) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-            LayoutInflater inflater = getLayoutInflater();
-            final View dialogView = inflater.inflate(R.layout.activity_doctor_shift_signup, null);
-            dialogBuilder.setView(dialogView);
+    private void deleteShift() {
+        String date = editTextDate.getText().toString();
+        String startTime = editTextStartTime.getText().toString();
+        String endTime = editTextEndTime.getText().toString();
 
-            final TextView viewStart = (TextView) dialogView.findViewById(R.id.editStartTime);
-            final TextView viewEnd = (TextView) dialogView.findViewById(R.id.editEndTime);
-            final TextView viewDate = (TextView) dialogView.findViewById(R.id.editDate);
-            final Button buttonDelete = (Button) dialogView.findViewById(R.id.buttonDeleteShift);
+        DoctorShift shift = findShiftByDate(date, startTime, endTime);
+        if (shift != null) {
+            shiftRef.child(shift.getUid()).removeValue();
 
-            dialogBuilder.setTitle("Shift View");
-            final AlertDialog b = dialogBuilder.create();
-            b.show();
+            doctorShiftList.remove(shift);
+            productsAdapter.notifyDataSetChanged();
 
 
 
         }
 
     }
-    public String findShiftById(String uid){
+    public DoctorShift findShiftByDate(String date, String startTime, String endTime){
         for (DoctorShift e : doctorShiftList){
-            if (e.getUid().equals(uid)){
-                return e.getUid();
+            if (e.getDate().equals(date) && e.getStartTime().equals(startTime) && e.getEndTime().equals(endTime)){
+                return e;
             }
         }
         return null;
