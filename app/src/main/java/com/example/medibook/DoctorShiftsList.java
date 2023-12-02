@@ -58,6 +58,8 @@ public class DoctorShiftsList extends ArrayAdapter<DoctorShift> {
                     }
                 }
 
+
+
                 if (shift != null) {
                     shiftRef.child(shift.getUid()).removeValue();
                     Log.d("DoctorShiftsActivity", "Deleting shift #2");

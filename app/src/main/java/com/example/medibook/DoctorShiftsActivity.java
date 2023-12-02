@@ -53,6 +53,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
     String specialty;
 
+    FirebaseUser current = MainActivity.mAuth.getCurrentUser();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +70,17 @@ public class DoctorShiftsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 doctorShiftList.clear();
 
-                if (snapshot.exists()) {
+
+
+
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
-                        DoctorShift shift = productSnapshot.getValue(DoctorShift.class);
-                        shift.setId(productSnapshot.getKey());
-                        doctorShiftList.add(shift);
+                        if (productSnapshot.exists() && current.getUid().equals(productSnapshot.child("uid").getValue(String.class))) {
+                            DoctorShift shift = productSnapshot.getValue(DoctorShift.class);
+                            shift.setId(productSnapshot.getKey());
+                            doctorShiftList.add(shift);
+                        }
                     }
-                }
+
                 productsAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
             }
 
@@ -190,7 +196,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         } else {
             Log.d("DoctorShiftsActivity", "Adding shift to the list");
 
-            FirebaseUser current = MainActivity.mAuth.getCurrentUser();
+
 
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
