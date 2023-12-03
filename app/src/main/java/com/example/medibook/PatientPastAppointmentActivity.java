@@ -58,9 +58,8 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Appointment appointment = snapshot.getValue(Appointment.class);
-
                     // Check if the appointment is in the past
-                    if (DatePassed(appointment.getDate(), appointment.getStartTime())) {
+                    if (DatePassed(appointment.getDate(), appointment.getStartTime()) && current.getUid().equals(snapshot.child("patientUid").getValue(String.class))) {
                         appointmentList.add(appointment);
                     }
                 }
