@@ -21,13 +21,14 @@ public class DoctorShift {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    public DoctorShift(String date, String startTime, String endTime, String specialty, String uid, String status) {
+    public DoctorShift(String date, String startTime, String endTime, String specialty, String uid, String status, String doctorID) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.specialty = specialty;
         this.uid = uid;
         this.status = status;
+        this.doctorID = doctorID;
     }
 
 
@@ -67,7 +68,7 @@ public class DoctorShift {
         this.dayOfMonth = dayOfMonth;
     }
 
-    public void setId(String id) {
+    public void setDoctorId(String id) {
         this.doctorID = id;
     }
 

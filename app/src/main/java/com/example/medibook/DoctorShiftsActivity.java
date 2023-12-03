@@ -78,7 +78,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
                         if (productSnapshot.exists() && current.getUid().equals(productSnapshot.child("uid").getValue(String.class))) {
                             DoctorShift shift = productSnapshot.getValue(DoctorShift.class);
-                            shift.setId(productSnapshot.getKey());
+
                             doctorShiftList.add(shift);
                         }
                     }
@@ -216,9 +216,11 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
                         specialty = dataSnapshot2.child(current.getUid()).child("specialties").getValue(String.class);
 
+                        String key = MainActivity.shiftRef.push().getKey();
+
                         Log.d("DoctorShiftsActivity","speciality: " + specialty);
-                        DoctorShift shift = new DoctorShift(date, startTime, endTime, specialty,current.getUid(), "new");
-                        MainActivity.shiftRef.child(MainActivity.shiftRef.push().getKey()).setValue(shift);
+                        DoctorShift shift = new DoctorShift(date, startTime, endTime, specialty,key, "new", current.getUid());
+                        MainActivity.shiftRef.child(key).setValue(shift);
                         doctorShiftList.add(shift);
                     }
                 }

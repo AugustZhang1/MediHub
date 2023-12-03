@@ -72,8 +72,9 @@ public class BookingList extends ArrayAdapter<Booking> {
 
 
                     String key = MainActivity.appointmentRef.push().getKey();
+                    shiftRef.child(booking.getUid()).child("status").setValue("Booked");
 
-                    Appointment a = new Appointment(current.getUid(), booking.getUid(), date, startTime,endTime,"new", key);
+                    Appointment a = new Appointment(current.getUid(), booking.getDoctorID(), date, startTime,endTime,"new", key);
                     MainActivity.appointmentRef.child(key).setValue(a);
                     bookings.remove(booking);
                     notifyDataSetChanged();

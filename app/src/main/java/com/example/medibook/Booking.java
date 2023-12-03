@@ -12,16 +12,19 @@ public class Booking {
 
 
 
+
+
     public Booking(String date, String startTime, String endTime) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    public Booking(String date, String startTime, String endTime, String specialty, String uid) {
+    public Booking(String date, String startTime, String endTime, String specialty, String doctorID, String uid) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.specialty = specialty;
+        this.doctorID = doctorID;
         this.uid = uid;
     }
 
@@ -62,7 +65,7 @@ public class Booking {
         this.dayOfMonth = dayOfMonth;
     }
 
-    public void setId(String id) {
+    public void setDoctorID(String id) {
         this.doctorID = id;
     }
 
