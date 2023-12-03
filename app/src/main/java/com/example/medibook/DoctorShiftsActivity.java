@@ -45,6 +45,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
     EditText editTextEndTime;
     Button buttonAddShifts;
     Button buttonDeleteShift;
+
+    Button backBtn;
     ListView listViewShifts;
 
     static DoctorShiftsList productsAdapter;
@@ -100,6 +102,14 @@ public class DoctorShiftsActivity extends AppCompatActivity {
                 addShift();
             }
         });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorShiftsActivity.this, DoctorInterface.class);
+                startActivity(intent);
+            }
+        });
         listViewShifts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -129,6 +139,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         editTextStartTime = findViewById(R.id.editStartTime);
         buttonAddShifts = findViewById(R.id.addButton);
         listViewShifts = findViewById(R.id.listViewProducts);
+        backBtn = findViewById(R.id.backButtonDoctorInterface);
 
 
 
