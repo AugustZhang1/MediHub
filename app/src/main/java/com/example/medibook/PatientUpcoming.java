@@ -79,14 +79,14 @@ public class PatientUpcoming extends AppCompatActivity {
 
 
 
-//        backBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(DoctorShiftsActivity.this, DoctorInterface.class);
-//                startActivity(intent);
-//            }
-//        });
-//
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PatientUpcoming.this, PatientInterface.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }
@@ -95,7 +95,7 @@ public class PatientUpcoming extends AppCompatActivity {
 
         buttonCancel = findViewById(R.id.buttonCancelBooking);
         listViewUpcoming = findViewById(R.id.listViewUpcoming);
-        backBtn = findViewById(R.id.backButtonDoctorInterface);
+        backBtn = findViewById(R.id.patientUpcomingBackButton1);
 
 
 

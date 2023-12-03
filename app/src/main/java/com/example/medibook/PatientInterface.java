@@ -15,6 +15,8 @@ public class PatientInterface extends AppCompatActivity {
 
     private Button viewUpcomingBtn;
 
+    private Button patientPastAppointments;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,14 @@ public class PatientInterface extends AppCompatActivity {
             }
         });
 
+        patientPastAppointments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PatientInterface.this, PatientPastAppointmentActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
 
@@ -63,6 +73,7 @@ public class PatientInterface extends AppCompatActivity {
         logOffBtn = findViewById(R.id.logOutAsPatient);
         bookBtn = findViewById(R.id.buttonPatientBook);
         viewUpcomingBtn = findViewById(R.id.buttonPatientUpcoming);
+        patientPastAppointments = findViewById(R.id.patientPastAppointments);
 
 
     }

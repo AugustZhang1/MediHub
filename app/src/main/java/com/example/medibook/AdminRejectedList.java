@@ -2,7 +2,7 @@ package com.example.medibook;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.example.medibook.AdminRejectedList;
+
 import com.example.medibook.classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

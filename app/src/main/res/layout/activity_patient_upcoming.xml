@@ -6,12 +6,20 @@
 
     <ListView
         android:id="@+id/listViewUpcoming"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="390dp"
+        android:layout_height="631dp"
 
         android:layout_marginTop="8dp">
 
 
     </ListView>
+
+    <Button
+        android:id="@+id/patientUpcomingBackButton1"
+        android:layout_width="102dp"
+        android:layout_height="58dp"
+        android:layout_below="@id/listViewUpcoming"
+        android:layout_marginTop="35dp"
+        android:text="Back" />
 
 </RelativeLayout>

@@ -6,12 +6,20 @@
 
     <ListView
         android:id="@+id/listViewProducts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="370dp"
+        android:layout_height="664dp"
 
         android:layout_marginTop="8dp">
 
 
     </ListView>
+
+    <Button
+        android:id="@+id/patientPastAppointmentButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listViewProducts"
+        android:layout_marginTop="10dp"
+        android:text="Back" />
 
 </RelativeLayout>
