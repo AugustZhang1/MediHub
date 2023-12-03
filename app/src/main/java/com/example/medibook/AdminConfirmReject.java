@@ -8,8 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class AdminConfirmReject extends AppCompatActivity {
@@ -28,17 +32,32 @@ public class AdminConfirmReject extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-                mAuthenticator.signInWithEmailAndPassword(AdminInbox.getInboxEmail(),AdminInbox.getInboxPassword());
-                MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                MainActivity.registrationRef.child(AdminInbox.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                        FirebaseUser current = firebaseAuth.getCurrentUser();
-                        if (current != null) {
-                            MainActivity.userRef.child(current.getUid()).setValue(AdminInbox.getTempUser());
-                            MainActivity.userRef.child(current.getUid()).child("status").setValue("Confirmed");
-                            MainActivity.registrationRef.child(current.getUid()).removeValue();
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            MainActivity.userRef.child(AdminInbox.getUserId()).setValue(AdminInbox.getTempUser());
+                            MainActivity.userRef.child(AdminInbox.getUserId()).child("status").setValue("Confirmed");
+                            MainActivity.registrationRef.child(AdminInbox.getUserId()).removeValue();
+                        } else {
+                            MainActivity.registrationRef.child(AdminRejectedList.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        MainActivity.userRef.child(AdminInbox.getUserId()).setValue(AdminInbox.getTempUser());
+                                        MainActivity.userRef.child(AdminInbox.getUserId()).child("status").setValue("Confirmed");
+                                        MainActivity.registrationRef.child(AdminInbox.getUserId()).removeValue();
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                         }
-                        mAuthenticator.signOut();
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
                     }
                 });
                 Intent a = new Intent(AdminConfirmReject.this,AdministratorInterface.class);
@@ -52,18 +71,31 @@ public class AdminConfirmReject extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-                mAuthenticator.signInWithEmailAndPassword(AdminInbox.getInboxEmail(),AdminInbox.getInboxPassword());
-                MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-                    @Override
-                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                        FirebaseUser current = firebaseAuth.getCurrentUser();
-                        if (current != null) {
-                            MainActivity.registrationRef.child(current.getUid()).child("status").setValue("rejected");
-                        }
-                        mAuthenticator.signOut();
 
+                MainActivity.registrationRef.child(AdminInbox.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            MainActivity.registrationRef.child(AdminInbox.getUserId()).child("status").setValue("rejected");
+                        } else {
+                            MainActivity.registrationRef.child(AdminRejectedList.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        MainActivity.registrationRef.child(AdminRejectedList.getUserId()).child("status").setValue("rejected");
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+
                 Intent a = new Intent(AdminConfirmReject.this,AdministratorInterface.class);
                 startActivity(a);
             }

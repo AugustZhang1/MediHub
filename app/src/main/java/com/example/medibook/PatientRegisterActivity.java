@@ -168,13 +168,13 @@ public class PatientRegisterActivity extends AppCompatActivity {
 
     public void storeUser(){
         Log.d("SignInActivity","store user");
-        Patient patient = new Patient(editFirstName.getText().toString(),editLastName.getText().toString(),editEmail.getText().toString(), editPassword.getText().toString(),editPhoneNumber.getText().toString(),editAddress.getText().toString(),"pending",editHealthCard.getText().toString());
         MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser current = firebaseAuth.getCurrentUser();
                 if (current != null) {
+                    Patient patient = new Patient(editFirstName.getText().toString(),editLastName.getText().toString(),editEmail.getText().toString(), editPassword.getText().toString(),editPhoneNumber.getText().toString(),editAddress.getText().toString(),"pending",editHealthCard.getText().toString(),current.getUid());
                     MainActivity.registrationRef.child(current.getUid()).setValue(patient);
 
                 }

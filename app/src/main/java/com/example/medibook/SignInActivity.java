@@ -47,7 +47,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         /* Admin Instantiation
-        User admin = new User(null,null,"admin@gmail.com","adminadmin",null,null,null);
+        User admin = new User(null,null,"admin@gmail.com","adminadmin",null,null,null,null);
         MainActivity.mAuth.createUserWithEmailAndPassword("admin@gmail.com","adminadmin");
         MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
@@ -198,6 +198,7 @@ public class SignInActivity extends AppCompatActivity {
             txtPassword.setVisibility(View.VISIBLE);
             return false;
         }
+        // bugs are here
         MainActivity.mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         FirebaseUser current = mAuth.getCurrentUser();
         if(current != null)

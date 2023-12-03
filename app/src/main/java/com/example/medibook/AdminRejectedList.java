@@ -27,7 +27,7 @@ import java.util.List;
 public class AdminRejectedList extends AppCompatActivity {
 
     private Button clickBack;
-    private String rejectedEmail,rejectedPassword;
+    private static String tempUserId;
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
     protected static DatabaseReference registrationRef = database.getReference("Registered");
     protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -47,12 +47,7 @@ public class AdminRejectedList extends AppCompatActivity {
                 @Override
                 public void onItemClick(int position) {
                     User clickedUser = userList.get(position);
-                    rejectedEmail = clickedUser.getEmail();
-                    rejectedPassword = clickedUser.getPassword();
-
-                    Log.d("email", "email " + rejectedEmail);
-                    Log.d("p", "p " + rejectedPassword);
-
+                    tempUserId = clickedUser.getUserId();
 
                     Intent intent = new Intent(AdminRejectedList.this,AdminConfirmReject.class); //Change to the inbox class
                     startActivity(intent);
@@ -78,10 +73,11 @@ public class AdminRejectedList extends AppCompatActivity {
                     String address = snapshot1.child("address").getValue(String.class);
                     String password = snapshot1.child("password").getValue(String.class);
                     String status = snapshot1.child("status").getValue(String.class);
+                    String userID = snapshot1.child("userID").getValue(String.class);
 
                     if(status.equals("rejected")) {
                         if(password != null)
-                            rejectedList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                            rejectedList.add(new User(firstName, lastName, email, password, phoneNumber, address, status, userID));
                     }
                 }
 
@@ -95,14 +91,8 @@ public class AdminRejectedList extends AppCompatActivity {
             }
         });
     }
-    public String getRejectedEmail(){
-        return rejectedEmail;
-    }
 
-    public String getRejectedPassword(){
-        return rejectedPassword;
-    }
-
+    public static String getUserId() { return tempUserId; }
     // Define a callback interface
     public interface OnDataFetchedCallback {
         void onDataFetched(List<User> rejectedList);

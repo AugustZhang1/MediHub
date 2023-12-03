@@ -29,10 +29,8 @@ import java.util.List;
 public class AdminInbox extends AppCompatActivity {
         private Button clickBack;
 
-
-        private static String inboxEmail;
-        private static String inboxPassword;
         private static User tempUser;
+        private static String tempUserId;
 
         private static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -57,11 +55,7 @@ public class AdminInbox extends AppCompatActivity {
                                 @Override
                                 public void onItemClick(int position) {
                                         tempUser = userList.get(position);
-                                        inboxEmail = tempUser.getEmail();
-                                        inboxPassword = tempUser.getPassword();
-
-                                        Log.d("email", "email" + inboxEmail);
-                                        Log.d("p", "p" + inboxPassword);
+                                        tempUserId = tempUser.getUserId();
 
                                         Intent intent = new Intent(AdminInbox.this,AdminConfirmReject.class); //Change to the inbox class
                                         startActivity(intent);
@@ -87,6 +81,7 @@ public class AdminInbox extends AppCompatActivity {
                                         String address = snapshot1.child("address").getValue(String.class);
                                         String password = snapshot1.child("password").getValue(String.class);
                                         String status = snapshot1.child("status").getValue(String.class);
+                                        String userId = snapshot1.child("userId").getValue(String.class);
                                         String healthCardNUmberOrSP;
                                         int check;
                                         String employeeNumber = null;
@@ -106,10 +101,10 @@ public class AdminInbox extends AppCompatActivity {
 
                                         if(status.equals("pending")) {
                                                 if (check == 0){
-                                                        pendingList.add(new Patient(firstName, lastName, email, password, phoneNumber, address, status, healthCardNUmberOrSP));
+                                                        pendingList.add(new Patient(firstName, lastName, email, password, phoneNumber, address, status, healthCardNUmberOrSP, userId));
                                                 }
                                                 else if (check == 1){
-                                                        pendingList.add(new Doctor(firstName, lastName, email, password, phoneNumber, address, status, employeeNumber,healthCardNUmberOrSP));
+                                                        pendingList.add(new Doctor(firstName, lastName, email, password, phoneNumber, address, status, employeeNumber,healthCardNUmberOrSP, userId));
                                                 }
 
                                         }
@@ -126,14 +121,9 @@ public class AdminInbox extends AppCompatActivity {
                 });
         }
 
-        public static String getInboxEmail() {
-                return inboxEmail;
+        public static String getUserId() {
+                return tempUserId;
         }
-
-        public static String getInboxPassword() {
-                return inboxPassword;
-        }
-
         public static User getTempUser() {
                 return tempUser;
         }
