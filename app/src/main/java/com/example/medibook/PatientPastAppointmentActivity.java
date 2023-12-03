@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -35,47 +36,37 @@ import java.text.ParseException;
 import java.util.TimeZone;
 
 public class PatientPastAppointmentActivity extends AppCompatActivity {
-    ListView listview;
+    ListView listViewPastAppointment;
 
-    List<Booking> pastBookingList;
+    List<Appointment> appointmentList;
 
-    BookingList pastBookingListAdapter;
+    PatientPastAppointmentList pastAdapter;
 
     Button patientPastAppointmentButton1;
 
+    Button buttonRate;
 
+    FirebaseUser current = MainActivity.mAuth.getCurrentUser();
 
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_past_appointment);
 
-        createViews();
-
-
-
-    }
-
-    private void createViews(){
-        listview = findViewById(R.id.listViewProducts);
-        pastBookingList = new ArrayList<>();
-        pastBookingListAdapter = new BookingList(PatientPastAppointmentActivity.this,pastBookingList);
-        listview.setAdapter(pastBookingListAdapter);
-        patientPastAppointmentButton1 = findViewById(R.id.patientPastAppointmentButton1);
         MainActivity.appointmentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Booking booking = snapshot.getValue(Booking.class);
+                    Appointment appointment = snapshot.getValue(Appointment.class);
 
                     // Check if the appointment is in the past
-                    if (DatePassed(booking.getDate(), booking.getStartTime())) {
-                        pastBookingList.add(booking);
+                    if (DatePassed(appointment.getDate(), appointment.getStartTime())) {
+                        appointmentList.add(appointment);
                     }
                 }
 
 
-                pastBookingListAdapter.notifyDataSetChanged();
+                pastAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -92,6 +83,23 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
 
             }
         });
+
+        createViews();
+
+
+
+    }
+
+    private void createViews(){
+        listViewPastAppointment = findViewById(R.id.listViewPast);
+        patientPastAppointmentButton1 = findViewById(R.id.patientPastAppointmentButton1);
+        buttonRate = findViewById(R.id.buttonRate);
+        appointmentList = new ArrayList<>();
+        pastAdapter = new PatientPastAppointmentList(PatientPastAppointmentActivity.this,appointmentList);
+        listViewPastAppointment.setAdapter(pastAdapter);
+
+
+
 
 
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/listViewProducts"
+        android:id="@+id/listViewPast"
         android:layout_width="370dp"
         android:layout_height="664dp"
 
@@ -18,7 +18,7 @@
         android:id="@+id/patientPastAppointmentButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/listViewProducts"
+        android:layout_below="@id/listViewPast"
         android:layout_marginTop="10dp"
         android:text="Back" />
 
