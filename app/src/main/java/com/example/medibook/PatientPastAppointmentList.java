@@ -1,6 +1,7 @@
 package com.example.medibook;
 
 import static com.example.medibook.MainActivity.appointmentRef;
+import static com.example.medibook.MainActivity.shiftRef;
 
 import android.app.Activity;
 import android.util.Log;
@@ -11,6 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -63,6 +70,25 @@ public class PatientPastAppointmentList extends ArrayAdapter<Appointment> {
 
                 if (appointment1 != null) {
                     appointment1.setRating(s);
+                    Appointment finalAppointment = appointment1;
+                    appointmentRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            for (DataSnapshot productSnapshot : snapshot.getChildren()) {
+                                if (productSnapshot.exists() && productSnapshot.child("uid").getValue(String.class).equals(finalAppointment.getUid())) {
+                                    productSnapshot.getRef().child("rating").setValue(s);
+
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle any errors here
+                        }
+                    });
                     notifyDataSetChanged();
 
 
