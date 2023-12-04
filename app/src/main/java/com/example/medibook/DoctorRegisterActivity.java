@@ -39,9 +39,6 @@ public class DoctorRegisterActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         clickBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,8 +47,30 @@ public class DoctorRegisterActivity extends AppCompatActivity {
             }
         });
 
+        MainActivity.mAuthListener = firebaseAuth -> {
+            FirebaseUser current = firebaseAuth.getCurrentUser();
+            if (current != null) {
+                Doctor doctor = new Doctor(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), "pending", editHealthEmployeeNumber.getText().toString(), editSpecialties.getText().toString(), current.getUid());
+                MainActivity.registrationRef.child(current.getUid()).setValue(doctor);
+                Intent intent = new Intent(DoctorRegisterActivity.this, UserPendingInterface.class);
+                startActivity(intent);
+            }
 
+        };
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        MainActivity.mAuth.addAuthStateListener(MainActivity.mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (MainActivity.mAuthListener != null) {
+            MainActivity.mAuth.removeAuthStateListener(MainActivity.mAuthListener);
+        }
     }
 
 
@@ -86,8 +105,6 @@ public class DoctorRegisterActivity extends AppCompatActivity {
         if (validateData()) {
 
             storeUser();
-            MainActivity.mAuth.signOut();
-
             snackBar();
 
 
@@ -175,25 +192,13 @@ public class DoctorRegisterActivity extends AppCompatActivity {
 
         View rootLayout = findViewById(R.id.patientLayout);
         Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT).show();
-        Intent intent = new Intent(DoctorRegisterActivity.this, UserPendingInterface.class);
-        startActivity(intent);
+
     }
 
 
     public void storeUser() {
 
-        Doctor doctor = new Doctor(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), "pending", editHealthEmployeeNumber.getText().toString(),editSpecialties.getText().toString());
         MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
-        MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser current = firebaseAuth.getCurrentUser();
-                if (current != null) {
-                    MainActivity.registrationRef.child(current.getUid()).setValue(doctor);
 
-
-                }
-            }
-        });
     }
 }

@@ -58,6 +58,5 @@ public class AdministratorInterface extends AppCompatActivity {
         inboxBtn = findViewById(R.id.inboxButton);
         rejectedBtn = findViewById(R.id.rejectButton);
 
-
     }
 }
