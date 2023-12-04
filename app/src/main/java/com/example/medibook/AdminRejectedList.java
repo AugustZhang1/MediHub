@@ -27,10 +27,8 @@ import java.util.List;
 public class AdminRejectedList extends AppCompatActivity {
 
     private Button clickBack;
-    private String rejectedEmail,rejectedPassword;
-    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    protected static DatabaseReference registrationRef = database.getReference("Registered");
-    protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private static String tempUserId;
+    private static User tempUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +40,14 @@ public class AdminRejectedList extends AppCompatActivity {
         fetchData(userList -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-            AdminRejectedListAdapter adapter = new AdminRejectedListAdapter(getApplicationContext(), userList);
+            AdminRejectedListAdapter adapter = new AdminRejectedListAdapter(this, userList);
             adapter.setOnClickListener(new AdminRejectedListAdapter.OnClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    User clickedUser = userList.get(position);
-                    rejectedEmail = clickedUser.getEmail();
-                    rejectedPassword = clickedUser.getPassword();
-
-                    Log.d("email", "email " + rejectedEmail);
-                    Log.d("p", "p " + rejectedPassword);
-
+                    AdminInbox.setUserId(null);
+                    AdminInbox.setTempUser(null);
+                    tempUser = userList.get(position);
+                    tempUserId = tempUser.getUserId();
 
                     Intent intent = new Intent(AdminRejectedList.this,AdminConfirmReject.class); //Change to the inbox class
                     startActivity(intent);
@@ -67,7 +62,7 @@ public class AdminRejectedList extends AppCompatActivity {
     private void fetchData(OnDataFetchedCallback callback) {
         List<User> rejectedList = new ArrayList<>();
 
-        registrationRef.addValueEventListener(new ValueEventListener() {
+        MainActivity.registrationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
@@ -78,10 +73,11 @@ public class AdminRejectedList extends AppCompatActivity {
                     String address = snapshot1.child("address").getValue(String.class);
                     String password = snapshot1.child("password").getValue(String.class);
                     String status = snapshot1.child("status").getValue(String.class);
+                    String userID = snapshot1.child("userId").getValue(String.class);
 
                     if(status.equals("rejected")) {
                         if(password != null)
-                            rejectedList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                            rejectedList.add(new User(firstName, lastName, email, password, phoneNumber, address, status, userID));
                     }
                 }
 
@@ -95,12 +91,21 @@ public class AdminRejectedList extends AppCompatActivity {
             }
         });
     }
-    public String getRejectedEmail(){
-        return rejectedEmail;
+
+    public static String getUserId() {
+        return tempUserId;
     }
 
-    public String getRejectedPassword(){
-        return rejectedPassword;
+    public static User getTempUser() {
+        return tempUser;
+    }
+
+    public static void setUserId(String id) {
+        tempUserId = id;
+    }
+
+    public static void setTempUser(User user) {
+        tempUser = user;
     }
 
     // Define a callback interface

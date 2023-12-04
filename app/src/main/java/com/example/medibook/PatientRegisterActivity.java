@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.medibook.classes.Doctor;
 import com.example.medibook.classes.User;
 import com.example.medibook.classes.Patient;
 import com.google.android.material.snackbar.Snackbar;
@@ -49,9 +50,30 @@ public class PatientRegisterActivity extends AppCompatActivity {
         });
 
 
+        MainActivity.mAuthListener = firebaseAuth -> {
+            FirebaseUser current = firebaseAuth.getCurrentUser();
+            if (current != null) {
+                Patient patient = new Patient(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), "pending", editHealthCard.getText().toString(), current.getUid());
+                MainActivity.registrationRef.child(current.getUid()).setValue(patient);
+                Intent intent = new Intent(PatientRegisterActivity.this, UserPendingInterface.class);
+                startActivity(intent);
+            }
 
+        };
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        MainActivity.mAuth.addAuthStateListener(MainActivity.mAuthListener);
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (MainActivity.mAuthListener != null) {
+            MainActivity.mAuth.removeAuthStateListener(MainActivity.mAuthListener);
+        }
     }
 
 
@@ -83,7 +105,6 @@ public class PatientRegisterActivity extends AppCompatActivity {
         if(validateData()) {
 
             storeUser();
-            MainActivity.mAuth.signOut();
             snackBar();
 
         }
@@ -160,31 +181,12 @@ public class PatientRegisterActivity extends AppCompatActivity {
 
         View rootLayout = findViewById(R.id.patientLayout);
         Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT).show();
-        Intent intent = new Intent(PatientRegisterActivity.this, UserPendingInterface.class);
-        startActivity(intent);
 
     }
 
 
     public void storeUser(){
-        Log.d("SignInActivity","store user");
-        Patient patient = new Patient(editFirstName.getText().toString(),editLastName.getText().toString(),editEmail.getText().toString(), editPassword.getText().toString(),editPhoneNumber.getText().toString(),editAddress.getText().toString(),"pending",editHealthCard.getText().toString());
         MainActivity.mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
-        MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser current = firebaseAuth.getCurrentUser();
-                if (current != null) {
-                    MainActivity.registrationRef.child(current.getUid()).setValue(patient);
-
-                }
-            }
-        });
-
-
-
-
-
     }
 }
 
