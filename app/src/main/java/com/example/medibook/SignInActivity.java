@@ -78,10 +78,93 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        MainActivity.mAuthListener = firebaseAuth -> {
+            FirebaseUser current = firebaseAuth.getCurrentUser();
+            if (current != null) {
+                txtEmail.setVisibility(View.GONE);
+                txtPassword.setVisibility(View.GONE);
+                View rootLayout = findViewById(R.id.signInLayout);
+                Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
+                MainActivity.userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                        if (dataSnapshot.exists() && current != null) {
+                            Log.d("CurrentUID", current.getUid());
+                            Log.d("DataSnapshot", dataSnapshot.toString());
+                            if (dataSnapshot.hasChild(current.getUid())) {
 
+                                String specialties = dataSnapshot.child(current.getUid()).child("specialties").getValue(String.class);
+                                String health = dataSnapshot.child(current.getUid()).child("healthCardNumber").getValue(String.class);
+                                Intent intent;
+                                if (specialties != null && health == null) {
 
+                                    intent = new Intent(SignInActivity.this, DoctorInterface.class);
+                                } else if (health != null && specialties == null ) {
 
+                                    intent = new Intent(SignInActivity.this, PatientInterface.class);
+                                } else {
+
+                                    intent = new Intent(SignInActivity.this, AdministratorInterface.class);
+                                }
+                                startActivity(intent);
+                            }
+                            else { //stuck here
+                                MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot2) {
+
+                                        Log.d("DataSnapshot2", dataSnapshot2.toString());
+
+                                        if ((dataSnapshot2.exists()) && (dataSnapshot2.hasChild(current.getUid()))) {
+                                            Log.d("SignInActivity","second else loop");
+                                            String status = dataSnapshot2.child(current.getUid()).child("status").getValue(String.class);
+                                            Intent intent = null;
+                                            if (status.equals("pending") ) {
+                                                intent = new Intent(SignInActivity.this, UserPendingInterface.class);
+                                            }
+                                            else if(status.equals("rejected")) {
+                                                intent = new Intent(SignInActivity.this, UserRejectedInterface.class);
+                                            }
+                                            startActivity(intent);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+                    }
+
+                });
+            }
+
+        };
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        MainActivity.mAuth.addAuthStateListener(MainActivity.mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (MainActivity.mAuthListener != null) {
+            MainActivity.mAuth.removeAuthStateListener(MainActivity.mAuthListener);
+        }
     }
 
     public void createViews() {
@@ -128,85 +211,8 @@ public class SignInActivity extends AppCompatActivity {
         FirebaseUser current = MainActivity.mAuth.getCurrentUser();
         if(current != null)
             return true;
-        MainActivity.mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser current = MainActivity.mAuth.getCurrentUser();
-                if (current != null) {
-                    txtEmail.setVisibility(View.GONE);
-                    txtPassword.setVisibility(View.GONE);
-                    View rootLayout = findViewById(R.id.signInLayout);
-                    Snackbar.make(rootLayout, "Logged in successfully", Snackbar.LENGTH_SHORT).show();
-                    MainActivity.userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            if (dataSnapshot.exists() && current != null) {
-                                Log.d("CurrentUID", current.getUid());
-                                Log.d("DataSnapshot", dataSnapshot.toString());
-                                if (dataSnapshot.hasChild(current.getUid())) {
-
-                                    String specialties = dataSnapshot.child(current.getUid()).child("specialties").getValue(String.class);
-                                    String health = dataSnapshot.child(current.getUid()).child("healthCardNumber").getValue(String.class);
-                                    Intent intent;
-                                    if (specialties != null && health == null) {
-
-                                        intent = new Intent(SignInActivity.this, DoctorInterface.class);
-                                    } else if (health != null && specialties == null ) {
-
-                                        intent = new Intent(SignInActivity.this, PatientInterface.class);
-                                    } else {
-
-                                        intent = new Intent(SignInActivity.this, AdministratorInterface.class);
-                                    }
-                                    startActivity(intent);
-                                }
-                                else { //stuck here
-                                    MainActivity.registrationRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot2) {
-
-                                            Log.d("DataSnapshot2", dataSnapshot2.toString());
-
-                                            if ((dataSnapshot2.exists()) && (dataSnapshot2.hasChild(current.getUid()))) {
-                                                Log.d("SignInActivity","second else loop");
-                                                String status = dataSnapshot2.child(current.getUid()).child("status").getValue(String.class);
-                                                Intent intent = null;
-                                                if (status.equals("pending") ) {
-                                                    intent = new Intent(SignInActivity.this, UserPendingInterface.class);
-                                                }
-                                                else if(status.equals("rejected")) {
-                                                    intent = new Intent(SignInActivity.this, UserRejectedInterface.class);
-                                                }
-                                                startActivity(intent);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
-
-                                        }
-                                    });
-                                }
-                            }
-                            else {
-                                Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Snackbar.make(rootLayout, "Sign in failed", Snackbar.LENGTH_SHORT).show();
-                        }
-
-                    });
-                }
-                else {
-                    txtEmail.setText("Email or Password is incorrect");
-                    txtEmail.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        txtEmail.setText("Email or Password is incorrect");
+        txtEmail.setVisibility(View.VISIBLE);
         return false;
     }
 

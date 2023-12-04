@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     protected static DatabaseReference shiftRef = database.getReference("Shifts");
     protected static DatabaseReference appointmentRef = database.getReference("Appointments");
 
-    protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();;
+    protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    protected static FirebaseAuth.AuthStateListener mAuthListener;
     private Button btnDoc, btnPatient, btnSignIn;
 
     @Override

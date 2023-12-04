@@ -47,7 +47,7 @@ public class AdminConfirmReject extends AppCompatActivity {
                         }
                     });
 
-                } else if (AdminRejectedList.getUserId() != null) {
+                } else if(AdminRejectedList.getUserId() != null) {
                     MainActivity.registrationRef.child(AdminRejectedList.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
