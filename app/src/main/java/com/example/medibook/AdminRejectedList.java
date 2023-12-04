@@ -73,7 +73,7 @@ public class AdminRejectedList extends AppCompatActivity {
                     String address = snapshot1.child("address").getValue(String.class);
                     String password = snapshot1.child("password").getValue(String.class);
                     String status = snapshot1.child("status").getValue(String.class);
-                    String userID = snapshot1.child("userID").getValue(String.class);
+                    String userID = snapshot1.child("userId").getValue(String.class);
 
                     if(status.equals("rejected")) {
                         if(password != null)
