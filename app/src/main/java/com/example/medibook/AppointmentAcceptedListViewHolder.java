@@ -12,6 +12,8 @@ public class AppointmentAcceptedListViewHolder extends RecyclerView.ViewHolder {
     TextView shiftIdView, startTimeView, endTimeView, patientUidView, statusView;
     Button cancelBtn, infoBtn;
 
+    Button buttonAppointmentAcceptedList1;
+
     public AppointmentAcceptedListViewHolder(View itemView) {
         super(itemView);
         relativeLayout = itemView.findViewById(R.id.acceptedAppointment);
@@ -24,6 +26,7 @@ public class AppointmentAcceptedListViewHolder extends RecyclerView.ViewHolder {
 
         infoBtn = itemView.findViewById(R.id.acceptInfo);
         cancelBtn = itemView.findViewById(R.id.appointmentCancelBtn);
+        buttonAppointmentAcceptedList1 = itemView.findViewById(R.id.buttonAppointmentAcceptedList1);
 
     }
 }

@@ -64,7 +64,7 @@ public class DoctorShiftsList extends ArrayAdapter<DoctorShift> {
 
 
                 if (shift != null) {
-                    if (shift.getStatus().equals("new")){
+                    if (shift.getStatus().equals("new") || shift.getStatus().equals("Canceled")){
                         shiftRef.child(shift.getUid()).removeValue();
                         Log.d("DoctorShiftsActivity", "Deleting shift #2");
                         doctorShift.remove(shift);
@@ -72,7 +72,8 @@ public class DoctorShiftsList extends ArrayAdapter<DoctorShift> {
 
                     }
                     else{
-                        doctorShiftsActivity.errorMsg();
+                        doctorShiftsActivity = new DoctorShiftsActivity();
+                        doctorShiftsActivity.errorMsg(context);
                     }
 
 

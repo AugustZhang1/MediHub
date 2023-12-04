@@ -4,6 +4,7 @@ import static com.example.medibook.MainActivity.mAuth;
 import static com.example.medibook.MainActivity.shiftRef;
 import static com.example.medibook.MainActivity.userRef;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -418,8 +419,8 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         return false;
     }
 
-    public void errorMsg(){
-        Toast.makeText(DoctorShiftsActivity.this, "Shift is booked, can't delete", Toast.LENGTH_LONG).show();
+    public void errorMsg(Context context){
+        Toast.makeText(context, "Shift is booked, can't delete", Toast.LENGTH_LONG).show();
     }
 
 

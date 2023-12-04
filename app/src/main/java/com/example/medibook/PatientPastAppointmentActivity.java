@@ -5,6 +5,7 @@ import static com.example.medibook.MainActivity.shiftRef;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,6 +65,8 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
                     Appointment appointment = snapshot.getValue(Appointment.class);
                     // Check if the appointment is in the past
                     if (DatePassed(appointment.getDate(), appointment.getStartTime()) && current.getUid().equals(snapshot.child("patientUid").getValue(String.class))) {
+                        Log.d("PatientPastAppointmentActivity", "pass");
+
                         appointmentList.add(appointment);
                     }
                 }
@@ -127,7 +130,13 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
         enteredDate.set(Calendar.SECOND, 0);
         enteredDate.set(Calendar.MILLISECOND, 0);
 
-        if (enteredDate.after(currentDate) || enteredDate.equals(currentDate)) {
+        Log.d("Cancellation", "Current Date: " + currentDate.getTime());
+        Log.d("Cancellation", "Entered Date: " + enteredDate.getTime());
+
+
+        if (enteredDate.before(currentDate) || enteredDate.equals(currentDate)) {
+            Log.d("Cancellation", "pass first");
+
             return true;
         } else {
 
