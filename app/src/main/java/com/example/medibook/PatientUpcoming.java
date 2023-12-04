@@ -58,7 +58,7 @@ public class PatientUpcoming extends AppCompatActivity {
 
 
                 for (DataSnapshot productSnapshot : snapshot.getChildren()) {
-                    if (productSnapshot.exists() && current.getUid().equals(productSnapshot.child("patientUid").getValue(String.class)) && productSnapshot.child("status").equals("Accepted")) {
+                    if (productSnapshot.exists() && current.getUid().equals(productSnapshot.child("patientUid").getValue(String.class)) && productSnapshot.child("status").getValue(String.class).equals("Accepted")) {
                         Appointment appointment = productSnapshot.getValue(Appointment.class);
                         appointmentList.add(appointment);
                     }
