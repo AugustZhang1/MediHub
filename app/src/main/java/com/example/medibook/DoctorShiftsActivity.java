@@ -76,14 +76,14 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
 
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
-                        if (productSnapshot.exists() && current.getUid().equals(productSnapshot.child("uid").getValue(String.class))) {
+                        if (productSnapshot.exists() && current.getUid().equals(productSnapshot.child("doctorID").getValue(String.class))) {
                             DoctorShift shift = productSnapshot.getValue(DoctorShift.class);
 
                             doctorShiftList.add(shift);
                         }
                     }
 
-                productsAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
+                    productsAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
             }
 
             @Override
@@ -270,12 +270,12 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
     private boolean dateValid(String date) {
         if (date.length() != 8) {
-            Toast.makeText(this, "Invalid date format. Please use daymonthyear", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid date format. Please use monthdayyear", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        int day = Integer.parseInt(date.substring(0, 2));
-        int month = Integer.parseInt(date.substring(2, 4)) - 1;
+        int month = Integer.parseInt(date.substring(0, 2));
+        int day = Integer.parseInt(date.substring(2, 4));
         int year = Integer.parseInt(date.substring(4, 8));
 
         Calendar currentDate = Calendar.getInstance(TimeZone.getTimeZone("America/Toronto")); // Adjust to your specific time zone
@@ -286,7 +286,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
 
         Calendar enteredDate = new GregorianCalendar(TimeZone.getTimeZone("America/Toronto")); // Adjust to your specific time zone
         enteredDate.set(Calendar.YEAR, year);
-        enteredDate.set(Calendar.MONTH, month);
+        enteredDate.set(Calendar.MONTH, month-1);
         enteredDate.set(Calendar.DAY_OF_MONTH, day);
         enteredDate.set(Calendar.HOUR_OF_DAY, 0);
         enteredDate.set(Calendar.MINUTE, 0);
@@ -309,7 +309,7 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         String startDateTime = date + " " + start;
         String endDateTime = date + " " + end;
 
-        SimpleDateFormat e = new SimpleDateFormat("ddMMyyyy HH:mm");
+        SimpleDateFormat e = new SimpleDateFormat("MMddyyyy HH:mm");
 
         try {
             Date startDate = e.parse(startDateTime);

@@ -29,6 +29,8 @@ public class AppointmentInbox extends AppCompatActivity {
     private List<Appointment> appointmentList;
     private Button acceptAllBtn; // Button to accept all appointments
 
+    private Button doctorAppointmentInboxBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,8 @@ public class AppointmentInbox extends AppCompatActivity {
 
 
         acceptAllBtn = findViewById(R.id.appointmentAcceptAllBtn);
+        doctorAppointmentInboxBack = findViewById(R.id.doctorAppointmentInboxBack);
+
 
 
         fetchAppointments(userList -> {
@@ -48,7 +52,13 @@ public class AppointmentInbox extends AppCompatActivity {
         });
 
 
-
+        doctorAppointmentInboxBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AppointmentInbox.this,DoctorInterface.class);
+                startActivity(intent);
+            }
+        });
 
 
         acceptAllBtn.setOnClickListener(new View.OnClickListener() {

@@ -52,6 +52,7 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_past_appointment);
+        createViews();
 
         MainActivity.appointmentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -83,7 +84,7 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
             }
         });
 
-        createViews();
+
 
 
 
