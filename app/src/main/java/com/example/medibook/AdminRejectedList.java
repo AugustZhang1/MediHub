@@ -40,12 +40,12 @@ public class AdminRejectedList extends AppCompatActivity {
         fetchData(userList -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-            AdminRejectedListAdapter adapter = new AdminRejectedListAdapter(getApplicationContext(), userList);
+            AdminRejectedListAdapter adapter = new AdminRejectedListAdapter(this, userList);
             adapter.setOnClickListener(new AdminRejectedListAdapter.OnClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    AdminInbox.setUserId(null);
-                    AdminInbox.setTempUser(null);
+                    //AdminInbox.setUserId(null);
+                    //AdminInbox.setTempUser(null);
                     tempUser = userList.get(position);
                     tempUserId = tempUser.getUserId();
 
