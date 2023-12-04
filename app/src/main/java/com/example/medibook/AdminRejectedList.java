@@ -44,8 +44,8 @@ public class AdminRejectedList extends AppCompatActivity {
             adapter.setOnClickListener(new AdminRejectedListAdapter.OnClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    //AdminInbox.setUserId(null);
-                    //AdminInbox.setTempUser(null);
+                    AdminInbox.setUserId(null);
+                    AdminInbox.setTempUser(null);
                     tempUser = userList.get(position);
                     tempUserId = tempUser.getUserId();
 

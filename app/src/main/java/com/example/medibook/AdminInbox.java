@@ -41,11 +41,13 @@ public class AdminInbox extends AppCompatActivity {
 
                 fetchData(userList -> {
                         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                        
+
                         AdminInboxAdapter adapter = new AdminInboxAdapter(this, userList);
                         adapter.setOnClickListener(new AdminInboxAdapter.OnClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
+                                        AdminRejectedList.setTempUser(null);
+                                        AdminRejectedList.setUserId(null);
                                         tempUser = userList.get(position);
                                         tempUserId = tempUser.getUserId();
 

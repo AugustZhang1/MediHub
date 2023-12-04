@@ -47,13 +47,13 @@ public class AdminConfirmReject extends AppCompatActivity {
                         }
                     });
 
-                } //if condition not activating
+                }
                 if(AdminRejectedList.getUserId() != null) {
                     MainActivity.registrationRef.child(AdminRejectedList.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                MainActivity.userRef.child(AdminRejectedList.getUserId()).setValue(AdminInbox.getTempUser());
+                                MainActivity.userRef.child(AdminRejectedList.getUserId()).setValue(AdminRejectedList.getTempUser());
                                 MainActivity.userRef.child(AdminRejectedList.getUserId()).child("status").setValue("Confirmed");
                                 MainActivity.registrationRef.child(AdminRejectedList.getUserId()).removeValue();
                             }
