@@ -1,6 +1,7 @@
 package com.example.medibook;
 
 import static com.example.medibook.MainActivity.appointmentRef;
+import static com.example.medibook.MainActivity.shiftRef;
 
 import android.app.Activity;
 import android.util.Log;
@@ -10,6 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -60,7 +67,26 @@ public class PatientUpcomingList extends ArrayAdapter<Appointment> {
 
 
                 if (appointment1 != null) {
-                    appointmentRef.child(appointment1.getUid()).child("shiftId").child("status").setValue("new");
+                    Appointment finalAppointment = appointment1;
+                    shiftRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            for (DataSnapshot productSnapshot : snapshot.getChildren()) {
+                                if (productSnapshot.exists() && productSnapshot.child("uid").getValue(String.class).equals(finalAppointment.getUid())) {
+                                    productSnapshot.getRef().child("status").setValue("new");
+
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle any errors here
+                        }
+                    });
+                    
                     appointmentRef.child(appointment1.getUid()).removeValue();
                     Log.d("DoctorShiftsActivity", "Deleting shift #2");
                     appointment.remove(appointment1);
