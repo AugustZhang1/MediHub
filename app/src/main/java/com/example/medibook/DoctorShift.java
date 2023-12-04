@@ -68,7 +68,7 @@ public class DoctorShift {
         this.dayOfMonth = dayOfMonth;
     }
 
-    public void setDoctorId(String id) {
+    public void setDoctorID(String id) {
         this.doctorID = id;
     }
 
