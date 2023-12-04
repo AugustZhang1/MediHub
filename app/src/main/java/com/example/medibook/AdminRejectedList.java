@@ -28,9 +28,6 @@ public class AdminRejectedList extends AppCompatActivity {
 
     private Button clickBack;
     private static String tempUserId;
-    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    protected static DatabaseReference registrationRef = database.getReference("Registered");
-    protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +59,7 @@ public class AdminRejectedList extends AppCompatActivity {
     private void fetchData(OnDataFetchedCallback callback) {
         List<User> rejectedList = new ArrayList<>();
 
-        registrationRef.addValueEventListener(new ValueEventListener() {
+        MainActivity.registrationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {

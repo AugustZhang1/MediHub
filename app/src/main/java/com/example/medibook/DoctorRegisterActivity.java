@@ -191,7 +191,6 @@ public class DoctorRegisterActivity extends AppCompatActivity {
                     Doctor doctor = new Doctor(editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), editPhoneNumber.getText().toString(), editAddress.getText().toString(), "pending", editHealthEmployeeNumber.getText().toString(),editSpecialties.getText().toString(), current.getUid());
                     MainActivity.registrationRef.child(current.getUid()).setValue(doctor);
 
-
                 }
             }
         });
