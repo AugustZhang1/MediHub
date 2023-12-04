@@ -55,7 +55,7 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_past_appointment);
-        createViews();
+
 
         MainActivity.appointmentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -69,7 +69,7 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
                 }
 
 
-                pastAdapter.notifyDataSetChanged();
+                    pastAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -77,6 +77,7 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
 
             }
         });
+        createViews();
 
         patientPastAppointmentButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,22 +111,19 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
     }
 
     private Boolean DatePassed(String date, String startTime){
-        int day = Integer.parseInt(date.substring(0, 2));
-        int month = Integer.parseInt(date.substring(2, 4)) - 1;
+        int month = Integer.parseInt(date.substring(0, 2));
+        int day = Integer.parseInt(date.substring(2, 4));
         int year = Integer.parseInt(date.substring(4, 8));
 
         Calendar currentDate = Calendar.getInstance(TimeZone.getTimeZone("America/Toronto")); // Adjust to your specific time zone
-        currentDate.set(Calendar.HOUR_OF_DAY, 0);
-        currentDate.set(Calendar.MINUTE, 0);
-        currentDate.set(Calendar.SECOND, 0);
-        currentDate.set(Calendar.MILLISECOND, 0);
+
 
         Calendar enteredDate = new GregorianCalendar(TimeZone.getTimeZone("America/Toronto")); // Adjust to your specific time zone
         enteredDate.set(Calendar.YEAR, year);
-        enteredDate.set(Calendar.MONTH, month);
+        enteredDate.set(Calendar.MONTH, month-1);
         enteredDate.set(Calendar.DAY_OF_MONTH, day);
-        enteredDate.set(Calendar.HOUR_OF_DAY, 0);
-        enteredDate.set(Calendar.MINUTE, 0);
+        enteredDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTime.substring(0,2)));
+        enteredDate.set(Calendar.MINUTE, Integer.parseInt(startTime.substring(3,5)));
         enteredDate.set(Calendar.SECOND, 0);
         enteredDate.set(Calendar.MILLISECOND, 0);
 

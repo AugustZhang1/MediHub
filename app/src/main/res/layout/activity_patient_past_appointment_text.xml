@@ -28,13 +28,19 @@
         android:hint="End time"
         android:minHeight="48dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editEndTime3"
-        android:numStars="5"
-        android:stepSize="1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:numStars="5"
+            android:stepSize="1" />
+    </RelativeLayout>
 
 
 

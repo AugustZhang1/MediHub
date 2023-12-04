@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -246,16 +247,47 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         String endTime = editTextEndTime.getText().toString();
 
         DoctorShift shift = findShiftByDate(date, startTime, endTime);
+
         if (shift != null) {
-            shiftRef.child(shift.getUid()).removeValue();
+            shiftHasAppointments(shift, new OnAppointmentCheckListener() {
+                @Override
+                public void onCheckComplete(boolean hasAppointments) {
+                    if (hasAppointments) {
+                        Toast.makeText(DoctorShiftsActivity.this, "Cannot Delete this shift as a Patient has booked an appointment. ", Toast.LENGTH_LONG).show();
+                    } else {
+                        shiftRef.child(shift.getUid()).removeValue();
 
-            doctorShiftList.remove(shift);
-            productsAdapter.notifyDataSetChanged();
-
-
-
+                        doctorShiftList.remove(shift);
+                        productsAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
         }
 
+    }
+
+    private void shiftHasAppointments(DoctorShift shift, OnAppointmentCheckListener listener){
+        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("appointments");
+
+        appointmentsRef.orderByChild("shiftID").equalTo(shift.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    listener.onCheckComplete(true);
+                } else {
+                    listener.onCheckComplete(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
+
+    }
+    public interface OnAppointmentCheckListener {
+        void onCheckComplete(boolean hasAppointments);
     }
     public DoctorShift findShiftByDate(String date, String startTime, String endTime){
         for (DoctorShift e : doctorShiftList){
@@ -292,6 +324,9 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         enteredDate.set(Calendar.MINUTE, 0);
         enteredDate.set(Calendar.SECOND, 0);
         enteredDate.set(Calendar.MILLISECOND, 0);
+
+        Log.d("DoctorShiftsActivity", String.valueOf(enteredDate));
+        Log.d("DoctorShiftsActivity", String.valueOf(currentDate));
 
         if (enteredDate.after(currentDate) || enteredDate.equals(currentDate)) {
             return true;
