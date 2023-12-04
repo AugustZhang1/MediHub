@@ -383,6 +383,10 @@ public class DoctorShiftsActivity extends AppCompatActivity {
         return false;
     }
 
+    public void errorMsg(){
+        Toast.makeText(DoctorShiftsActivity.this, "Shift is booked, can't delete", Toast.LENGTH_LONG).show();
+    }
+
 
 }
 

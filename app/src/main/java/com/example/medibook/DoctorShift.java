@@ -12,7 +12,7 @@ public class DoctorShift {
     public String specialty;
     private String uid;
 
-    private String status; // new, booked
+    private String status; // new, Booked
 
 
 

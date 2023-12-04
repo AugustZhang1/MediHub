@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class DoctorShiftsList extends ArrayAdapter<DoctorShift> {
 
     private Activity context;
     private List<DoctorShift> doctorShift;
+
+    private DoctorShiftsActivity doctorShiftsActivity;
 
     public DoctorShiftsList(Activity context, List<DoctorShift> doctorShift) {
         super(context, R.layout.activity_doctor_shift_signup, doctorShift);
@@ -61,10 +64,16 @@ public class DoctorShiftsList extends ArrayAdapter<DoctorShift> {
 
 
                 if (shift != null) {
-                    shiftRef.child(shift.getUid()).removeValue();
-                    Log.d("DoctorShiftsActivity", "Deleting shift #2");
-                    doctorShift.remove(shift);
-                    DoctorShiftsActivity.getProductsAdapter().notifyDataSetChanged();
+                    if (shift.getStatus().equals("new")){
+                        shiftRef.child(shift.getUid()).removeValue();
+                        Log.d("DoctorShiftsActivity", "Deleting shift #2");
+                        doctorShift.remove(shift);
+                        DoctorShiftsActivity.getProductsAdapter().notifyDataSetChanged();
+
+                    }
+                    else{
+                        doctorShiftsActivity.errorMsg();
+                    }
 
 
 
