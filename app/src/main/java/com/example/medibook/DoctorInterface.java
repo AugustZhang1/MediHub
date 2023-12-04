@@ -25,6 +25,8 @@ public class DoctorInterface extends AppCompatActivity {
 
     private ToggleButton autoAcceptButton;
 
+    private Button doctorPastAppointments1;
+
     public static boolean autoAccept = false;
 
     @Override
@@ -82,6 +84,14 @@ public class DoctorInterface extends AppCompatActivity {
             }
         });
 
+        doctorPastAppointments1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorInterface.this,DoctorPastAppointmentActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         MainActivity.appointmentRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -115,6 +125,7 @@ public class DoctorInterface extends AppCompatActivity {
         appointmentListBtn = findViewById(R.id.appointmentListButton);
         appointmentAcceptedListBtn = findViewById(R.id.appointmentAcceptedListButton);
         autoAcceptButton = findViewById(R.id.autoAcceptButton);
+        doctorPastAppointments1 = findViewById(R.id.doctorPastAppointments1);
 
     }
 

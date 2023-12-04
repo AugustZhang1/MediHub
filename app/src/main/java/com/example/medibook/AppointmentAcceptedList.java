@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +29,8 @@ public class AppointmentAcceptedList extends AppCompatActivity {
     private List<Appointment> acceptAppointmentList;
 
     private Button buttonAppointmentAcceptedList1;
+
+    FirebaseUser current = MainActivity.mAuth.getCurrentUser();
 
 
 
@@ -70,7 +73,7 @@ public class AppointmentAcceptedList extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Appointment appointment = snapshot.getValue(Appointment.class);
                     String status = snapshot.child("status").getValue(String.class);
-                    if ("Accepted".equals(status)) { //only add when status is accepted
+                    if ("Accepted".equals(status) && current.getUid().equals(snapshot.child("doctorShiftId").getValue(String.class))) { //only add when status is accepted
                         acceptAppointmentList.add(appointment);
                     }
 

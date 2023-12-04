@@ -19,6 +19,9 @@
             android:name=".DoctorRegisterActivity"
             android:exported="false" />
         <activity
+            android:name=".DoctorPastAppointmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".PatientInterface"
             android:exported="false" />
         <activity
