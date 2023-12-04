@@ -5,9 +5,9 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/listViewUpcoming"
-        android:layout_width="390dp"
-        android:layout_height="631dp"
+        android:id="@+id/listViewPast"
+        android:layout_width="370dp"
+        android:layout_height="664dp"
 
         android:layout_marginTop="8dp">
 
@@ -15,11 +15,11 @@
     </ListView>
 
     <Button
-        android:id="@+id/patientUpcomingBackButton1"
-        android:layout_width="102dp"
-        android:layout_height="58dp"
-        android:layout_below="@id/listViewUpcoming"
-        android:layout_marginTop="35dp"
+        android:id="@+id/patientPastAppointmentButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listViewPast"
+        android:layout_marginTop="10dp"
         android:text="Back" />
 
 </RelativeLayout>

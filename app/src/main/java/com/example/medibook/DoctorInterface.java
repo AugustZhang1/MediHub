@@ -9,10 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
-
-import com.example.medibook.classes.Doctor;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class DoctorInterface extends AppCompatActivity {
 
@@ -82,6 +81,28 @@ public class DoctorInterface extends AppCompatActivity {
                 }
             }
         });
+
+
+        MainActivity.appointmentRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @NonNull
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String status = snapshot.child("status").getValue(String.class);
+                    if (!"Rejected".equals(status) && !"Cancelled".equals(status) && autoAccept == true) {// Check if the current status is neither 'Rejected' nor 'Cancelled'
+                        snapshot.getRef().child("status").setValue("Accepted");
+                    }
+                }
+            }
+            @NonNull
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+            }
+        });
+
 
 }
 

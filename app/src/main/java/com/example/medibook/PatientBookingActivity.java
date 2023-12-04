@@ -2,6 +2,7 @@ package com.example.medibook;
 
 import static com.example.medibook.MainActivity.shiftRef;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,6 +37,8 @@ public class PatientBookingActivity extends AppCompatActivity {
 
 
     Button buttonSelectBookings;
+
+    Button backBtn;
     ListView listViewBookings;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,27 +50,41 @@ public class PatientBookingActivity extends AppCompatActivity {
 
         autoCompleteTextView.setAdapter(adapterItems);
 
+        createViews();
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PatientBookingActivity.this,PatientInterface.class);
+                startActivity(intent);
+            }
+        });
+
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 Toast.makeText(PatientBookingActivity.this,"Specialty"+item, Toast.LENGTH_SHORT).show();
                 displayInformation(item);
-                createViews();
+
             }
         });
+
     }
 
     private void createViews() {
 
         buttonSelectBookings = findViewById(R.id.buttonSelectBooking);
         listViewBookings = findViewById(R.id.listViewProducts);
+        backBtn = findViewById(R.id.buttonBookingBack);
 
 
         bookingList = new ArrayList<>();
         bookingsAdapter = new BookingList(PatientBookingActivity.this, bookingList);
         listViewBookings.setAdapter(bookingsAdapter);
+
     }
+
 
 //    doctor need specialty store in the shifts in firebase, need mauth to find the registered doctor then get the specialty----
 
@@ -80,11 +97,14 @@ public class PatientBookingActivity extends AppCompatActivity {
 
                 if (snapshot.exists()) {
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
-                        Booking shift = productSnapshot.getValue(Booking.class);
-                        String s = productSnapshot.child("specialty").getValue(String.class);
-                        if (s.equals(selectedItem)){
-                            bookingList.add(shift);
+                        if (productSnapshot.child("status").getValue(String.class).equals("new")){
+                            Booking shift = productSnapshot.getValue(Booking.class);
+                            String s = productSnapshot.child("specialty").getValue(String.class);
+                            if (s.equals(selectedItem)){
+                                bookingList.add(shift);
+                            }
                         }
+
 
                     }
                 }

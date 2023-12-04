@@ -5,26 +5,26 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/editDateB"
+        android:id="@+id/editDate2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:hint="The date"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
-        android:id="@+id/editStartTimeB"
+        android:id="@+id/editStartTime2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/editDateB"
+        android:layout_below="@id/editDate2"
         android:hint="Start Time"
         android:minHeight="48dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
-        android:id="@+id/editEndTimeB"
+        android:id="@+id/editEndTime2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/editStartTimeB"
+        android:layout_below="@id/editStartTime2"
         android:hint="End time"
         android:minHeight="48dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -35,11 +35,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/buttonSelectBooking"
+            android:id="@+id/buttonCancelBooking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Book" />
+            android:text="Cancel" />
 
     </LinearLayout>
 

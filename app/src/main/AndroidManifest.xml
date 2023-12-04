@@ -79,6 +79,12 @@
             android:name=".PatientBookingActivity"
             android:exported="false" />
         <activity
+            android:name=".PatientUpcoming"
+            android:exported="false" />
+        <activity
+            android:name=".PatientPastAppointmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

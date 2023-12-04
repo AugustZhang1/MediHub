@@ -5,29 +5,38 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/editDateB"
+        android:id="@+id/editDate3"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:hint="The date"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
-        android:id="@+id/editStartTimeB"
+        android:id="@+id/editStartTime3"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/editDateB"
+        android:layout_below="@id/editDate3"
         android:hint="Start Time"
         android:minHeight="48dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
-        android:id="@+id/editEndTimeB"
+        android:id="@+id/editEndTime3"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/editStartTimeB"
+        android:layout_below="@id/editStartTime3"
         android:hint="End time"
         android:minHeight="48dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editEndTime3"
+        android:numStars="5"
+        android:stepSize="1" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,11 +44,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/buttonSelectBooking"
+            android:id="@+id/buttonRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Book" />
+            android:text="Rate Appointment" />
 
     </LinearLayout>
 
