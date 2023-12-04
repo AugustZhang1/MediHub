@@ -60,6 +60,7 @@ public class PatientUpcomingList extends ArrayAdapter<Appointment> {
 
 
                 if (appointment1 != null) {
+                    appointmentRef.child(appointment1.getUid()).child("shiftId").child("status").setValue("new");
                     appointmentRef.child(appointment1.getUid()).removeValue();
                     Log.d("DoctorShiftsActivity", "Deleting shift #2");
                     appointment.remove(appointment1);
