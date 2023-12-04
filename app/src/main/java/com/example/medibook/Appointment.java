@@ -16,11 +16,13 @@ public class Appointment {
 
     private String shiftId;
 
+    private String rating;
+
     public Appointment() {
 
     }
 
-    public Appointment(String patientUid, String doctorShiftId, String date, String startTime, String endTime, String status, String uid, String shiftId) {
+    public Appointment(String patientUid, String doctorShiftId, String date, String startTime, String endTime, String status, String uid, String shiftId, String rating) {
         this.patientUid = patientUid;
         this.doctorShiftId = doctorShiftId;
         this.startTime = startTime;
@@ -29,6 +31,7 @@ public class Appointment {
         this.uid = uid;
         this.date = date;
         this.shiftId = shiftId;
+        this.rating = rating;
     }
 
     // Getters and Setters
@@ -88,5 +91,13 @@ public class Appointment {
 
     public void setShiftId(String shiftId) {
         this.shiftId = shiftId;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

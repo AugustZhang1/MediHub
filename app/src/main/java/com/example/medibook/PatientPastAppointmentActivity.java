@@ -12,6 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,8 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
     Button patientPastAppointmentButton1;
 
     Button buttonRate;
+
+    RatingBar ratingBar;
 
     FirebaseUser current = MainActivity.mAuth.getCurrentUser();
 
@@ -93,6 +96,7 @@ public class PatientPastAppointmentActivity extends AppCompatActivity {
     private void createViews(){
         listViewPastAppointment = findViewById(R.id.listViewPast);
         patientPastAppointmentButton1 = findViewById(R.id.patientPastAppointmentButton1);
+        ratingBar = findViewById(R.id.ratingBar);
         buttonRate = findViewById(R.id.buttonRate);
         appointmentList = new ArrayList<>();
         pastAdapter = new PatientPastAppointmentList(PatientPastAppointmentActivity.this,appointmentList);
