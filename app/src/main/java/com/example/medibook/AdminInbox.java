@@ -47,6 +47,8 @@ public class AdminInbox extends AppCompatActivity {
                         adapter.setOnClickListener(new AdminInboxAdapter.OnClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
+                                        AdminRejectedList.setUserId(null);
+                                        AdminRejectedList.setTempUser(null);
                                         tempUser = userList.get(position);
                                         tempUserId = tempUser.getUserId();
 
@@ -119,6 +121,13 @@ public class AdminInbox extends AppCompatActivity {
         }
         public static User getTempUser() {
                 return tempUser;
+        }
+        public static void setUserId(String id) {
+                tempUserId = id;
+        }
+
+        public static void setTempUser(User user) {
+                tempUser = user;
         }
 
         // Define a callback interface

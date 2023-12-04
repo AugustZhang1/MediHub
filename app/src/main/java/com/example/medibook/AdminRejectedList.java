@@ -28,6 +28,7 @@ public class AdminRejectedList extends AppCompatActivity {
 
     private Button clickBack;
     private static String tempUserId;
+    private static User tempUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,10 @@ public class AdminRejectedList extends AppCompatActivity {
             adapter.setOnClickListener(new AdminRejectedListAdapter.OnClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    User clickedUser = userList.get(position);
-                    tempUserId = clickedUser.getUserId();
+                    AdminInbox.setUserId(null);
+                    AdminInbox.setTempUser(null);
+                    tempUser = userList.get(position);
+                    tempUserId = tempUser.getUserId();
 
                     Intent intent = new Intent(AdminRejectedList.this,AdminConfirmReject.class); //Change to the inbox class
                     startActivity(intent);
@@ -89,7 +92,22 @@ public class AdminRejectedList extends AppCompatActivity {
         });
     }
 
-    public static String getUserId() { return tempUserId; }
+    public static String getUserId() {
+        return tempUserId;
+    }
+
+    public static User getTempUser() {
+        return tempUser;
+    }
+
+    public static void setUserId(String id) {
+        tempUserId = id;
+    }
+
+    public static void setTempUser(User user) {
+        tempUser = user;
+    }
+
     // Define a callback interface
     public interface OnDataFetchedCallback {
         void onDataFetched(List<User> rejectedList);

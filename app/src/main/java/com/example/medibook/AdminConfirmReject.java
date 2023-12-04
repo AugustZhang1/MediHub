@@ -47,7 +47,8 @@ public class AdminConfirmReject extends AppCompatActivity {
                         }
                     });
 
-                } else if(AdminRejectedList.getUserId() != null) {
+                }
+                if(AdminRejectedList.getUserId() != null) {
                     MainActivity.registrationRef.child(AdminRejectedList.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -63,12 +64,9 @@ public class AdminConfirmReject extends AppCompatActivity {
 
                         }
                     });
-                    Intent a = new Intent(AdminConfirmReject.this, AdministratorInterface.class);
-                    startActivity(a);
-
                 }
-
-
+                Intent a = new Intent(AdminConfirmReject.this, AdministratorInterface.class);
+                startActivity(a);
             }
 
         });
