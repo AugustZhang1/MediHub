@@ -37,7 +37,7 @@ public class DoctorShiftTest {
     @Test
     public void testDoctorIdSetterAndGetter() {
         String doctorId = "doc123";
-        doctorShift.setId(doctorId);
+        doctorShift.setDoctorID(doctorId);
         assertEquals(doctorId, doctorShift.getDoctorID());
     }
 
