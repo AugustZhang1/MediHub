@@ -15,7 +15,7 @@ public class DoctorShiftTest {
 
     @Test
     public void testDateSetterAndGetter() {
-        String testDate = "2023-04-01";
+        String testDate = "04012023";
         doctorShift.setDate(testDate);
         assertEquals(testDate, doctorShift.getDate());
     }
