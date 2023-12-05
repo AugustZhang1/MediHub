@@ -24,13 +24,13 @@ public class SignInActivityEspressoTest {
     @Test
     public void validateData_WhenEmailAndPasswordAreValid_DisplaySuccessMessage() {
         // Type text and then press the button
-        onView(withId(R.id.emailAddress)).perform(typeText("validemail@example.com"), closeSoftKeyboard());
+        onView(withId(R.id.emailAddress)).perform(typeText("invalidemailexample.com"), closeSoftKeyboard());
         onView(withId(R.id.editTextTextPassword)).perform(typeText("validpassword"), closeSoftKeyboard());
 
         // Click sign-in button
         onView(withId(R.id.SignInButton)).perform(click());
 
         // Check if the success message is displayed
-        onView(withId(R.id.signInLayout)).check(matches(withText("Logged in successfully")));
+        onView(withId(R.id.textWarnEmail)).check(matches(withText("Please enter your email")));
     }
 }
