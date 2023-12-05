@@ -7,6 +7,8 @@
 
     tools:context=".activities.MainActivity">
 
+
+
     <EditText
         android:id="@+id/editDate"
         android:layout_width="match_parent"
@@ -56,5 +58,12 @@
         android:layout_marginTop="2dp"
         android:visibility="visible"
         tools:visibility="visible"></ListView>
+
+    <Button
+        android:id="@+id/backButtonDoctorInterface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editEndTime"
+        android:text="Back" />
 
 </RelativeLayout>

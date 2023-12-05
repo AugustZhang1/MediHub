@@ -1,7 +1,10 @@
 package com.example.medibook;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,8 @@ import java.util.List;
 public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<AppointmentAcceptedListViewHolder> {
     private List<Appointment> appointments;
     private Context context;
+
+    private AppointmentAcceptedList a;
 
     public AppointmentAcceptedListAdapter(List<Appointment> appointments, Context context) {
         this.appointments = appointments;
@@ -46,7 +51,7 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
         holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAppointmentStatus(appointment.getUid(), "Canceled");
+                updateAppointmentStatus(appointment.getUid(), "new");
             }
         });
 
@@ -56,6 +61,8 @@ public class AppointmentAcceptedListAdapter extends RecyclerView.Adapter<Appoint
                 showInfo(appointment.getPatientUid());
             }
         });
+
+
 
     }
 

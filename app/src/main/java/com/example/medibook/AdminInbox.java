@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.example.medibook.classes.Doctor;
+import com.example.medibook.classes.Patient;
 import com.example.medibook.classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,17 +29,8 @@ import java.util.List;
 public class AdminInbox extends AppCompatActivity {
         private Button clickBack;
 
-
-        private static String inboxEmail;
-        private static String inboxPassword;
         private static User tempUser;
-
-        private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        protected static DatabaseReference registrationRef = database.getReference("Registered");
-
-        protected static FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+        private static String tempUserId;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +42,14 @@ public class AdminInbox extends AppCompatActivity {
                 fetchData(userList -> {
                         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-                        AdminInboxAdapter adapter = new AdminInboxAdapter(getApplicationContext(), userList);
+                        AdminInboxAdapter adapter = new AdminInboxAdapter(this, userList);
                         adapter.setOnClickListener(new AdminInboxAdapter.OnClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
+                                        AdminRejectedList.setTempUser(null);
+                                        AdminRejectedList.setUserId(null);
                                         tempUser = userList.get(position);
-                                        inboxEmail = tempUser.getEmail();
-                                        inboxPassword = tempUser.getPassword();
-
-                                        Log.d("email", "email" + inboxEmail);
-                                        Log.d("p", "p" + inboxPassword);
+                                        tempUserId = tempUser.getUserId();
 
                                         Intent intent = new Intent(AdminInbox.this,AdminConfirmReject.class); //Change to the inbox class
                                         startActivity(intent);
@@ -74,7 +64,7 @@ public class AdminInbox extends AppCompatActivity {
         private void fetchData(OnDataFetchedCallback callback) {
                 List<User> pendingList = new ArrayList<>();
 
-                registrationRef.addValueEventListener(new ValueEventListener() {
+                MainActivity.registrationRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
@@ -85,9 +75,32 @@ public class AdminInbox extends AppCompatActivity {
                                         String address = snapshot1.child("address").getValue(String.class);
                                         String password = snapshot1.child("password").getValue(String.class);
                                         String status = snapshot1.child("status").getValue(String.class);
+                                        String userId = snapshot1.child("userId").getValue(String.class);
+                                        String healthCardNUmberOrSP;
+                                        int check;
+                                        String employeeNumber = null;
+                                        if (snapshot1.child("employeeNumber").getValue(String.class) != null){
+                                                employeeNumber = snapshot1.child("employeeNumber").getValue(String.class);
+                                        }
+
+                                        if (snapshot1.child("healthCardNumber").getValue(String.class) != null){
+                                                 healthCardNUmberOrSP = snapshot1.child("healthCardNumber").getValue(String.class);
+                                                 check = 0;
+                                        }
+                                        else{
+                                                healthCardNUmberOrSP = snapshot1.child("specialties").getValue(String.class);
+                                                check = 1;
+                                        }
+
 
                                         if(status.equals("pending")) {
-                                                pendingList.add(new User(firstName, lastName, email, password, phoneNumber, address, status));
+                                                if (check == 0){
+                                                        pendingList.add(new Patient(firstName, lastName, email, password, phoneNumber, address, status, healthCardNUmberOrSP, userId));
+                                                }
+                                                else if (check == 1){
+                                                        pendingList.add(new Doctor(firstName, lastName, email, password, phoneNumber, address, status, employeeNumber,healthCardNUmberOrSP, userId));
+                                                }
+
                                         }
                                 }
 
@@ -102,16 +115,18 @@ public class AdminInbox extends AppCompatActivity {
                 });
         }
 
-        public static String getInboxEmail() {
-                return inboxEmail;
+        public static String getUserId() {
+                return tempUserId;
         }
-
-        public static String getInboxPassword() {
-                return inboxPassword;
-        }
-
         public static User getTempUser() {
                 return tempUser;
+        }
+        public static void setUserId(String id) {
+                tempUserId = id;
+        }
+
+        public static void setTempUser(User user) {
+                tempUser = user;
         }
 
         // Define a callback interface

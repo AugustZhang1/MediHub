@@ -8,8 +8,9 @@ public class User {
     private String phoneNumber;
     private String address;
     private String status;
+    private String userId;
 
-    public User(String firstName, String lastName, String emailAddress, String accountPassword, String phoneNumber,String address,String status){
+    public User(String firstName, String lastName, String emailAddress, String accountPassword, String phoneNumber,String address,String status,String userId){
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
@@ -17,6 +18,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.status = status;
+        this.userId = userId;
     }
     public String getFirstName(){
         return firstName;
@@ -74,6 +76,7 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
-
     }
+    public String getUserId() { return userId; }
+
 }
